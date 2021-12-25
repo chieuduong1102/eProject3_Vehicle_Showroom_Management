@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard</title>
+    <link runat="server" rel="shortcut icon" href="~/favicon3.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="~/favicon3.ico" type="image/ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="Coderthemes" name="author" />
+    <link href="~/Content/Dashboard/css/icons.min.css" rel="stylesheet" />
+    <link href="~/Content/Dashboard/css/app.min.css" rel="stylesheet" />
+    <link href="~/Content/Dashboard/css/custom.css" rel="stylesheet" />
+</head>
+<body class="loading authentication-bg" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+
+    <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+        <div class="container">
+            <div class="row justify-content-center card-register">
+                <div class="col-xxl-4 col-lg-5">
+                    <div class="card">
+                        <!-- Logo -->
+                        <div class="card-header pt-4 pb-4 text-center" id="bg-logo-login">
+                            <a href="/Home">
+                                <span><img src="~/Content/images/logofull.png" alt="" height="100"></span>
+                            </a>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="text-center w-75 m-auto">
+                                <h3 class="text-dark-50 text-center mt-0 fw-bold">Free Register</h3>
+                            </div>
+                            <form action="#">
+
+                                <div class="mb-3">
+                                    <label for="fullname" class="form-label">Full Name</label>
+                                    <input class="form-control" type="text" id="fullname" placeholder="Enter your name" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="emailaddress" class="form-label">Email address</label>
+                                    <input class="form-control" type="email" id="emailaddress" required placeholder="Enter your email">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="password-eye"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Comfirm Password</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="password-eye"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phonenumber" class="form-label">Phonenumber</label>
+                                    <input class="form-control" type="text" id="phonenumber" placeholder="0123456xxxx" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Addess</label>
+                                    <input class="form-control" type="text" id="address" placeholder="Ha Noi, Viet Nam..." required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="checkbox-signup">
+                                        <label class="form-check-label" for="checkbox-signup">I accept <a href="http://fitnik.tech/public/docs/terms.pdf" class="text-muted">Terms and Conditions</a></label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 text-center">
+                                    <button class="btn btn-primary" type="submit"> Register </button>
+                                </div>
+
+                            </form>
+                        </div> <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Already have account? <a href="/LoginAdmin" class="text-muted ms-1"><b>Log In</b></a></p>
+                        </div> <!-- end col-->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end page -->
+
+    <footer class="footer footer-alt">
+        2021 © Copyright 3DHA Auto
+    </footer>
+
+    <!-- bundle -->
+    <script src="~/Content/Dashboard/js/vendor.min.js"></script>
+    <script src="~/Content/Dashboard/js/app.min.js"></script>
+
+</body>
+</html>

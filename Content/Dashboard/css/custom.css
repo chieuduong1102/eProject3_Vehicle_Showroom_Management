@@ -1,0 +1,56 @@
+﻿body {
+}
+
+.leftside-menu, .logo-light {
+    background: #d9eb3d !important;
+}
+
+.side-nav .side-nav-link {
+    color: black !important;
+}
+
+.side-nav .side-nav-title {
+    color: #121212 !important;
+    font-weight: bold !important;
+}
+
+.side-nav-forth-level li a, .side-nav-second-level li a, .side-nav-third-level li a {
+    color: black !important;
+}
+
+.side-nav-item {
+    background: #d9eb3d !important;
+    background-size: 0% auto !important;
+    transition: width 2s !important;
+}
+
+.side-nav-item:hover {
+    background: white !important;
+    background-size: 100% auto !important;
+}
+
+.side-nav-second-level > li:hover {
+    background: #d9eb3d !important;
+}
+
+#bg-logo-login {
+    background-color: #d9eb3d !important;
+}
+
+.card-register{
+    margin-top: -70px !important;
+}
+
+#leftside-menu-container > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li.side-nav-item.menuitem-active > a,
+#sidebarEcommerce > ul > li.menuitem-active > a {
+    color: black !important;
+    font-weight: bold !important;
+}
+
+body > div > div.content-page > div.container-fluid > button > a {
+    color: white !important;
+}
+
+.control-label {
+    margin-top: 10px !important;
+}

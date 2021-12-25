@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3DHA Auto</title>
+    <link runat="server" rel="shortcut icon" href="~/favicon3.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="~/favicon3.ico" type="image/ico" />
+    <link href="~/Content/Dashboard/css/custom.css" rel="stylesheet" />
+    <link href="~/Content/Dashboard/css/icons.min.css" rel="stylesheet" />
+    <link href="~/Content/Dashboard/css/app.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Dashboard/css/app-dark.min.css" rel="stylesheet" />*@
+    <link href="~/Content/Dashboard/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="leftside-menu">
+            @Html.Partial("_NavbarLeftDashboard")
+        </div>
+        <div class="content-page">
+            <div class="app-search dropdown d-none d-lg-block">
+                @Html.Partial("_NavbarTopDashboard")
+            </div>
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/Dashboard/js/vendor.min.js"></script>
+    <script src="~/Content/Dashboard/js/app.min.js"></script>
+    <script src="~/Content/Dashboard/js/vendor/apexcharts.min.js"></script>
+    <script src="~/Content/Dashboard/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/Content/Dashboard/js/vendor/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/Content/Dashboard/js/pages/demo.dashboard.js"></script>
+</body>
+</html>
