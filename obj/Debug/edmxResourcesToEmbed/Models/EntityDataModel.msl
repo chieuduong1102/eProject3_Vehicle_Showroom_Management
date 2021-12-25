@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="eProject3ModelStoreContainer" CdmEntityContainer="eProject3Entities">
-    <EntitySetMapping Name="Brands">
-      <EntityTypeMapping TypeName="eProject3Model.Brand">
-        <MappingFragment StoreEntitySet="Brand">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-          <ScalarProperty Name="UrlLogo" ColumnName="UrlLogo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="eProject3Model.Customer">
         <MappingFragment StoreEntitySet="Customer">
@@ -144,6 +135,15 @@
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
           <ScalarProperty Name="Quantily" ColumnName="Quantily" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Brands">
+      <EntityTypeMapping TypeName="eProject3Model.Brand">
+        <MappingFragment StoreEntitySet="Brand">
+          <ScalarProperty Name="UrlLogo" ColumnName="UrlLogo" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -1,33 +1,29 @@
-﻿@model eProject3_Vehicle_Showroom_Management.Models.Brand
-
-@{
+﻿@{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Brands", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <h4>Brand</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("BrandName", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+                @Html.TextBox("BrandName", "", new { @class = "form-control", type = "text" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UrlLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Upload Image", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.UrlLogo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UrlLogo, "", new { @class = "text-danger" })
+                @Html.TextBox("UrlLogo", "", new { @class = "form-control", type = "file" })
             </div>
         </div>
 

@@ -6,7 +6,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BrandName" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="UrlLogo" Type="varchar" MaxLength="255" />
+    <Property Name="UrlLogo" Type="text" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -47,7 +47,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
-    <Property Name="UrlImage" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="UrlImage" Type="text" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
