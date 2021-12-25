@@ -26,5 +26,20 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
             return View();
         }
+
+                public ActionResult ProductDetail()
+        {
+            return View();
+        }
+
+        public ActionResult Cart()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }
