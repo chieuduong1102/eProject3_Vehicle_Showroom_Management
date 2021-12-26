@@ -25,11 +25,9 @@ namespace eProject3_Vehicle_Showroom_Management.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -38,5 +36,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public virtual DbSet<Showroom> Showrooms { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Warehouse> Warehouses { get; set; }
+        public virtual DbSet<Brand> Brands { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
     }
 }

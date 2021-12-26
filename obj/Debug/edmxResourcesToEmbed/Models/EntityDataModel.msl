@@ -37,15 +37,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Images">
-      <EntityTypeMapping TypeName="eProject3Model.Image">
-        <MappingFragment StoreEntitySet="Image">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="UrlImage" ColumnName="UrlImage" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="eProject3Model.Order">
         <MappingFragment StoreEntitySet="Order">
@@ -143,6 +134,15 @@
         <MappingFragment StoreEntitySet="Brand">
           <ScalarProperty Name="UrlLogo" ColumnName="UrlLogo" />
           <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="eProject3Model.Image">
+        <MappingFragment StoreEntitySet="Image">
+          <ScalarProperty Name="UrlImage" ColumnName="UrlImage" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

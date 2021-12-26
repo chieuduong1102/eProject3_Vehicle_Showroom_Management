@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\chieu\source\repos\eProject3_Vehicle_Showroom_Management\eProject3_Vehicle_Showroom_Management\Models\EntityDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\Models\EntityDataModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eProject3_Vehicle_Showroom_Management.Models;
+using eProject3_Vehicle_Showroom_Management.Models.DTO;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
@@ -46,16 +48,26 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BrandName,UrlLogo")] Brand brand)
+        public ActionResult Create([Bind(Include = "Id,BrandName,UrlLogo")] BrandDTO brandDTO)
         {
             if (ModelState.IsValid)
             {
+                Brand brand = new Brand();
+                brand.BrandName = brandDTO.BrandName;
+                if (brandDTO.UrlLogo.ContentLength > 0)
+                {
+                    string _FileName = Path.GetFileName(brandDTO.UrlLogo.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Content/products-images"), _FileName);
+                    brandDTO.UrlLogo.SaveAs(_path);
+                    brand.UrlLogo = Extensions.Extension.ConvertToBase64(_path);
+                }
+
                 db.Brands.Add(brand);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(brand);
+            return View(brandDTO);
         }
 
         // GET: Brands/Edit/5

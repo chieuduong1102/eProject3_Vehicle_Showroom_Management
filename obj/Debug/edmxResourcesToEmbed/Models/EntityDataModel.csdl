@@ -37,15 +37,6 @@
     <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__3B75D760" FromRole="Employee" ToRole="Department" />
     <NavigationProperty Name="Showroom" Relationship="Self.FK__Employee__Showro__3C69FB99" FromRole="Employee" ToRole="Showroom" />
   </EntityType>
-  <EntityType Name="Image">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProductId" Type="Int32" Nullable="false" />
-    <Property Name="UrlImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Product" Relationship="Self.FK__Image__ProductId__2C3393D0" FromRole="Image" ToRole="Product" />
-  </EntityType>
   <EntityType Name="Order">
     <Key>
       <PropertyRef Name="Id" />
@@ -88,12 +79,12 @@
     <Property Name="Status" Type="Int32" Nullable="false" />
     <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Images" Relationship="Self.FK__Image__ProductId__2C3393D0" FromRole="Product" ToRole="Image" />
     <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__4316F928" FromRole="Product" ToRole="OrderDetail" />
     <NavigationProperty Name="ProductType" Relationship="Self.FK__Product__Product__286302EC" FromRole="Product" ToRole="ProductType" />
     <NavigationProperty Name="Ratings" Relationship="Self.FK__Rating__ProductI__5441852A" FromRole="Product" ToRole="Rating" />
     <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Produ__30F848ED" FromRole="Product" ToRole="Warehouse" />
     <NavigationProperty Name="Brand" Relationship="eProject3Model.FK__Product__BrandId__29572725" FromRole="Product" ToRole="Brand" />
+    <NavigationProperty Name="Images" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Product" ToRole="Image" />
   </EntityType>
   <EntityType Name="ProductType">
     <Key>
@@ -182,18 +173,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__Image__ProductId__2C3393D0">
-    <End Role="Product" Type="Self.Product" Multiplicity="1" />
-    <End Role="Image" Type="Self.Image" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Image">
-        <PropertyRef Name="ProductId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__OrderDeta__Order__4222D4EF">
     <End Role="Order" Type="Self.Order" Multiplicity="1" />
     <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
@@ -270,7 +249,6 @@
     <EntitySet Name="Customers" EntityType="Self.Customer" />
     <EntitySet Name="Departments" EntityType="Self.Department" />
     <EntitySet Name="Employees" EntityType="Self.Employee" />
-    <EntitySet Name="Images" EntityType="Self.Image" />
     <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
     <EntitySet Name="Products" EntityType="Self.Product" />
@@ -290,10 +268,6 @@
     <AssociationSet Name="FK__Employee__Showro__3C69FB99" Association="Self.FK__Employee__Showro__3C69FB99">
       <End Role="Showroom" EntitySet="Showrooms" />
       <End Role="Employee" EntitySet="Employees" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Image__ProductId__2C3393D0" Association="Self.FK__Image__ProductId__2C3393D0">
-      <End Role="Product" EntitySet="Products" />
-      <End Role="Image" EntitySet="Images" />
     </AssociationSet>
     <AssociationSet Name="FK__OrderDeta__Order__4222D4EF" Association="Self.FK__OrderDeta__Order__4222D4EF">
       <End Role="Order" EntitySet="Orders" />
@@ -320,9 +294,14 @@
       <End Role="Warehouse" EntitySet="Warehouses" />
     </AssociationSet>
     <EntitySet Name="Brands" EntityType="eProject3Model.Brand" />
+    <EntitySet Name="Images" EntityType="eProject3Model.Image" />
     <AssociationSet Name="FK__Product__BrandId__29572725" Association="eProject3Model.FK__Product__BrandId__29572725">
       <End Role="Brand" EntitySet="Brands" />
       <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Image__ProductId__2C3393D0" Association="eProject3Model.FK__Image__ProductId__2C3393D0">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Image" EntitySet="Images" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Brand">
@@ -334,6 +313,15 @@
     <Property Name="UrlLogo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Products" Relationship="eProject3Model.FK__Product__BrandId__29572725" FromRole="Brand" ToRole="Product" />
   </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="UrlImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Image" ToRole="Product" />
+  </EntityType>
   <Association Name="FK__Product__BrandId__29572725">
     <End Type="eProject3Model.Brand" Role="Brand" Multiplicity="1" />
     <End Type="eProject3Model.Product" Role="Product" Multiplicity="*" />
@@ -343,6 +331,18 @@
       </Principal>
       <Dependent Role="Product">
         <PropertyRef Name="BrandId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Image__ProductId__2C3393D0">
+    <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+    <End Type="eProject3Model.Image" Role="Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Image">
+        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

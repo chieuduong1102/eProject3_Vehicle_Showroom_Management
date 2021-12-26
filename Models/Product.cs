@@ -17,10 +17,10 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.Images = new HashSet<Image>();
             this.OrderDetails = new HashSet<OrderDetail>();
             this.Ratings = new HashSet<Rating>();
             this.Warehouses = new HashSet<Warehouse>();
+            this.Images = new HashSet<Image>();
         }
     
         public int Id { get; set; }
@@ -35,9 +35,6 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
     
-        public virtual Brand Brand { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Image> Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ProductType ProductType { get; set; }
@@ -45,5 +42,8 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public virtual ICollection<Rating> Ratings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
+        public virtual Brand Brand { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Image> Images { get; set; }
     }
 }
