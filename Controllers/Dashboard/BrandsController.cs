@@ -90,15 +90,25 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BrandName,UrlLogo")] Brand brand)
+        public ActionResult Edit([Bind(Include = "Id,BrandName,UrlLogo")] BrandDTO brandDTO)
         {
             if (ModelState.IsValid)
             {
+                Brand brand = new Brand();
+                brand.BrandName = brandDTO.BrandName;
+                if (brandDTO.UrlLogo.ContentLength > 0)
+                {
+                    string _FileName = Path.GetFileName(brandDTO.UrlLogo.FileName);
+                    string _path = Path.Combine(Server.MapPath("~/Content/products-images"), _FileName);
+                    brandDTO.UrlLogo.SaveAs(_path);
+                    brand.UrlLogo = Extensions.Extension.ConvertToBase64(_path);
+                }
+
                 db.Entry(brand).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(brand);
+            return View(brandDTO);
         }
 
         // GET: Brands/Delete/5

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,27 +20,23 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Brand).Include(p => p.ProductType);
+            var products = db.Products.ToList();
             List<ProductDTO> list = new List<ProductDTO>();
             foreach (var x in products)
             {
-                ProductDTO productDTO = new ProductDTO(
-                    x.Id,
-                    x.ProductName,
-                    db.ProductTypes.Where(p => p.Id == x.Id).Select(p => p.ProductType1).ToString(),
-                    db.Brands.Where(b => b.Id == x.Id).Select(b => b.BrandName).ToString(),
-                    x.YearOfManufacture,
-                    x.Seats,
-                    x.TransmissionType == (int)EnumTransmissionType.Manual
-                                        ? Enum.GetName(typeof(EnumTransmissionType), EnumTransmissionType.Manual)
-                                        : Enum.GetName(typeof(EnumTransmissionType), EnumTransmissionType.Automatic),
-                    x.Price,
-                    GenerateProductStatusFromEnum(x.Status),
-                    GenerateRaingOfProduct(x.Id),
-                    GenerateImagesOfProduct(x.Id),
-                    x.CreatedDate,
-                    x.UpdatedDate
-                );
+                ProductDTO productDTO = new ProductDTO();
+                    productDTO.Id = x.Id;
+                    productDTO.ProductName = x.ProductName;
+                    productDTO.ProductType = db.ProductTypes.Find(x.ProductTypeId).ProductType1;
+                    productDTO.Brand = db.Brands.Find(x.BrandId).BrandName;
+                    productDTO.YearOfManufacture = x.YearOfManufacture;
+                    productDTO.Seats = x.Seats == null ? 0 : (int)x.Seats;
+                    productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
+                    productDTO.Price = x.Price;
+                    productDTO.Status = (EnumProductStatus)x.Status;
+                    productDTO.Rating = GenerateRaingOfProduct(x.Id);
+                    productDTO.CreatedDate = x.CreatedDate;
+                    productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
                 list.Add(productDTO);
             }
             return View(list);
@@ -63,8 +60,20 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.BrandId = new SelectList(db.Brands, "Id", "BrandName");
-            ViewBag.ProductTypeId = new SelectList(db.ProductTypes, "Id", "ProductType1");
+            ViewBag.Brand = new SelectList(db.Brands, "Id", "BrandName");
+            ViewBag.ProductType = new SelectList(db.ProductTypes, "Id", "ProductType1");
+            ViewBag.TransmissionType = new SelectList(Enum.GetValues(typeof(EnumTransmissionType)).OfType<Enum>().Select(x =>
+                    new SelectListItem
+                    {
+                        Text = Enum.GetName(typeof(EnumTransmissionType), x),
+                        Value = (Convert.ToInt32(x)).ToString()
+                    }), "Value", "Text");
+            ViewBag.ProductStatus = new SelectList(Enum.GetValues(typeof(EnumProductStatus)).OfType<Enum>().Select(x =>
+                    new SelectListItem
+                    {
+                        Text = Enum.GetName(typeof(EnumProductStatus), x),
+                        Value = (Convert.ToInt32(x)).ToString()
+                    }), "Value", "Text");
             return View();
         }
 
@@ -73,18 +82,45 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProductName,ProductTypeId,BrandId,YearOfManufacture,Seats,TransmissionType,Price,Status,CreatedDate,UpdatedDate")] Product product)
+        public ActionResult Create([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Images")] ProductDTO productDTO)
         {
+            productDTO.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            productDTO.UpdatedDate = string.Empty;
             if (ModelState.IsValid)
             {
+                Product product = new Product();
+                if (productDTO.Images.Length > 0)
+                {
+                    foreach(var file in productDTO.Images)
+                    {
+                        string _FileName = Path.GetFileName(file.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/products-images"), _FileName);
+                        file.SaveAs(_path);
+                        Image image = new Image();
+                        image.ProductId = productDTO.Id;
+                        image.UrlImage = Extensions.Extension.ConvertToBase64(_path);
+                        db.Images.Add(image);
+                    }
+
+                }
+                product.ProductName = productDTO.ProductName;
+                product.ProductTypeId = Int32.Parse(productDTO.ProductType);
+                product.BrandId = Int32.Parse(productDTO.Brand);
+                product.YearOfManufacture = productDTO.YearOfManufacture;
+                product.Seats = productDTO.Seats;
+                product.TransmissionType = (int?)productDTO.TransmissionType;
+                product.Price = productDTO.Price;
+                product.Status = (int)productDTO.Status;
+                product.CreatedDate = productDTO.CreatedDate;
+                product.UpdatedDate = productDTO.UpdatedDate;
                 db.Products.Add(product);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BrandId = new SelectList(db.Brands, "Id", "BrandName", product.BrandId);
-            ViewBag.ProductTypeId = new SelectList(db.ProductTypes, "Id", "ProductType1", product.ProductTypeId);
-            return View(product);
+            ViewBag.BrandId = new SelectList(db.Brands, "Id", "BrandName", productDTO.Brand);
+            ViewBag.ProductTypeId = new SelectList(db.ProductTypes, "Id", "ProductType1", productDTO.ProductType);
+            return View(productDTO);
         }
 
         // GET: Products/Edit/5
@@ -155,21 +191,6 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private string GenerateProductStatusFromEnum(int productStatus)
-        {
-            switch (productStatus)
-            {
-                case (int)EnumProductStatus.Unavailable:
-                    return Enum.GetName(typeof(EnumProductStatus), EnumProductStatus.Unavailable);
-                case (int)EnumProductStatus.Available:
-                    return Enum.GetName(typeof(EnumProductStatus), EnumProductStatus.Available);
-                case (int)EnumProductStatus.Commingsoon:
-                    return Enum.GetName(typeof(EnumProductStatus), EnumProductStatus.Commingsoon);
-                default:
-                    return string.Empty;
-            }
         }
 
         private int GenerateRaingOfProduct(int id)

@@ -8,10 +8,13 @@ namespace eProject3_Vehicle_Showroom_Management.Constants
 {
     public enum EnumTransmissionType
     {
-        [Display(Name = "Manual ")]
-        Manual = 0,
+        [Display(Name = "None")]
+        None = 0,
+
+        [Display(Name = "Manual")]
+        Manual = 1,
 
         [Display(Name = "Automatic")]
-        Automatic = 1,
+        Automatic = 2,
     }
 }

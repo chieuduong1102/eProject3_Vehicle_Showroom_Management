@@ -1,5 +1,4 @@
 ﻿@model eProject3_Vehicle_Showroom_Management.Models.Brand
-
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
@@ -24,9 +23,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UrlLogo)
+            <img src="@("data:image;base64,"+Model.UrlLogo)" width="100" class="img-fluid" />
         </dd>
-
     </dl>
 </div>
 <p>
