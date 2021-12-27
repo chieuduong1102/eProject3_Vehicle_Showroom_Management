@@ -23,6 +23,8 @@ namespace eProject3_Vehicle_Showroom_Management.Models.DTO
 
         public HttpPostedFileBase[] Images { get; set; }
 
+        public List<string> UrlImages { get; set; }
+
         public string CreatedDate { get; set; }
 
         public string UpdatedDate { get; set; }

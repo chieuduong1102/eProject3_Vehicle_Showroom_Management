@@ -35,8 +35,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                     productDTO.Price = x.Price;
                     productDTO.Status = (EnumProductStatus)x.Status;
                     productDTO.Rating = GenerateRaingOfProduct(x.Id);
-                    productDTO.CreatedDate = x.CreatedDate;
-                    productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
+                    productDTO.CreatedDate = !string.IsNullOrEmpty(x.CreatedDate) ? x.CreatedDate : string.Empty;
+                    productDTO.UpdatedDate = !string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
                 list.Add(productDTO);
             }
             return View(list);
@@ -50,11 +50,26 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.Id = product.Id;
+            productDTO.ProductName = product.ProductName;
+            productDTO.ProductType = db.ProductTypes.Find(product.ProductTypeId).ProductType1;
+            productDTO.Brand = db.Brands.Find(product.BrandId).BrandName;
+            productDTO.YearOfManufacture = product.YearOfManufacture;
+            productDTO.Seats = product.Seats == null ? 0 : (int)product.Seats;
+            productDTO.TransmissionType = (EnumTransmissionType)(int)product.TransmissionType;
+            productDTO.Price = product.Price;
+            productDTO.Status = (EnumProductStatus)product.Status;
+            productDTO.Rating = GenerateRaingOfProduct(product.Id);
+            productDTO.CreatedDate = product.CreatedDate;
+            productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
+            productDTO.UrlImages = db.Images.Where(x => x.ProductId == product.Id).Select(i => i.UrlImage).ToList();
+
             if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(productDTO);
         }
 
         // GET: Products/Create
@@ -135,8 +150,20 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             {
                 return HttpNotFound();
             }
-            ViewBag.BrandId = new SelectList(db.Brands, "Id", "BrandName", product.BrandId);
-            ViewBag.ProductTypeId = new SelectList(db.ProductTypes, "Id", "ProductType1", product.ProductTypeId);
+            ViewBag.Brand = new SelectList(db.Brands, "Id", "BrandName", product.BrandId);
+            ViewBag.ProductType = new SelectList(db.ProductTypes, "Id", "ProductType1", product.ProductTypeId);
+            ViewBag.TransmissionType = new SelectList(Enum.GetValues(typeof(EnumTransmissionType)).OfType<Enum>().Select(x =>
+                    new SelectListItem
+                    {
+                        Text = Enum.GetName(typeof(EnumTransmissionType), x),
+                        Value = (Convert.ToInt32(x)).ToString()
+                    }), "Value", "Text");
+            ViewBag.ProductStatus = new SelectList(Enum.GetValues(typeof(EnumProductStatus)).OfType<Enum>().Select(x =>
+                    new SelectListItem
+                    {
+                        Text = Enum.GetName(typeof(EnumProductStatus), x),
+                        Value = (Convert.ToInt32(x)).ToString()
+                    }), "Value", "Text");
             return View(product);
         }
 
@@ -145,17 +172,41 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProductName,ProductTypeId,BrandId,YearOfManufacture,Seats,TransmissionType,Price,Status,CreatedDate,UpdatedDate")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Images")] ProductDTO productDTO)
         {
+            productDTO.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             if (ModelState.IsValid)
             {
+                Product product = new Product();
+                if (productDTO.Images.Length > 0 && productDTO.Images.First() != null)
+                {
+                    foreach (var file in productDTO.Images)
+                    {
+                        string _FileName = Path.GetFileName(file.FileName);
+                        string _path = Path.Combine(Server.MapPath("~/Content/products-images"), _FileName);
+                        file.SaveAs(_path);
+                        Image image = new Image();
+                        image.ProductId = productDTO.Id;
+                        image.UrlImage = Extensions.Extension.ConvertToBase64(_path);
+                        db.Images.Add(image);
+                    }
+
+                }
+                product.Id = productDTO.Id;
+                product.ProductName = productDTO.ProductName;
+                product.ProductTypeId = Int32.Parse(productDTO.ProductType);
+                product.BrandId = Int32.Parse(productDTO.Brand);
+                product.YearOfManufacture = productDTO.YearOfManufacture;
+                product.Seats = productDTO.Seats;
+                product.TransmissionType = (int?)productDTO.TransmissionType;
+                product.Price = productDTO.Price;
+                product.Status = (int)productDTO.Status;
+                product.UpdatedDate = productDTO.UpdatedDate;
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BrandId = new SelectList(db.Brands, "Id", "BrandName", product.BrandId);
-            ViewBag.ProductTypeId = new SelectList(db.ProductTypes, "Id", "ProductType1", product.ProductTypeId);
-            return View(product);
+            return View(productDTO);
         }
 
         // GET: Products/Delete/5
@@ -179,8 +230,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Products.Find(id);
-            db.Products.Remove(product);
-            db.SaveChanges();
+            if (product != null) { 
+                List<Image> images = db.Images.Where(x => x.ProductId == id).ToList();
+                images.ForEach(i => db.Images.Remove(i));
+                db.Products.Remove(product);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
