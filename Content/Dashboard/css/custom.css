@@ -54,3 +54,8 @@ body > div > div.content-page > div.container-fluid > button > a {
 .control-label {
     margin-top: 10px !important;
 }
+
+.rating-checked {
+    color: #f39c12 !important;
+    font-size: 20px !important;
+}

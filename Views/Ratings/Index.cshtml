@@ -1,0 +1,44 @@
+﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.DTO.RatingDTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.ProductName)
+    </td>
+    <td>
+        <img src="@("data:image;base64,"+item.Image)" width="100" class="img-fluid" />
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Rating) <span class="fa fa-star rating-checked" style="color: #ff6a00;font-size: 15px;"></span>
+    </td>
+    <td>
+        @Html.ActionLink("Details", "Details", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>
