@@ -41,5 +41,10 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
         {
             return View();
         }
+
+        public ActionResult ListProduct()
+        {
+            return View();
+        }
     }
 }
