@@ -59,3 +59,11 @@ body > div > div.content-page > div.container-fluid > button > a {
     color: #f39c12 !important;
     font-size: 20px !important;
 }
+.input-search {
+    padding-bottom: 5px !important;
+    height: 39px !important;
+}
+
+.btn-primary-custom > a{
+    color: white !important;
+}

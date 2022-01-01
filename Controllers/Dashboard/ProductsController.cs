@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using eProject3_Vehicle_Showroom_Management.Constants;
 using eProject3_Vehicle_Showroom_Management.Models;
 using eProject3_Vehicle_Showroom_Management.Models.DTO;
+using PagedList;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
@@ -18,8 +19,20 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         private eProject3Entities db = new eProject3Entities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var products = db.Products.ToList();
             List<ProductDTO> list = new List<ProductDTO>();
             foreach (var x in products)
@@ -39,7 +52,13 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                     productDTO.UpdatedDate = !string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
                 list.Add(productDTO);
             }
-            return View(list);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(s => s.ProductName.Contains(searchString)).ToList();
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(list.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Products/Details/5

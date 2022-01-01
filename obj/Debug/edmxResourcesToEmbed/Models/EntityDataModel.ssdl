@@ -59,6 +59,7 @@
     <Property Name="DeliveryAddress" Type="varchar" MaxLength="255" />
     <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
     <Property Name="UpdatedDate" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderDetail">
     <Key>
@@ -67,7 +68,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="OrderId" Type="int" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
-    <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="Quantily" Type="int" Nullable="false" />
     <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
     <Property Name="Note" Type="varchar" MaxLength="255" />
@@ -102,6 +102,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="Rating" Type="int" />
+    <Property Name="OrderId" Type="int" />
   </EntityType>
   <EntityType Name="Showroom">
     <Key>
@@ -229,6 +230,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Rating__OrderId__5AEE82B9">
+    <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Rating__ProductI__5441852A">
     <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -310,6 +323,10 @@
     <AssociationSet Name="FK__Product__Product__286302EC" Association="Self.FK__Product__Product__286302EC">
       <End Role="ProductType" EntitySet="ProductType" />
       <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rating__OrderId__5AEE82B9" Association="Self.FK__Rating__OrderId__5AEE82B9">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="Rating" EntitySet="Rating" />
     </AssociationSet>
     <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="Self.FK__Rating__ProductI__5441852A">
       <End Role="Product" EntitySet="Product" />

@@ -1,64 +1,139 @@
-﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.Order>
+﻿@model PagedList.IPagedList<eProject3_Vehicle_Showroom_Management.Models.Order>
+@using PagedList.Mvc;
+@using eProject3_Vehicle_Showroom_Management.Constants
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
 
-<h2>Index</h2>
+@functions{
+    String GenerateOrderId(int id)
+    {
+        return DateTime.Now.ToString("yyyyMMddHHmmss") + id;
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    String GenerateIconOrderStatus(int status)
+    {
+        switch (status)
+        {
+            case (int)EnumOrderStatus.Pending:
+                return "<i class='fas fa-mimus-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Cancel:
+                return "<i class='fas fa-times-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Accept:
+                return "<i class='fas fa-play-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Received:
+                return "<i class='fas fa-check-circle'></i>";
+                break;
+            default:
+                return "<i class='fas fa-mimus-circle'></i>";
+                break;
+        }
+    }
+}
+
+<h2>Order Management</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-primary-custom">
+            @Html.ActionLink("Create New", "Create")
+        </button>
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Orders", FormMethod.Get))
+        {
+            <p>
+                Find by OrderCode or Customer's PhoneNumber: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "col-md-8 input-search", type = "text" })
+                <input type="submit" class="btn btn-primary" value="Search" />
+            </p>
+        }
+    </div>
+</div>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TotalPrice)
+            OrderCode
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DeliveryAddress)
+            Fullname
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            Email
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
+            PhoneNumber
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.Fullname)
+            DeliveryAddress
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Customer.Email)
+            TotalPrice
         </th>
+        <th>
+            Status
+        </th>
+        <th>
+            CreatedDate
+        </th>
+        <th>
+            UpdatedDate
+        </th>
+        <th></th>
+        <th></th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.TotalPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DeliveryAddress)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CreatedDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.UpdatedDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Customer.Fullname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Customer.Email)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @GenerateOrderId(item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveryAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice) $
+            </td>
+            <td>
+                @Html.Raw(GenerateIconOrderStatus(item.Status));
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

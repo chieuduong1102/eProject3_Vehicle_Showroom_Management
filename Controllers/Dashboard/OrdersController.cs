@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eProject3_Vehicle_Showroom_Management.Models;
+using eProject3_Vehicle_Showroom_Management.Models.DTO;
+using PagedList;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
@@ -15,10 +17,30 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         private eProject3Entities db = new eProject3Entities();
 
         // GET: Orders
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var orders = db.Orders.Include(o => o.Customer);
-            return View(orders.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var orders = db.Orders.Include(o => o.Customer).ToList();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.Id.Equals(DecodeOrderId(searchString)) || s.Customer.PhoneNumber.Contains(searchString)).ToList();
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+
+            return View(orders.ToList().ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Orders/Details/5
@@ -29,11 +51,22 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Order order = db.Orders.Find(id);
-            if (order == null)
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.Id = order.Id;
+            orderDTO.Fullname = order.Customer.Fullname;
+            orderDTO.Email = order.Customer.Email;
+            orderDTO.PhoneNumber = order.Customer.PhoneNumber;
+            orderDTO.DeliveryAddress = order.DeliveryAddress;
+            orderDTO.TotalPrice = order.TotalPrice;
+            orderDTO.CreatedDate = order.CreatedDate;
+            orderDTO.UpdatedDate = order.UpdatedDate;
+            orderDTO.Status = order.Status;
+            orderDTO.ListOrderDetails = db.OrderDetails.Where(x => x.OrderId == order.Id).ToList();
+            if (orderDTO == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            return View(orderDTO);
         }
 
         // GET: Orders/Create
@@ -50,6 +83,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,CustomerId,TotalPrice,DeliveryAddress,CreatedDate,UpdatedDate")] Order order)
         {
+            order.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            order.UpdatedDate = string.Empty;
             if (ModelState.IsValid)
             {
                 db.Orders.Add(order);
@@ -127,6 +162,11 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private static int DecodeOrderId(string id)
+        {
+            return id.Length > 14 ? Int32.Parse(id.Substring(14)) : 0;
         }
     }
 }

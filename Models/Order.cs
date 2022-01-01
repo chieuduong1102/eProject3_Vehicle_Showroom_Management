@@ -18,6 +18,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public Order()
         {
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Ratings = new HashSet<Rating>();
         }
     
         public int Id { get; set; }
@@ -26,9 +27,12 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public string DeliveryAddress { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
+        public int Status { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

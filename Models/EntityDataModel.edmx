@@ -64,6 +64,7 @@
           <Property Name="DeliveryAddress" Type="varchar" MaxLength="255" />
           <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
           <Property Name="UpdatedDate" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderDetail">
           <Key>
@@ -72,7 +73,6 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OrderId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Quantily" Type="int" Nullable="false" />
           <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="Note" Type="varchar" MaxLength="255" />
@@ -107,6 +107,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="Rating" Type="int" />
+          <Property Name="OrderId" Type="int" />
         </EntityType>
         <EntityType Name="Showroom">
           <Key>
@@ -234,6 +235,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Rating__OrderId__5AEE82B9">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Rating__ProductI__5441852A">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
           <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -316,6 +329,10 @@
             <End Role="ProductType" EntitySet="ProductType" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <AssociationSet Name="FK__Rating__OrderId__5AEE82B9" Association="Self.FK__Rating__OrderId__5AEE82B9">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Rating" EntitySet="Rating" />
+          </AssociationSet>
           <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="Self.FK__Rating__ProductI__5441852A">
             <End Role="Product" EntitySet="Product" />
             <End Role="Rating" EntitySet="Rating" />
@@ -344,7 +361,7 @@
           <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Levels" Type="Int32" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK__Order__CustomerI__3F466844" FromRole="Customer" ToRole="Order" />
+          <NavigationProperty Name="Orders" Relationship="eProject3Model.FK__Order__CustomerI__3F466844" FromRole="Customer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -370,33 +387,6 @@
           <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__3B75D760" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Showroom" Relationship="Self.FK__Employee__Showro__3C69FB99" FromRole="Employee" ToRole="Showroom" />
         </EntityType>
-        <EntityType Name="Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="DeliveryAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK__Order__CustomerI__3F466844" FromRole="Order" ToRole="Customer" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Order__4222D4EF" FromRole="Order" ToRole="OrderDetail" />
-        </EntityType>
-        <EntityType Name="OrderDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Quantily" Type="Int32" Nullable="false" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK__OrderDeta__Order__4222D4EF" FromRole="OrderDetail" ToRole="Order" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__OrderDeta__Produ__4316F928" FromRole="OrderDetail" ToRole="Product" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -412,12 +402,12 @@
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="OrderDetails" Relationship="Self.FK__OrderDeta__Produ__4316F928" FromRole="Product" ToRole="OrderDetail" />
           <NavigationProperty Name="ProductType" Relationship="Self.FK__Product__Product__286302EC" FromRole="Product" ToRole="ProductType" />
-          <NavigationProperty Name="Ratings" Relationship="Self.FK__Rating__ProductI__5441852A" FromRole="Product" ToRole="Rating" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Produ__30F848ED" FromRole="Product" ToRole="Warehouse" />
           <NavigationProperty Name="Brand" Relationship="eProject3Model.FK__Product__BrandId__29572725" FromRole="Product" ToRole="Brand" />
           <NavigationProperty Name="Images" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Product" ToRole="Image" />
+          <NavigationProperty Name="Ratings" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Product" ToRole="Rating" />
+          <NavigationProperty Name="OrderDetails" Relationship="eProject3Model.FK__OrderDeta__Produ__4316F928" FromRole="Product" ToRole="OrderDetail" />
         </EntityType>
         <EntityType Name="ProductType">
           <Key>
@@ -426,15 +416,6 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductType1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Products" Relationship="Self.FK__Product__Product__286302EC" FromRole="ProductType" ToRole="Product" />
-        </EntityType>
-        <EntityType Name="Rating">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Rating1" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />
         </EntityType>
         <EntityType Name="Showroom">
           <Key>
@@ -470,18 +451,6 @@
           <NavigationProperty Name="Product" Relationship="Self.FK__Warehouse__Produ__30F848ED" FromRole="Warehouse" ToRole="Product" />
           <NavigationProperty Name="Showroom" Relationship="Self.FK__Warehouse__Showr__31EC6D26" FromRole="Warehouse" ToRole="Showroom" />
         </EntityType>
-        <Association Name="FK__Order__CustomerI__3F466844">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
-          <End Role="Order" Type="Self.Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Order">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Employee__Depart__3B75D760">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
@@ -506,30 +475,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__OrderDeta__Order__4222D4EF">
-          <End Role="Order" Type="Self.Order" Multiplicity="1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__OrderDeta__Produ__4316F928">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrderDetail">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Product__Product__286302EC">
           <End Role="ProductType" Type="Self.ProductType" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -539,18 +484,6 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="ProductTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Rating__ProductI__5441852A">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Rating">
-              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -582,18 +515,11 @@
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="Orders" EntityType="Self.Order" />
-          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="ProductTypes" EntityType="Self.ProductType" />
-          <EntitySet Name="Ratings" EntityType="Self.Rating" />
           <EntitySet Name="Showrooms" EntityType="Self.Showroom" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
-          <AssociationSet Name="FK__Order__CustomerI__3F466844" Association="Self.FK__Order__CustomerI__3F466844">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Order" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK__Employee__Depart__3B75D760" Association="Self.FK__Employee__Depart__3B75D760">
             <End Role="Department" EntitySet="Departments" />
             <End Role="Employee" EntitySet="Employees" />
@@ -602,21 +528,9 @@
             <End Role="Showroom" EntitySet="Showrooms" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Order__4222D4EF" Association="Self.FK__OrderDeta__Order__4222D4EF">
-            <End Role="Order" EntitySet="Orders" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__OrderDeta__Produ__4316F928" Association="Self.FK__OrderDeta__Produ__4316F928">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="OrderDetail" EntitySet="OrderDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK__Product__Product__286302EC" Association="Self.FK__Product__Product__286302EC">
             <End Role="ProductType" EntitySet="ProductTypes" />
             <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="Self.FK__Rating__ProductI__5441852A">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
           <AssociationSet Name="FK__Warehouse__Produ__30F848ED" Association="Self.FK__Warehouse__Produ__30F848ED">
             <End Role="Product" EntitySet="Products" />
@@ -635,6 +549,29 @@
           <AssociationSet Name="FK__Image__ProductId__2C3393D0" Association="eProject3Model.FK__Image__ProductId__2C3393D0">
             <End Role="Product" EntitySet="Products" />
             <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <EntitySet Name="Ratings" EntityType="eProject3Model.Rating" />
+          <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="eProject3Model.FK__Rating__ProductI__5441852A">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <EntitySet Name="Orders" EntityType="eProject3Model.Order" />
+          <EntitySet Name="OrderDetails" EntityType="eProject3Model.OrderDetail" />
+          <AssociationSet Name="FK__Order__CustomerI__3F466844" Association="eProject3Model.FK__Order__CustomerI__3F466844">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__Order__4222D4EF" Association="eProject3Model.FK__OrderDeta__Order__4222D4EF">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rating__OrderId__5AEE82B9" Association="eProject3Model.FK__Rating__OrderId__5AEE82B9">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderDeta__Produ__4316F928" Association="eProject3Model.FK__OrderDeta__Produ__4316F928">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Brand">
@@ -675,6 +612,105 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Image">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Rating1" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />
+          <NavigationProperty Name="Order" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Rating" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK__Rating__ProductI__5441852A">
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="eProject3Model.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="DeliveryAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="eProject3Model.FK__Order__CustomerI__3F466844" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="OrderDetails" Relationship="eProject3Model.FK__OrderDeta__Order__4222D4EF" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="Ratings" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Order" ToRole="Rating" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantily" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Note" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="eProject3Model.FK__OrderDeta__Order__4222D4EF" FromRole="OrderDetail" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="eProject3Model.FK__OrderDeta__Produ__4316F928" FromRole="OrderDetail" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Order__CustomerI__3F466844">
+          <End Type="eProject3Model.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="eProject3Model.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__Order__4222D4EF">
+          <End Type="eProject3Model.Order" Role="Order" Multiplicity="1" />
+          <End Type="eProject3Model.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rating__OrderId__5AEE82B9">
+          <End Type="eProject3Model.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="eProject3Model.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderDeta__Produ__4316F928">
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="eProject3Model.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -721,31 +757,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orders">
-            <EntityTypeMapping TypeName="eProject3Model.Order">
-              <MappingFragment StoreEntitySet="Order">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderDetails">
-            <EntityTypeMapping TypeName="eProject3Model.OrderDetail">
-              <MappingFragment StoreEntitySet="OrderDetail">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Quantily" ColumnName="Quantily" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="eProject3Model.Product">
               <MappingFragment StoreEntitySet="Product">
@@ -768,15 +779,6 @@
               <MappingFragment StoreEntitySet="ProductType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProductType1" ColumnName="ProductType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ratings">
-            <EntityTypeMapping TypeName="eProject3Model.Rating">
-              <MappingFragment StoreEntitySet="Rating">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Rating1" ColumnName="Rating" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -827,6 +829,41 @@
               <MappingFragment StoreEntitySet="Image">
                 <ScalarProperty Name="UrlImage" ColumnName="UrlImage" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="eProject3Model.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Rating1" ColumnName="Rating" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="eProject3Model.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="DeliveryAddress" ColumnName="DeliveryAddress" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="eProject3Model.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Quantily" ColumnName="Quantily" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

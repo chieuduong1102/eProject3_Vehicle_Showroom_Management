@@ -192,6 +192,8 @@ C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_S
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.WebPages.dll
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.WebPages.Razor.dll
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\WebGrease.dll
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\EntityFramework.xml
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\EntityFramework.SqlServer.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.Helpers.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.Mvc.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.Optimization.xml
@@ -204,8 +206,6 @@ C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_S
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Net.Http.Formatting.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.Http.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\System.Web.Http.WebHost.xml
-C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\EntityFramework.xml
-C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\EntityFramework.SqlServer.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\Microsoft.AspNet.Identity.Owin.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\Microsoft.AspNet.Identity.EntityFramework.xml
@@ -222,4 +222,8 @@ C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_S
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\obj\Debug\eProject3_Vehicle_Showroom_Management.csproj.CoreCompileInputs.cache
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\obj\Debug\eProject3_Vehicle_Showroom_Management.dll
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\obj\Debug\eProject3_Vehicle_Showroom_Management.pdb
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\PagedList.dll
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\PagedList.Mvc.dll
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\PagedList.xml
+C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\bin\PagedList.Mvc.xml
 C:\Users\chieu\OneDrive\Desktop\eProject3_Vehicle_Management\eProject3_Vehicle_Showroom_Management\obj\Debug\eProject3_Vehicle_Showroom_Management.csproj.AssemblyReference.cache

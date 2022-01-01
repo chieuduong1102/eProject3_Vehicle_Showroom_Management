@@ -45,7 +45,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -126,12 +138,6 @@
     <Reference Include="System.Web.Http.WebHost">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -182,6 +188,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Constants\EnumOrderStatus.cs" />
     <Compile Include="Constants\EnumProductStatus.cs" />
     <Compile Include="Constants\EnumTransmissionType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -196,6 +203,7 @@
     <Compile Include="Controllers\Dashboard\OrdersController.cs" />
     <Compile Include="Controllers\Dashboard\ProductsController.cs" />
     <Compile Include="Controllers\Dashboard\ProductTypesController.cs" />
+    <Compile Include="Controllers\Dashboard\RatingsController.cs" />
     <Compile Include="Controllers\Dashboard\RegisterAdminController.cs" />
     <Compile Include="Controllers\Dashboard\ShowroomsController.cs" />
     <Compile Include="Controllers\Dashboard\WarehousesController.cs" />
@@ -218,7 +226,9 @@
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\BrandDTO.cs" />
+    <Compile Include="Models\DTO\OrderDTO.cs" />
     <Compile Include="Models\DTO\ProductDTO.cs" />
+    <Compile Include="Models\DTO\RatingDTO.cs" />
     <Compile Include="Models\Employee.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
@@ -540,6 +550,7 @@
     <Content Include="Content\images\testimonials-bg-img1.jpg" />
     <Content Include="Content\images\to-top-arrow.png" />
     <Content Include="Content\images\world-icon.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\products-images\p1.jpg" />
     <Content Include="Content\products-images\p10.jpg" />
     <Content Include="Content\products-images\p11.jpg" />
@@ -779,6 +790,15 @@
     <Content Include="Views\Warehouses\Details.cshtml" />
     <Content Include="Views\Warehouses\Edit.cshtml" />
     <Content Include="Views\Warehouses\Index.cshtml" />
+    <Content Include="Views\Ratings\Create.cshtml" />
+    <Content Include="Views\Ratings\Delete.cshtml" />
+    <Content Include="Views\Ratings\Details.cshtml" />
+    <Content Include="Views\Ratings\Edit.cshtml" />
+    <Content Include="Views\Ratings\Index.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Home\ListProduct.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

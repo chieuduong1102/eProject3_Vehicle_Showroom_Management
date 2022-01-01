@@ -43,12 +43,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Rating rating = db.Ratings.Find(id);
-            if (rating == null)
+            List<Rating> ratings = db.Ratings.Where(r => r.ProductId == id).ToList();
+            if (ratings == null)
             {
                 return HttpNotFound();
             }
-            return View(rating);
+            return View(ratings);
         }
 
         // GET: Ratings/Create

@@ -17,7 +17,6 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public int Id { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
-        public int Status { get; set; }
         public int Quantily { get; set; }
         public decimal TotalPrice { get; set; }
         public string Note { get; set; }

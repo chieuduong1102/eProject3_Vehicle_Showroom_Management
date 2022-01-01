@@ -1,59 +1,88 @@
-﻿@model eProject3_Vehicle_Showroom_Management.Models.Order
-
+﻿@model eProject3_Vehicle_Showroom_Management.Models.DTO.OrderDTO
+@using eProject3_Vehicle_Showroom_Management.Constants
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
+@functions{
+    String GenerateOrderId(int id)
+    {
+        return DateTime.Now.ToString("yyyyMMddHHmmss") + id;
+    }
+
+    String GenerateIconOrderStatus(int status)
+    {
+        switch (status)
+        {
+            case (int)EnumOrderStatus.Pending:
+                return "<i class='fas fa-mimus-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Cancel:
+                return "<i class='fas fa-times-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Accept:
+                return "<i class='fas fa-play-circle'></i>";
+                break;
+            case (int)EnumOrderStatus.Received:
+                return "<i class='fas fa-check-circle'></i>";
+                break;
+            default:
+                return "<i class='fas fa-mimus-circle'></i>";
+                break;
+        }
+    }
+}
+
 
 <h2>Details</h2>
 
 <div>
-    <h4>Order</h4>
+    <h4>OrderCode: @GenerateOrderId(Model.Id)</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TotalPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DeliveryAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DeliveryAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Customer.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Customer.Email)
-        </dd>
-
-    </dl>
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Fullname)</td>
+                <td>@Html.DisplayFor(model => model.Fullname)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.PhoneNumber)</td>
+                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DeliveryAddress)</td>
+                <td>@Html.DisplayFor(model => model.DeliveryAddress)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.CreatedDate)</td>
+                <td>@Html.DisplayFor(model => model.CreatedDate)</td>
+            </tr>
+            <tr>
+                <td>Order Details</td>
+                <td>
+                    <table class="table">
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.TotalPrice)</td>
+                <td>@Html.DisplayFor(model => model.TotalPrice)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.TotalPrice)</td>
+                <td>@Html.DisplayFor(model => model.TotalPrice)</td>
+            </tr>
+        </table>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("< Back to List", "Index")
 </p>
