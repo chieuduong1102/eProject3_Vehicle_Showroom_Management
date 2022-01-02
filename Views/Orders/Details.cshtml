@@ -1,5 +1,35 @@
 ﻿@model eProject3_Vehicle_Showroom_Management.Models.DTO.OrderDTO
 @using eProject3_Vehicle_Showroom_Management.Constants
+<style>
+    td > .status-pending {
+        background-color: #f39c12 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-cancel {
+        background-color: #e74c3c !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-accept {
+        background-color: #3498db !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-received {
+        background-color: #2ecc71 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+</style>
+
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
@@ -10,24 +40,24 @@
         return DateTime.Now.ToString("yyyyMMddHHmmss") + id;
     }
 
-    String GenerateIconOrderStatus(int status)
+    String GenerateStringOrderStatus(int status)
     {
         switch (status)
         {
             case (int)EnumOrderStatus.Pending:
-                return "<i class='fas fa-mimus-circle'></i>";
+                return "pending";
                 break;
             case (int)EnumOrderStatus.Cancel:
-                return "<i class='fas fa-times-circle'></i>";
+                return "cancel";
                 break;
             case (int)EnumOrderStatus.Accept:
-                return "<i class='fas fa-play-circle'></i>";
+                return "accept";
                 break;
             case (int)EnumOrderStatus.Received:
-                return "<i class='fas fa-check-circle'></i>";
+                return "received";
                 break;
             default:
-                return "<i class='fas fa-mimus-circle'></i>";
+                return "pending";
                 break;
         }
     }
@@ -62,18 +92,28 @@
                 <td>@Html.DisplayFor(model => model.CreatedDate)</td>
             </tr>
             <tr>
+                <td>@Html.DisplayNameFor(model => model.Status)</td>
+                <td><span class="status-@GenerateStringOrderStatus(Model.Status)">@GenerateStringOrderStatus(Model.Status).ToUpper()</span></td>
+            </tr>
+            <tr>
                 <td>Order Details</td>
                 <td>
                     <table class="table">
                         <tr>
-                            <td></td>
+                            <td>ProductName</td>
+                            <td>Quantily</td>
+                            <td>TotalPrice</td>
                         </tr>
+                        @foreach (var item in Model.ListOrderDetails)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.Product.ProductName)</td>
+                                <td>x @Html.DisplayFor(modelItem => item.Quantily)</td>
+                                <td>@Html.DisplayFor(modelItem => item.TotalPrice) $</td>
+                            </tr>
+                        }
                     </table>
                 </td>
-            </tr>
-            <tr>
-                <td>@Html.DisplayNameFor(model => model.TotalPrice)</td>
-                <td>@Html.DisplayFor(model => model.TotalPrice)</td>
             </tr>
             <tr>
                 <td>@Html.DisplayNameFor(model => model.TotalPrice)</td>
@@ -83,6 +123,5 @@
     </div>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("< Back to List", "Index")
 </p>

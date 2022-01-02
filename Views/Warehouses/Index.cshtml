@@ -1,46 +1,72 @@
-﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.Warehouse>
+﻿@model PagedList.IPagedList<eProject3_Vehicle_Showroom_Management.Models.Warehouse>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Stocks Management</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary btn-primary-custom">
+            @Html.ActionLink("Create New", "Create")
+        </button>
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Orders", FormMethod.Get))
+        {
+            <p>
+                Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "col-md-9 input-search", type = "text" })
+                <input type="submit" class="btn btn-primary" value="Search" />
+            </p>
+        }
+    </div>
+</div>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Showroom.ShowroomName)
+            ShowroomName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Product.ProductName)
+            ProductName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Quantily)
+            Images
+        </th>
+        <th>
+            Quantily
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Showroom.ShowroomName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Product.ProductName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Quantily)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
-</tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Showroom.ShowroomName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.ProductName)
+            </td>
+            <td>
+                <img src="@("data:image;base64,"+item.Product.Images.First())" class="img-fluid">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantily)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -188,6 +188,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Constants\EnumLevelEmployee.cs" />
+    <Compile Include="Constants\EnumLevelCustomer.cs" />
     <Compile Include="Constants\EnumOrderStatus.cs" />
     <Compile Include="Constants\EnumProductStatus.cs" />
     <Compile Include="Constants\EnumTransmissionType.cs" />
@@ -751,13 +753,8 @@
     <Content Include="Views\Images\Index.cshtml" />
     <Content Include="Views\LoginAdmin\Index.cshtml" />
     <Content Include="Views\LoginClient\Index.cshtml" />
-    <Content Include="Views\OrderDetails\Create.cshtml" />
-    <Content Include="Views\OrderDetails\Delete.cshtml" />
-    <Content Include="Views\OrderDetails\Details.cshtml" />
-    <Content Include="Views\OrderDetails\Edit.cshtml" />
-    <Content Include="Views\OrderDetails\Index.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
-    <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Orders\Cancel.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
@@ -799,6 +796,11 @@
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\ListProduct.cshtml" />
+    <Content Include="Views\OrderDetails\Create.cshtml" />
+    <Content Include="Views\OrderDetails\Delete.cshtml" />
+    <Content Include="Views\OrderDetails\Details.cshtml" />
+    <Content Include="Views\OrderDetails\Edit.cshtml" />
+    <Content Include="Views\OrderDetails\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

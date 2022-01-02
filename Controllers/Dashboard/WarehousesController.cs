@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using eProject3_Vehicle_Showroom_Management.Models;
+using PagedList;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
@@ -15,10 +16,27 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         private eProject3Entities db = new eProject3Entities();
 
         // GET: Warehouses
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var warehouses = db.Warehouses.Include(w => w.Product).Include(w => w.Showroom);
-            return View(warehouses.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var warehouses = db.Warehouses.Include(w => w.Product).Include(w => w.Showroom).ToList();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                warehouses = warehouses.Where(s => s.Showroom.ShowroomName.Contains(searchString) || s.Product.ProductName.Contains(searchString)).ToList();
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(warehouses.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Warehouses/Details/5

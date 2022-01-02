@@ -2,6 +2,32 @@
 @using PagedList.Mvc;
 @using eProject3_Vehicle_Showroom_Management.Constants
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    td > .status-pending {
+        background-color: #f39c12 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+    td > .status-cancel {
+        background-color: #e74c3c !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+    td > .status-accept {
+        background-color: #3498db !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+    td > .status-received {
+        background-color: #2ecc71 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+</style>
 
 @{
     ViewBag.Title = "Index";
@@ -14,24 +40,24 @@
         return DateTime.Now.ToString("yyyyMMddHHmmss") + id;
     }
 
-    String GenerateIconOrderStatus(int status)
+    String GenerateStringOrderStatus(int status)
     {
         switch (status)
         {
             case (int)EnumOrderStatus.Pending:
-                return "<i class='fas fa-mimus-circle'></i>";
+                return "pending";
                 break;
             case (int)EnumOrderStatus.Cancel:
-                return "<i class='fas fa-times-circle'></i>";
+                return "cancel";
                 break;
             case (int)EnumOrderStatus.Accept:
-                return "<i class='fas fa-play-circle'></i>";
+                return "accept";
                 break;
             case (int)EnumOrderStatus.Received:
-                return "<i class='fas fa-check-circle'></i>";
+                return "received";
                 break;
             default:
-                return "<i class='fas fa-mimus-circle'></i>";
+                return "pending";
                 break;
         }
     }
@@ -41,9 +67,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <button class="btn btn-primary btn-primary-custom">
-            @Html.ActionLink("Create New", "Create")
-        </button>
+
     </div>
     <div class="col-md-6">
         @using (Html.BeginForm("Index", "Orders", FormMethod.Get))
@@ -86,7 +110,6 @@
         </th>
         <th></th>
         <th></th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -111,7 +134,7 @@
                 @Html.DisplayFor(modelItem => item.TotalPrice) $
             </td>
             <td>
-                @Html.Raw(GenerateIconOrderStatus(item.Status));
+                <span class="status-@GenerateStringOrderStatus(item.Status)">@GenerateStringOrderStatus(item.Status).ToUpper()</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -120,13 +143,10 @@
                 @Html.DisplayFor(modelItem => item.UpdatedDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-            </td>
-            <td>
                 @Html.ActionLink("Details", "Details", new { id = item.Id })
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("Cancel", "Cancel", new { id = item.Id })
             </td>
         </tr>
     }

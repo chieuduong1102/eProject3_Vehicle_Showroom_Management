@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using eProject3_Vehicle_Showroom_Management.Constants;
 using eProject3_Vehicle_Showroom_Management.Models;
 using eProject3_Vehicle_Showroom_Management.Models.DTO;
 using PagedList;
@@ -69,12 +70,6 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             return View(orderDTO);
         }
 
-        // GET: Orders/Create
-        public ActionResult Create()
-        {
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Email");
-            return View();
-        }
 
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -96,41 +91,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             return View(order);
         }
 
-        // GET: Orders/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Order order = db.Orders.Find(id);
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Email", order.CustomerId);
-            return View(order);
-        }
-
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CustomerId,TotalPrice,DeliveryAddress,CreatedDate,UpdatedDate")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CustomerId = new SelectList(db.Customers, "Id", "Email", order.CustomerId);
-            return View(order);
-        }
-
-        // GET: Orders/Delete/5
-        public ActionResult Delete(int? id)
+        // GET: Orders/Cancel/5
+        public ActionResult Cancel(int? id)
         {
             if (id == null)
             {
@@ -145,12 +107,14 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         }
 
         // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Cancel")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult CancelConfirmed(int id)
         {
             Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
+            order.Status = (int)EnumOrderStatus.Cancel;
+            order.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            db.Entry(order).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

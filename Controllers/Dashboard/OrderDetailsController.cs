@@ -39,7 +39,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // GET: OrderDetails/Create
         public ActionResult Create()
         {
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "DeliveryAddress");
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Id");
             ViewBag.ProductId = new SelectList(db.Products, "Id", "ProductName");
             return View();
         }
@@ -49,7 +49,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,OrderId,ProductId,Status,Quantily,TotalPrice,Note")] OrderDetail orderDetail)
+        public ActionResult Create([Bind(Include = "Id,OrderId,ProductId,Quantily,TotalPrice,Note")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
@@ -57,8 +57,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "DeliveryAddress", orderDetail.OrderId);
+             
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Id", orderDetail.OrderId);
             ViewBag.ProductId = new SelectList(db.Products, "Id", "ProductName", orderDetail.ProductId);
             return View(orderDetail);
         }
@@ -75,7 +75,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             {
                 return HttpNotFound();
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "DeliveryAddress", orderDetail.OrderId);
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Id", orderDetail.OrderId);
             ViewBag.ProductId = new SelectList(db.Products, "Id", "ProductName", orderDetail.ProductId);
             return View(orderDetail);
         }
@@ -85,7 +85,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OrderId,ProductId,Status,Quantily,TotalPrice,Note")] OrderDetail orderDetail)
+        public ActionResult Edit([Bind(Include = "Id,OrderId,ProductId,Quantily,TotalPrice,Note")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.OrderId = new SelectList(db.Orders, "Id", "DeliveryAddress", orderDetail.OrderId);
+            ViewBag.OrderId = new SelectList(db.Orders, "Id", "Id", orderDetail.OrderId);
             ViewBag.ProductId = new SelectList(db.Products, "Id", "ProductName", orderDetail.ProductId);
             return View(orderDetail);
         }
