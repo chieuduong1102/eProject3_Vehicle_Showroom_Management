@@ -1,4 +1,7 @@
-﻿using System;
+﻿using eProject3_Vehicle_Showroom_Management.Constants;
+using eProject3_Vehicle_Showroom_Management.Models;
+using eProject3_Vehicle_Showroom_Management.Models.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +11,15 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 {
     public class HomeController : Controller
     {
+
+        private eProject3Entities db = new eProject3Entities();
+
         public ActionResult Index()
         {
-            return View();
+            var listProduct = getProductList();
+            ViewBag.listBrands = db.Brands.ToList();
+
+            return View(listProduct);
         }
 
         public ActionResult About()
@@ -27,9 +36,35 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return View();
         }
 
-                public ActionResult ProductDetail()
+        public ActionResult ProductDetail(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("Error");
+            }
+
+            Product product = db.Products.Find(id);
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.Id = product.Id;
+            productDTO.ProductName = product.ProductName;
+            productDTO.ProductType = db.ProductTypes.Find(product.ProductTypeId).ProductType1;
+            productDTO.Brand = db.Brands.Find(product.BrandId).BrandName;
+            productDTO.YearOfManufacture = product.YearOfManufacture;
+            productDTO.Seats = product.Seats == null ? 0 : (int)product.Seats;
+            productDTO.TransmissionType = (EnumTransmissionType)(int)product.TransmissionType;
+            productDTO.Price = product.Price;
+            productDTO.Status = (EnumProductStatus)product.Status;
+            productDTO.Rating = GenerateRaingOfProduct(product.Id);
+            productDTO.CreatedDate = product.CreatedDate;
+            productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
+            productDTO.UrlImages = db.Images.Where(x => x.ProductId == product.Id).Select(i => i.UrlImage).ToList();
+
+            if (product == null)
+            {
+                return RedirectToAction("Error");
+            }
+
+            return View(productDTO);
         }
 
         public ActionResult Cart()
@@ -44,7 +79,39 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult ListProduct()
         {
-            return View();
+            var listProduct = getProductList();
+            return View(listProduct);
+        }
+
+        public int GenerateRaingOfProduct(int id)
+        {
+            return (int)db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList().Sum();
+        }
+
+        public List<ProductDTO> getProductList()
+        {
+            var products = db.Products.ToList();
+            List<ProductDTO> list = new List<ProductDTO>();
+            foreach (var x in products)
+            {
+                ProductDTO productDTO = new ProductDTO();
+                productDTO.Id = x.Id;
+                productDTO.ProductName = x.ProductName;
+                productDTO.ProductType = db.ProductTypes.Find(x.ProductTypeId).ProductType1;
+                productDTO.Brand = db.Brands.Find(x.BrandId).BrandName;
+                productDTO.YearOfManufacture = x.YearOfManufacture;
+                productDTO.Seats = x.Seats == null ? 0 : (int)x.Seats;
+                productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
+                productDTO.Price = x.Price;
+                productDTO.Status = (EnumProductStatus)x.Status;
+                productDTO.Rating = GenerateRaingOfProduct(x.Id) * 20;
+                productDTO.CreatedDate = x.CreatedDate;
+                productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
+                productDTO.UrlImages = db.Images.Where(i => i.ProductId == x.Id).Select(a => a.UrlImage).ToList();
+                list.Add(productDTO);
+            }
+
+            return list;
         }
     }
 }

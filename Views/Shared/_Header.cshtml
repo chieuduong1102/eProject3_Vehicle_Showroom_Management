@@ -4,7 +4,7 @@
             <div id="header">
                 <div class="header-container">
                     <div class="header-logo">
-                        <a href="index-2.html" title="Car HTML" class="logo">
+                        <a href="@Url.Action("Index", "Home")" title="Car HTML" class="logo">
                             <div><img src="~/Content/images/logo1.png" alt="Car Store"></div>
                         </a>
                     </div>
@@ -34,19 +34,6 @@
                                                     <li><a href="#"> <img src="~/Content/images/german.png" alt="German"> <span>German</span> </a></li>
                                                 </ul>
                                             </div>
-                                            <!--fl-language-->
-                                            <!-- END For version 1,2,3,4,6 -->
-                                            <!-- For version 1,2,3,4,6 -->
-                                            <div class="fl-currency">
-                                                <h3>Currency</h3>
-                                                <ul class="currencies_list">
-                                                    <li><a href="#" title="EGP"> <strong>£</strong> Pound Sterling</a></li>
-                                                    <li><a href="#" title="EUR"> <strong>€</strong> Euro</a></li>
-                                                    <li><a href="#" title="USD"> <strong>$</strong> US Dollar</a></li>
-                                                </ul>
-                                            </div>
-                                            <!--fl-currency-->
-                                            <!-- END For version 1,2,3,4,6 -->
                                         </div>
                                         <h3>My Acount</h3>
                                         <ul class="links">
@@ -58,7 +45,7 @@
                             </div>
                             <div class="fl-cart-contain">
                                 <div class="mini-cart">
-                                    <div class="basket"> <a href="shopping-cart.html"><span> 2 </span></a> </div>
+                                    <div class="basket"> <a href="@Url.Action("Cart", "Home")"><span> 2 </span></a> </div>
                                     <div class="fl-mini-cart-content" style="display: none;">
                                         <div class="block-subtitle">
                                             <div class="top-subtotal">2 items, <span class="price">$259.99</span> </div>
@@ -119,214 +106,18 @@
                                 <div class="nav-inner">
                                     <!-- BEGIN NAV -->
                                     <ul id="nav" class="hidden-xs">
-                                        <li class="active"> <a class="level-top" href="#"><span>Home</span></a></li>
-                                        <li class="mega-menu">
-                                            <a class="level-top" href="grid1.html"><span>Accessories</span></a>
-                                            <div class="level0-wrapper dropdown-6col" style="left: 0px; display: none;">
-                                                <div class="container">
-                                                    <div class="level0-wrapper2">
-                                                        <div class="nav-block nav-block-center">
-                                                            <!--mega menu-->
-                                                            <ul class="level0">
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Audio</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Amplifiers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Installation Parts</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Speakers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Stereos</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Subwoofers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Body Parts</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Bumpers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Doors</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Fenders</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Grilles</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Hoods</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Exterior</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Bed Accessories</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Body Kits</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Custom Grilles</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Car Covers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Off-Road Bumpers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Interior</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Custom Gauges</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Dash Kits</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Seat Covers</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Steering Wheels</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Sun Shades</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Lighting</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Fog Lights</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Headlights</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>LED Lights</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Off-Road Lights</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Signal Lights</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                                <li class="level3 nav-6-1 parent item">
-                                                                    <a href="grid.html"><span>Performance</span></a>
-                                                                    <!--sub sub category-->
-                                                                    <ul class="level1">
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Air Intake Systems</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Brakes</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Exhaust Systems</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Power Adders</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                        <li class="level2 nav-6-1-1"> <a href="grid.html"><span>Racing Gear</span></a> </li>
-                                                                        <!--level2 nav-6-1-1-->
-                                                                    </ul>
-                                                                    <!--level1-->
-                                                                    <!--sub sub category-->
-                                                                </li>
-                                                                <!--level3 nav-6-1 parent item-->
-                                                            </ul>
-                                                            <!--level0-->
-                                                        </div>
-                                                        <!--nav-block nav-block-center-->
-
-                                                    </div>
-                                                    <!--level0-wrapper2-->
-                                                </div>
-                                                <!--container-->
-                                            </div>
-                                            <!--level0-wrapper dropdown-6col-->
-                                            <!--mega menu-->
+                                        <li class="active"> <a class="level-top" href="@Url.Action("Index", "Home")"><span>Home</span></a></li>
+                                        <li class="level0 parent drop-menu">
+                                            <a class="level-top" href="@Url.Action("ListProduct", "Home")"><span>Shop</span></a>
                                         </li>
                                         <li class="level0 parent drop-menu">
-                                            <a class="level-top" href="#"><span>Listing‎</span></a>
-                                            <ul class="level1">
-                                                <li class="level1 first"><a href="grid.html"><span>Car Grid</span></a></li>
-                                                <li class="level1 nav-10-2"> <a href="list.html"> <span>Car List</span> </a> </li>
-                                                <li class="level1 nav-10-3"> <a href="grid1.html"> <span>Accessories Grid</span> </a> </li>
-                                                <li class="level1 nav-10-4"> <a href="list1.html"> <span>Accessories List</span> </a> </li>
-                                                <li class="level1 first parent"><a href="car-detail.html"><span>Car Detail</span></a> </li>
-                                                <li class="level1 first parent"><a href="accessories-detail.html"><span>Accessories Detail</span></a> </li>
-                                            </ul>
+                                            <a class="level-top" href="@Url.Action("ListProduct", "Home")"><span>Accessories</span></a>
                                         </li>
-                                        <li class="level0 parent drop-menu">
-                                            <a class="level-top" href="#"><span>Blog</span></a>
-                                            <ul class="level1">
-                                                <li class="level1 first"><a href="blog.html"><span>Blog List</span></a></li>
-                                                <li class="level1 nav-10-2"> <a href="blog-detail.html"> <span>Blog Detail</span> </a> </li>
-                                            </ul>
+                                        <li class="mega-menu hidden-sm">
+                                            <a class="level-top" href="@Url.Action("Contact", "Home")"><span>Contact‎</span></a>
                                         </li>
-                                        <li class="mega-menu hidden-sm"> <a class="level-top" href="compare.html"><span>Compare Cars‎</span></a> </li>
-                                        <li class="level0 parent drop-menu">
-                                            <a href="#"><span>Pages</span> </a>
-                                            <!--sub sub category-->
-                                            <ul class="level1">
-                                                <li class="level1"> <a href="about-us.html"> <span>About us</span> </a> </li>
-                                                <li class="level1 nav-10-4"> <a href="shopping-cart.html"> <span>Cart Page</span> </a> </li>
-                                                <li class="level1 first parent">
-                                                    <a href="checkout.html"><span>Checkout</span></a>
-                                                    <!--sub sub category-->
-                                                    <ul class="level2 right-sub">
-                                                        <li class="level2 nav-2-1-1 first"><a href="checkout-method.html"><span>Method</span></a></li>
-                                                        <li class="level2 nav-2-1-5 last"><a href="checkout-billing-info.html"><span>Billing Info</span></a></li>
-                                                    </ul>
-                                                    <!--sub sub category-->
-                                                </li>
-                                                <li class="level1 nav-10-4"> <a href="wishlist.html"> <span>Wishlist</span> </a> </li>
-                                                <li class="level1"> <a href="dashboard.html"> <span>Dashboard</span> </a> </li>
-                                                <li class="level1"> <a href="multiple-addresses.html"> <span>Multiple Addresses</span> </a> </li>
-                                                <li class="level1"><a href="contact-us.html"><span>Contact us</span></a> </li>
-                                                <li class="level1"><a href="404error.html"><span>404 Error Page</span></a> </li>
-                                                <li class="level1"><a href="login.html"><span>Login Page</span></a> </li>
-                                                <li class="level1"><a href="quickview.html"><span>Quick View</span></a> </li>
-                                                <li class="level1"><a href="newsletter.html"><span>Newsletter</span></a> </li>
-                                            </ul>
-                                        </li>
-                                        <li class="fl-custom-tabmenulink mega-menu">
-                                            <a href="#" class="level-top"> <span>Custom</span> </a>
-                                            <div class="level0-wrapper fl-custom-tabmenu" style="left: 0px; display: none;">
-                                                <div class="container">
-                                                    <div class="header-nav-dropdown-wrapper clearer">
-                                                        <div class="grid12-3">
-                                                            <div><img src="~/Content/images/custom-img1.jpg" alt="custom-image"></div>
-                                                            <h4 class="heading">SALE UP TO 30% OFF</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                        </div>
-                                                        <div class="grid12-3">
-                                                            <div><img src="~/Content/images/custom-img2.jpg" alt="custom-image"></div>
-                                                            <h4 class="heading">SALE UP TO 30% OFF</h4>
-                                                            <p>Sed et quam lacus. Fusce condimentum eleifend enim a feugiat.</p>
-                                                        </div>
-                                                        <div class="grid12-3">
-                                                            <div><img src="~/Content/images/custom-img3.jpg" alt="custom-image"></div>
-                                                            <h4 class="heading">SALE UP TO 30% OFF</h4>
-                                                            <p>Sed et quam lacus. Fusce condimentum eleifend enim a feugiat.</p>
-                                                        </div>
-                                                        <div class="grid12-3">
-                                                            <div><img src="~/Content/images/custom-img4.jpg" alt="custom-image"></div>
-                                                            <h4 class="heading">SALE UP TO 30% OFF</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <li class="mega-menu hidden-sm">
+                                            <a class="level-top" href="@Url.Action("About", "Home")"><span>About‎</span></a>
                                         </li>
                                     </ul>
                                     <!--nav-->

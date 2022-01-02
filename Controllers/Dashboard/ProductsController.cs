@@ -248,12 +248,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             base.Dispose(disposing);
         }
 
-        private int GenerateRaingOfProduct(int id)
+        public int GenerateRaingOfProduct(int id)
         {
             return (int)db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList().Sum();
         }
 
-        private List<string> GenerateImagesOfProduct(int id)
+        public List<string> GenerateImagesOfProduct(int id)
         {
             return db.Images.Where(x => x.ProductId == id).Select(x => x.UrlImage).ToList();
         }
