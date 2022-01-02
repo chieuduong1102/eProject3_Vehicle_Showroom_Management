@@ -10,7 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/stylesheet/bootstrap-select.css" rel="stylesheet" />
     <link href="~/Content/stylesheet/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/stylesheet/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/stylesheet/font-awesome.css" rel="stylesheet"  media="all"/>
     <link href="~/Content/stylesheet/jquery.bxslider.css" rel="stylesheet" />
     <link href="~/Content/stylesheet/jquery.mobile-menu.css" rel="stylesheet" />
     <link href="~/Content/stylesheet/owl.carousel.css" rel="stylesheet" />
@@ -36,10 +36,6 @@
     <!-- Mobile Menu-->
     <div id="mobile-menu">
         @Html.Partial("_MobileMenu");
-    </div>
-    <div class="popup1" style="display: block;">
-        @Html.Partial("_AlertNewLetterSignUp");
-        <!--newsletter-sign-box-->
     </div>
     <div id="fade" style="display: block;"></div>
     @Scripts.Render("~/bundles/jquery")
@@ -143,7 +139,6 @@
 
     <script src="~/Scripts/js/bootstrap-select.min.js"></script>
     <script src="~/Scripts/js/bootstrap-slider.min.js"></script>
-    <script src="~/Scripts/js/bootstrap.min.js"></script>
     <script src="~/Scripts/js/cloud-zoom.js"></script>
     <script src="~/Scripts/js/common.js"></script>
     <script src="~/Scripts/js/countdown.js"></script>
