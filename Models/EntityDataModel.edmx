@@ -92,6 +92,7 @@
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
           <Property Name="UpdatedDate" Type="varchar" MaxLength="50" />
+          <Property Name="Descriptions" Type="text" />
         </EntityType>
         <EntityType Name="ProductType">
           <Key>
@@ -108,6 +109,7 @@
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="Rating" Type="int" />
           <Property Name="OrderId" Type="int" />
+          <Property Name="Comments" Type="text" />
         </EntityType>
         <EntityType Name="Showroom">
           <Key>
@@ -387,35 +389,13 @@
           <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__3B75D760" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Showroom" Relationship="Self.FK__Employee__Showro__3C69FB99" FromRole="Employee" ToRole="Showroom" />
         </EntityType>
-        <EntityType Name="Product">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
-          <Property Name="BrandId" Type="Int32" Nullable="false" />
-          <Property Name="YearOfManufacture" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Seats" Type="Int32" />
-          <Property Name="TransmissionType" Type="Int32" />
-          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ProductType" Relationship="Self.FK__Product__Product__286302EC" FromRole="Product" ToRole="ProductType" />
-          <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Produ__30F848ED" FromRole="Product" ToRole="Warehouse" />
-          <NavigationProperty Name="Brand" Relationship="eProject3Model.FK__Product__BrandId__29572725" FromRole="Product" ToRole="Brand" />
-          <NavigationProperty Name="Images" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Product" ToRole="Image" />
-          <NavigationProperty Name="Ratings" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Product" ToRole="Rating" />
-          <NavigationProperty Name="OrderDetails" Relationship="eProject3Model.FK__OrderDeta__Produ__4316F928" FromRole="Product" ToRole="OrderDetail" />
-        </EntityType>
         <EntityType Name="ProductType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductType1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Product__Product__286302EC" FromRole="ProductType" ToRole="Product" />
+          <NavigationProperty Name="Products" Relationship="eProject3Model.FK__Product__Product__286302EC" FromRole="ProductType" ToRole="Product" />
         </EntityType>
         <EntityType Name="Showroom">
           <Key>
@@ -448,8 +428,8 @@
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="ShowroomId" Type="Int32" Nullable="false" />
           <Property Name="Quantily" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK__Warehouse__Produ__30F848ED" FromRole="Warehouse" ToRole="Product" />
           <NavigationProperty Name="Showroom" Relationship="Self.FK__Warehouse__Showr__31EC6D26" FromRole="Warehouse" ToRole="Showroom" />
+          <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Warehouse__Produ__30F848ED" FromRole="Warehouse" ToRole="Product" />
         </EntityType>
         <Association Name="FK__Employee__Depart__3B75D760">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
@@ -475,30 +455,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__Product__286302EC">
-          <End Role="ProductType" Type="Self.ProductType" Multiplicity="1" />
-          <End Role="Product" Type="Self.Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="ProductTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Warehouse__Produ__30F848ED">
-          <End Role="Product" Type="Self.Product" Multiplicity="1" />
-          <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Warehouse">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Warehouse__Showr__31EC6D26">
           <End Role="Showroom" Type="Self.Showroom" Multiplicity="1" />
           <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
@@ -515,7 +471,6 @@
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
-          <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="ProductTypes" EntityType="Self.ProductType" />
           <EntitySet Name="Showrooms" EntityType="Self.Showroom" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
@@ -528,33 +483,12 @@
             <End Role="Showroom" EntitySet="Showrooms" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__Product__286302EC" Association="Self.FK__Product__Product__286302EC">
-            <End Role="ProductType" EntitySet="ProductTypes" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Warehouse__Produ__30F848ED" Association="Self.FK__Warehouse__Produ__30F848ED">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Warehouse" EntitySet="Warehouses" />
-          </AssociationSet>
           <AssociationSet Name="FK__Warehouse__Showr__31EC6D26" Association="Self.FK__Warehouse__Showr__31EC6D26">
             <End Role="Showroom" EntitySet="Showrooms" />
             <End Role="Warehouse" EntitySet="Warehouses" />
           </AssociationSet>
           <EntitySet Name="Brands" EntityType="eProject3Model.Brand" />
           <EntitySet Name="Images" EntityType="eProject3Model.Image" />
-          <AssociationSet Name="FK__Product__BrandId__29572725" Association="eProject3Model.FK__Product__BrandId__29572725">
-            <End Role="Brand" EntitySet="Brands" />
-            <End Role="Product" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Image__ProductId__2C3393D0" Association="eProject3Model.FK__Image__ProductId__2C3393D0">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Image" EntitySet="Images" />
-          </AssociationSet>
-          <EntitySet Name="Ratings" EntityType="eProject3Model.Rating" />
-          <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="eProject3Model.FK__Rating__ProductI__5441852A">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Rating" EntitySet="Ratings" />
-          </AssociationSet>
           <EntitySet Name="Orders" EntityType="eProject3Model.Order" />
           <EntitySet Name="OrderDetails" EntityType="eProject3Model.OrderDetail" />
           <AssociationSet Name="FK__Order__CustomerI__3F466844" Association="eProject3Model.FK__Order__CustomerI__3F466844">
@@ -565,6 +499,16 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
+          <EntitySet Name="Products" EntityType="eProject3Model.Product" />
+          <EntitySet Name="Ratings" EntityType="eProject3Model.Rating" />
+          <AssociationSet Name="FK__Product__BrandId__29572725" Association="eProject3Model.FK__Product__BrandId__29572725">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Image__ProductId__2C3393D0" Association="eProject3Model.FK__Image__ProductId__2C3393D0">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
           <AssociationSet Name="FK__Rating__OrderId__5AEE82B9" Association="eProject3Model.FK__Rating__OrderId__5AEE82B9">
             <End Role="Order" EntitySet="Orders" />
             <End Role="Rating" EntitySet="Ratings" />
@@ -572,6 +516,18 @@
           <AssociationSet Name="FK__OrderDeta__Produ__4316F928" Association="eProject3Model.FK__OrderDeta__Produ__4316F928">
             <End Role="Product" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Product__286302EC" Association="eProject3Model.FK__Product__Product__286302EC">
+            <End Role="ProductType" EntitySet="ProductTypes" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rating__ProductI__5441852A" Association="eProject3Model.FK__Rating__ProductI__5441852A">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Warehouse__Produ__30F848ED" Association="eProject3Model.FK__Warehouse__Produ__30F848ED">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Warehouse" EntitySet="Warehouses" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Brand">
@@ -592,53 +548,6 @@
           <Property Name="UrlImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Image" ToRole="Product" />
         </EntityType>
-        <Association Name="FK__Product__BrandId__29572725">
-          <End Type="eProject3Model.Brand" Role="Brand" Multiplicity="1" />
-          <End Type="eProject3Model.Product" Role="Product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Brand">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Product">
-              <PropertyRef Name="BrandId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Image__ProductId__2C3393D0">
-          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
-          <End Type="eProject3Model.Image" Role="Image" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Image">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Rating">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="Rating1" Type="Int32" />
-          <Property Name="OrderId" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />
-          <NavigationProperty Name="Order" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Rating" ToRole="Order" />
-        </EntityType>
-        <Association Name="FK__Rating__ProductI__5441852A">
-          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
-          <End Type="eProject3Model.Rating" Role="Rating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Rating">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Id" />
@@ -691,6 +600,65 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="YearOfManufacture" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Seats" Type="Int32" />
+          <Property Name="TransmissionType" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Brand" Relationship="eProject3Model.FK__Product__BrandId__29572725" FromRole="Product" ToRole="Brand" />
+          <NavigationProperty Name="Images" Relationship="eProject3Model.FK__Image__ProductId__2C3393D0" FromRole="Product" ToRole="Image" />
+          <NavigationProperty Name="OrderDetails" Relationship="eProject3Model.FK__OrderDeta__Produ__4316F928" FromRole="Product" ToRole="OrderDetail" />
+          <NavigationProperty Name="ProductType" Relationship="eProject3Model.FK__Product__Product__286302EC" FromRole="Product" ToRole="ProductType" />
+          <NavigationProperty Name="Ratings" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Product" ToRole="Rating" />
+          <NavigationProperty Name="Warehouses" Relationship="eProject3Model.FK__Warehouse__Produ__30F848ED" FromRole="Product" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Rating1" Type="Int32" />
+          <Property Name="OrderId" Type="Int32" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Rating" ToRole="Order" />
+          <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Product__BrandId__29572725">
+          <End Type="eProject3Model.Brand" Role="Brand" Multiplicity="1" />
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Image__ProductId__2C3393D0">
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="eProject3Model.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Rating__OrderId__5AEE82B9">
           <End Type="eProject3Model.Order" Role="Order" Multiplicity="0..1" />
           <End Type="eProject3Model.Rating" Role="Rating" Multiplicity="*" />
@@ -711,6 +679,42 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrderDetail">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Product__286302EC">
+          <End Type="eProject3Model.ProductType" Role="ProductType" Multiplicity="1" />
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProductTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rating__ProductI__5441852A">
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="eProject3Model.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Warehouse__Produ__30F848ED">
+          <End Type="eProject3Model.Product" Role="Product" Multiplicity="1" />
+          <End Type="eProject3Model.Warehouse" Role="Warehouse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Warehouse">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -754,23 +758,6 @@
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="eProject3Model.Product">
-              <MappingFragment StoreEntitySet="Product">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
-                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
-                <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
-                <ScalarProperty Name="Seats" ColumnName="Seats" />
-                <ScalarProperty Name="TransmissionType" ColumnName="TransmissionType" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -833,16 +820,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Ratings">
-            <EntityTypeMapping TypeName="eProject3Model.Rating">
-              <MappingFragment StoreEntitySet="Rating">
-                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-                <ScalarProperty Name="Rating1" ColumnName="Rating" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="eProject3Model.Order">
               <MappingFragment StoreEntitySet="Order">
@@ -864,6 +841,35 @@
                 <ScalarProperty Name="Quantily" ColumnName="Quantily" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="eProject3Model.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TransmissionType" ColumnName="TransmissionType" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="eProject3Model.Rating">
+              <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Rating1" ColumnName="Rating" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

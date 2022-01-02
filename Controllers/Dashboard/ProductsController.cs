@@ -47,6 +47,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                     productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
                     productDTO.Price = x.Price;
                     productDTO.Status = (EnumProductStatus)x.Status;
+                    productDTO.Descriptions = x.Descriptions;
                     productDTO.Rating = GenerateRaingOfProduct(x.Id);
                     productDTO.CreatedDate = !string.IsNullOrEmpty(x.CreatedDate) ? x.CreatedDate : string.Empty;
                     productDTO.UpdatedDate = !string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
@@ -79,6 +80,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             productDTO.TransmissionType = (EnumTransmissionType)(int)product.TransmissionType;
             productDTO.Price = product.Price;
             productDTO.Status = (EnumProductStatus)product.Status;
+            productDTO.Descriptions = product.Descriptions;
             productDTO.Rating = GenerateRaingOfProduct(product.Id);
             productDTO.CreatedDate = product.CreatedDate;
             productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
@@ -116,7 +118,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Images")] ProductDTO productDTO)
+        public ActionResult Create([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Descriptions,Images")] ProductDTO productDTO)
         {
             productDTO.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             productDTO.UpdatedDate = string.Empty;
@@ -145,6 +147,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 product.TransmissionType = (int?)productDTO.TransmissionType;
                 product.Price = productDTO.Price;
                 product.Status = (int)productDTO.Status;
+                product.Descriptions = productDTO.Descriptions;
                 product.CreatedDate = productDTO.CreatedDate;
                 product.UpdatedDate = productDTO.UpdatedDate;
                 db.Products.Add(product);
@@ -191,7 +194,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Images")] ProductDTO productDTO)
+        public ActionResult Edit([Bind(Include = "Id,ProductName,ProductType,Brand,YearOfManufacture,Seats,TransmissionType,Price,Status,Descriptions,Images")] ProductDTO productDTO)
         {
             productDTO.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             if (ModelState.IsValid)
@@ -220,6 +223,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 product.TransmissionType = (int?)productDTO.TransmissionType;
                 product.Price = productDTO.Price;
                 product.Status = (int)productDTO.Status;
+                product.Descriptions = productDTO.Descriptions;
                 product.UpdatedDate = productDTO.UpdatedDate;
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();

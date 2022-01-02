@@ -30,7 +30,6 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 ratingDTO.ProductName = db.Products.Find(item).ProductName;
                 ratingDTO.Image = db.Images.Where(i => i.ProductId == item).First().UrlImage.ToString();
                 ratingDTO.Rating = (int)(db.Ratings.Where(x => x.ProductId == item).Sum(x => x.Rating1))/(db.Ratings.Where(x => x.ProductId == item).Count());
-                
                 ratingDTOs.Add(ratingDTO);
             }
             return View(ratingDTOs.ToList());

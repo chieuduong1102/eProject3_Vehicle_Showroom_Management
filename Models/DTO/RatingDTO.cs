@@ -12,5 +12,6 @@ namespace eProject3_Vehicle_Showroom_Management.Models.DTO
         public string ProductName { get; set; }
         public int Rating { get; set; }
         public string Image { get; set; }
+        public string Comments { get; set; }
     }
 }

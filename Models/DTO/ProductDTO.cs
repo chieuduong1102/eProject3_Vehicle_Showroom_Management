@@ -19,6 +19,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models.DTO
         public EnumTransmissionType TransmissionType { get; set; }
         public decimal Price { get; set; }
         public EnumProductStatus Status { get; set; }
+        public string Descriptions { get; set; }
         public int? Rating { get; set; }
 
         public HttpPostedFileBase[] Images { get; set; }

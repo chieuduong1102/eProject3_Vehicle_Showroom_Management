@@ -19,7 +19,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public int ShowroomId { get; set; }
         public Nullable<int> Quantily { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Showroom Showroom { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -96,6 +96,17 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Descriptions, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-11">
+                        @Html.TextAreaFor(model => model.Descriptions, new { @class = "form-control", cols = "100", rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Descriptions, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="form-group">
                 @Html.Label("Upload Images", new { @class = "control-label col-md-2" })
                 <div class="col-md-6">

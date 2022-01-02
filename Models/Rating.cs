@@ -18,8 +18,9 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public int ProductId { get; set; }
         public Nullable<int> Rating1 { get; set; }
         public Nullable<int> OrderId { get; set; }
+        public string Comments { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }
