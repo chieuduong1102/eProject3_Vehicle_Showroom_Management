@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using eProject3_Vehicle_Showroom_Management.Constants;
 using eProject3_Vehicle_Showroom_Management.Models;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
@@ -41,6 +42,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         {
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "DepartmentName");
             ViewBag.ShowroomId = new SelectList(db.Showrooms, "Id", "ShowroomName");
+            ViewBag.Position = new SelectList(Enum.GetValues(typeof(EnumLevelEmployee)).OfType<Enum>().Select(x =>
+                    new SelectListItem
+                    {
+                        Text = Enum.GetName(typeof(EnumLevelEmployee), x),
+                        Value = (Convert.ToInt32(x)).ToString()
+                    }), "Value", "Text");
             return View();
         }
 
@@ -77,6 +84,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "DepartmentName", employee.DepartmentId);
             ViewBag.ShowroomId = new SelectList(db.Showrooms, "Id", "ShowroomName", employee.ShowroomId);
+            ViewBag.Position = new SelectList(Enum.GetValues(typeof(EnumLevelEmployee)).OfType<Enum>().Select(x =>
+                                    new SelectListItem
+                                    {
+                                    Text = Enum.GetName(typeof(EnumLevelEmployee), x),
+                                    Value = (Convert.ToInt32(x)).ToString()
+                                    }), "Value", "Text");
             return View(employee);
         }
 
@@ -95,6 +108,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             }
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "DepartmentName", employee.DepartmentId);
             ViewBag.ShowroomId = new SelectList(db.Showrooms, "Id", "ShowroomName", employee.ShowroomId);
+
             return View(employee);
         }
 

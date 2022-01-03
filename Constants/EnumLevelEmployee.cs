@@ -14,5 +14,11 @@ namespace eProject3_Vehicle_Showroom_Management.Constants
 
         [Display(Name = "Admin")]
         Admin = 2,
+
+        [Display(Name = "CEO")]
+        CEO = 3,
+
+        [Display(Name = "CoFounder")]
+        CoFounder = 4,
     }
 }

@@ -35,11 +35,6 @@
 }
 
 @functions{
-    String GenerateOrderId(int id)
-    {
-        return DateTime.Now.ToString("yyyyMMddHHmmss") + id;
-    }
-
     String GenerateStringOrderStatus(int status)
     {
         switch (status)
@@ -116,7 +111,7 @@
     {
         <tr>
             <td>
-                @GenerateOrderId(item.Id)
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Customer.Fullname)

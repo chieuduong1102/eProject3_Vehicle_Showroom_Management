@@ -18,7 +18,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
         {
             var listProduct = getProductList();
             ViewBag.listBrands = db.Brands.ToList();
-
+            ViewBag.ListCEO = db.Employees.Where(e => e.Position == (int)EnumLevelEmployee.CEO || e.Position == (int)EnumLevelEmployee.CoFounder).ToList();
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View(listProduct);
         }
 
@@ -55,10 +56,18 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             productDTO.Price = product.Price;
             productDTO.Status = (EnumProductStatus)product.Status;
             productDTO.Rating = GenerateRaingOfProduct(product.Id);
+            productDTO.Descriptions = product.Descriptions;
             productDTO.CreatedDate = product.CreatedDate;
             productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
             productDTO.UrlImages = db.Images.Where(x => x.ProductId == product.Id).Select(i => i.UrlImage).ToList();
 
+            ViewBag.ListRating = db.Ratings.Where(x => x.ProductId == id).ToList();
+            var listProductRelated = db.Products.Where(x => x.Brand.BrandName.Contains(productDTO.Brand)).ToList();
+            foreach(var item in listProductRelated)
+            {
+                item.Images = db.Images.Where(i => i.ProductId == item.Id).ToList();
+            }
+            ViewBag.ListProductRelated = listProductRelated.ToList();
             if (product == null)
             {
                 return RedirectToAction("Error");
@@ -85,7 +94,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public int GenerateRaingOfProduct(int id)
         {
-            return (int)db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList().Sum();
+            var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
+            return (int)listRating.Sum()/listRating.Count();
         }
 
         public List<ProductDTO> getProductList()
@@ -104,9 +114,10 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
                 productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
                 productDTO.Price = x.Price;
                 productDTO.Status = (EnumProductStatus)x.Status;
-                productDTO.Rating = GenerateRaingOfProduct(x.Id) * 20;
+                productDTO.Rating = GenerateRaingOfProduct(x.Id);
                 productDTO.CreatedDate = x.CreatedDate;
                 productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
+                productDTO.Descriptions = x.Descriptions;
                 productDTO.UrlImages = db.Images.Where(i => i.ProductId == x.Id).Select(a => a.UrlImage).ToList();
                 list.Add(productDTO);
             }

@@ -1,4 +1,9 @@
-﻿<header>
+﻿@{
+    var showRoomInfo = ViewBag.Showrooms;
+
+}
+
+<header>
     <div class="container">
         <div class="row">
             <div id="header">
@@ -10,7 +15,7 @@
                     </div>
                     <div class="header__nav">
                         <div class="header-banner">
-                            <div class="col-lg-6 col-xs-12 col-sm-6 col-md-6">
+                            <div class="col-lg-4 col-xs-12 col-sm-4 col-md-4">
                                 <div class="assetBlock">
                                     <div style="height: 20px; overflow: hidden;" id="slideshow">
                                         <p style="display: block;">Hot days! - <span>50%</span> Get ready for summer! </p>
@@ -18,7 +23,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-lg-6 col-xs-12 col-sm-6 col-md-6 call-us"><i class="fa fa-clock-o"></i> Mon - Fri : 09am to 06pm <i class="fa fa-phone"></i> +1 800 789 0000</div>
+                            <div class="col-lg-8 col-lg-8 col-xs-12 col-sm-8 col-md-8 call-us"><i class="fa fa-clock-o"></i> <span id="span-time-now"></span> <i class="fa fa-phone"></i> Hotline: @showRoomInfo[0].PhoneNumber - From: 08:00 To: 21:00</div>
                         </div>
                         <div class="fl-header-right">
                             <div class="fl-links">
@@ -133,3 +138,16 @@
         </div>
     </div>
 </header>
+
+<script>
+    function timeNow() {
+        setInterval(function () {
+            document.getElementById("span-time-now").innerHTML = getTimeNow();
+        }, 1000);
+    }
+    function getTimeNow() {
+        var dt = new Date();
+        return `${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')} 
+                ${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}`;
+    }
+</script>

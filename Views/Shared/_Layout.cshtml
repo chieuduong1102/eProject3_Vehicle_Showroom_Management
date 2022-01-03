@@ -23,7 +23,7 @@
     <link href="https://fonts.googleapis.com/css?family=Saira+Condensed:300,400,500,600,700,800" rel="stylesheet">
     <link href=”//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css” rel=”stylesheet”>
 </head>
-<body>
+<body onload="timeNow()">
     <!--page-->
     <div id="page">
         @Html.Partial("_Header");
@@ -37,7 +37,7 @@
     <div id="mobile-menu">
         @Html.Partial("_MobileMenu");
     </div>
-    <div id="fade" style="display: block;"></div>
+    @*<div id="fade" style="display: block;"></div>*@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

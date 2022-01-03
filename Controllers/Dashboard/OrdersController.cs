@@ -36,7 +36,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                orders = orders.Where(s => s.Id.Equals(DecodeOrderId(searchString)) || s.Customer.PhoneNumber.Contains(searchString)).ToList();
+                orders = orders.Where(s => s.Id.Equals(searchString) || s.Customer.PhoneNumber.Contains(searchString)).ToList();
             }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
@@ -126,11 +126,6 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private static int DecodeOrderId(string id)
-        {
-            return id.Length > 14 ? Int32.Parse(id.Substring(14)) : 0;
         }
     }
 }

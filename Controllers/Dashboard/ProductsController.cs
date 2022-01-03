@@ -202,6 +202,12 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 Product product = new Product();
                 if (productDTO.Images.Length > 0 && productDTO.Images.First() != null)
                 {
+                    if(db.Images.Where(x => x.ProductId == productDTO.Id).ToList().Count() > 0)
+                    {
+                        var list = db.Images.Where(i => i.ProductId == productDTO.Id).ToList();
+                        db.Images.RemoveRange(list);
+                    }
+
                     foreach (var file in productDTO.Images)
                     {
                         string _FileName = Path.GetFileName(file.FileName);
@@ -273,7 +279,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 
         public int GenerateRaingOfProduct(int id)
         {
-            return (int)db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList().Sum();
+            var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
+            return (int)listRating.Sum() / listRating.Count();
         }
 
         public List<string> GenerateImagesOfProduct(int id)

@@ -42,7 +42,7 @@
           <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Position" Type="int" />
           <Property Name="DepartmentId" Type="int" Nullable="false" />
           <Property Name="ShowroomId" Type="int" Nullable="false" />
         </EntityType>
@@ -371,23 +371,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Depart__3B75D760" FromRole="Department" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="ShowroomId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="Self.FK__Employee__Depart__3B75D760" FromRole="Employee" ToRole="Department" />
-          <NavigationProperty Name="Showroom" Relationship="Self.FK__Employee__Showro__3C69FB99" FromRole="Employee" ToRole="Showroom" />
+          <NavigationProperty Name="Employees" Relationship="eProject3Model.FK__Employee__Depart__3B75D760" FromRole="Department" ToRole="Employee" />
         </EntityType>
         <EntityType Name="ProductType">
           <Key>
@@ -407,8 +391,8 @@
           <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Hotline" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__Showro__3C69FB99" FromRole="Showroom" ToRole="Employee" />
           <NavigationProperty Name="Warehouses" Relationship="Self.FK__Warehouse__Showr__31EC6D26" FromRole="Showroom" ToRole="Warehouse" />
+          <NavigationProperty Name="Employees" Relationship="eProject3Model.FK__Employee__Showro__3C69FB99" FromRole="Showroom" ToRole="Employee" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -431,30 +415,6 @@
           <NavigationProperty Name="Showroom" Relationship="Self.FK__Warehouse__Showr__31EC6D26" FromRole="Warehouse" ToRole="Showroom" />
           <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Warehouse__Produ__30F848ED" FromRole="Warehouse" ToRole="Product" />
         </EntityType>
-        <Association Name="FK__Employee__Depart__3B75D760">
-          <End Role="Department" Type="Self.Department" Multiplicity="1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Employee__Showro__3C69FB99">
-          <End Role="Showroom" Type="Self.Showroom" Multiplicity="1" />
-          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Showroom">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="ShowroomId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Warehouse__Showr__31EC6D26">
           <End Role="Showroom" Type="Self.Showroom" Multiplicity="1" />
           <End Role="Warehouse" Type="Self.Warehouse" Multiplicity="*" />
@@ -470,19 +430,10 @@
         <EntityContainer Name="eProject3Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
-          <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="ProductTypes" EntityType="Self.ProductType" />
           <EntitySet Name="Showrooms" EntityType="Self.Showroom" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Warehouses" EntityType="Self.Warehouse" />
-          <AssociationSet Name="FK__Employee__Depart__3B75D760" Association="Self.FK__Employee__Depart__3B75D760">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Employee__Showro__3C69FB99" Association="Self.FK__Employee__Showro__3C69FB99">
-            <End Role="Showroom" EntitySet="Showrooms" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
           <AssociationSet Name="FK__Warehouse__Showr__31EC6D26" Association="Self.FK__Warehouse__Showr__31EC6D26">
             <End Role="Showroom" EntitySet="Showrooms" />
             <End Role="Warehouse" EntitySet="Warehouses" />
@@ -528,6 +479,15 @@
           <AssociationSet Name="FK__Warehouse__Produ__30F848ED" Association="eProject3Model.FK__Warehouse__Produ__30F848ED">
             <End Role="Product" EntitySet="Products" />
             <End Role="Warehouse" EntitySet="Warehouses" />
+          </AssociationSet>
+          <EntitySet Name="Employees" EntityType="eProject3Model.Employee" />
+          <AssociationSet Name="FK__Employee__Depart__3B75D760" Association="eProject3Model.FK__Employee__Depart__3B75D760">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__Showro__3C69FB99" Association="eProject3Model.FK__Employee__Showro__3C69FB99">
+            <End Role="Showroom" EntitySet="Showrooms" />
+            <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Brand">
@@ -719,6 +679,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fullname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="ShowroomId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="eProject3Model.FK__Employee__Depart__3B75D760" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Showroom" Relationship="eProject3Model.FK__Employee__Showro__3C69FB99" FromRole="Employee" ToRole="Showroom" />
+        </EntityType>
+        <Association Name="FK__Employee__Depart__3B75D760">
+          <End Type="eProject3Model.Department" Role="Department" Multiplicity="1" />
+          <End Type="eProject3Model.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__Showro__3C69FB99">
+          <End Type="eProject3Model.Showroom" Role="Showroom" Multiplicity="1" />
+          <End Type="eProject3Model.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Showroom">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ShowroomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -743,21 +743,6 @@
               <MappingFragment StoreEntitySet="Department">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="eProject3Model.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -870,6 +855,21 @@
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Rating1" ColumnName="Rating" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="eProject3Model.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

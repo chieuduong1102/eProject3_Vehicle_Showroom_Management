@@ -510,6 +510,7 @@
     <Content Include="Content\images\custom-img2.jpg" />
     <Content Include="Content\images\custom-img3.jpg" />
     <Content Include="Content\images\custom-img4.jpg" />
+    <Content Include="Content\images\default-user.png" />
     <Content Include="Content\images\english.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\francais.png" />

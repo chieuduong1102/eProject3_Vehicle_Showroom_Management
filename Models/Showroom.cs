@@ -17,8 +17,8 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Showroom()
         {
-            this.Employees = new HashSet<Employee>();
             this.Warehouses = new HashSet<Warehouse>();
+            this.Employees = new HashSet<Employee>();
         }
     
         public int Id { get; set; }
@@ -29,8 +29,8 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public string Hotline { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

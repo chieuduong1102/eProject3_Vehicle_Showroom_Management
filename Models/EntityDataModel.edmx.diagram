@@ -7,13 +7,10 @@
       <Diagram DiagramId="874a2eac4a6b41d09a3f559407c92dd9" Name="Diagram1">
         <EntityTypeShape EntityType="eProject3Model.Customer" Width="1.5" PointX="3.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="eProject3Model.Department" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="eProject3Model.Employee" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="eProject3Model.ProductType" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="eProject3Model.Showroom" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="eProject3Model.sysdiagram" Width="1.5" PointX="8.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="eProject3Model.Warehouse" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
-        <AssociationConnector Association="eProject3Model.FK__Employee__Depart__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="eProject3Model.FK__Employee__Showro__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="eProject3Model.FK__Warehouse__Showr__31EC6D26" ManuallyRouted="false" />
         <EntityTypeShape EntityType="eProject3Model.Brand" Width="1.5" PointX="0.75" PointY="6.125" />
         <EntityTypeShape EntityType="eProject3Model.Image" Width="1.5" PointX="5.25" PointY="5.125" />
@@ -30,6 +27,9 @@
         <AssociationConnector Association="eProject3Model.FK__Product__Product__286302EC" />
         <AssociationConnector Association="eProject3Model.FK__Rating__ProductI__5441852A" />
         <AssociationConnector Association="eProject3Model.FK__Warehouse__Produ__30F848ED" />
+        <EntityTypeShape EntityType="eProject3Model.Employee" Width="1.5" PointX="5.25" PointY="11.75" />
+        <AssociationConnector Association="eProject3Model.FK__Employee__Depart__3B75D760" />
+        <AssociationConnector Association="eProject3Model.FK__Employee__Showro__3C69FB99" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

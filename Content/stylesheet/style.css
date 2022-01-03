@@ -3651,9 +3651,9 @@ margin: 0 0;
 /* other */
 .other-info { border-top:1px #eaeaea solid; color:#777; padding-top:20px; margin-top:15px; font-family: 'Saira Condensed', sans-serif; font-size:15px; letter-spacing:0.5px}
 .other-info i {display:block; margin-bottom:5px; color:#ccc}
-.col-km {float:left; width:33.3%;}
-.col-engine {float:left; width:33.3%}
-.col-date {float:left; width:33.3%; font-size:14px}
+.col-km {float:left; width:25%;}
+.col-engine {float:left; width:25%}
+.col-date {float:left; width:25%; font-size:14px}
 
 
 /* Price */
