@@ -48,12 +48,12 @@ namespace eProject3_Vehicle_Showroom_Management.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Email cannot be null")]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password cannot be null")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -79,6 +79,17 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "Fullname")]
+        public string Fullname { get; set; }
+        [Required]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered phone format is not valid.")]
+        public string PhoneNumber { get; set; }
     }
 
     public class ResetPasswordViewModel

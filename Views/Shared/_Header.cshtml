@@ -42,8 +42,22 @@
                                         </div>
                                         <h3>My Acount</h3>
                                         <ul class="links">
-                                            <li><a href="/LoginClient" title="My Account">Login</a></li>
-                                            <li><a href="/RegisterClient" title="Wishlist">Register</a></li>
+                                            @if (HttpContext.Current.Session["Customer"] == null && Request.Cookies["Email"] == null)
+                                            {
+                                                <li><a href="/LoginClient" title="My Account">Login</a></li>
+                                                <li><a href="/RegisterClient" title="Wishlist">Register</a></li>
+                                            }
+                                            else if (HttpContext.Current.Session["Customer"] != null)
+                                            {
+                                                <li>Hello @Session["Customer"].ToString()</li>
+                                                <li>@Html.ActionLink("Log out", "Logout", "LoginClient")</li>
+                                            }
+                                            else if (Request.Cookies["Email"] != null)
+                                            {
+                                                <li>Hello Cookie @Request.Cookies["Email"].Value</li>
+                                                <li>@Html.ActionLink("Log out", "Logout", "LoginClient")</li>
+                                            }
+
                                         </ul>
                                     </div>
                                 </div>

@@ -1,8 +1,109 @@
-﻿
+﻿@model eProject3_Vehicle_Showroom_Management.Models.RegisterViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="main-container col1-layout wow bounceInUp animated animated" style="visibility: visible;">
 
+    <div class="main">
+        <div class="account-login container">
+            <!--page-title-->
+            @*<form action="#" method="post" id="login-form">*@
+
+            @using (Html.BeginForm("Index", "RegisterClient", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input name="form_key" type="hidden" value="EPYwQxF6xoWcjLUr">
+                <fieldset class="col2-set">
+                    <div class="col-2 col-md-offset-3 registered-users" style="float: none">
+                        <strong>Registers</strong>
+                        <div class="content">
+                            <p>If you have an account with us, please log in.</p>
+                            @if (TempData["message"] != null && !string.IsNullOrWhiteSpace(TempData["message"].ToString()))
+                            {
+                                <div class="alert alert-danger text-center mb-0" role="alert" id="mes" name="mes">
+                                    @TempData["message"].ToString()
+                                </div>
+                                <script type="text/javascript">
+                                    setTimeout(function () { $('#mes').fadeOut("slow"); }, 3000)
+                                </script>
+                            }
+                        <ul class="form-list">
+                            <li>
+                                <label for="email">Email Address<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.TextBoxFor(a => a.Email, new { @type = "text", @class = "input-text required-entry validate-email", @title = "Email Address" })
+                                    @Html.ValidationMessageFor(a => a.Email,"", new { @class = "badge", @style = "background-color:red" })
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass">Fullname<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.TextBoxFor(a => a.Fullname, new { @class = "input-text required-entry validate-password", @title = "Password" })
+                                    @Html.ValidationMessageFor(a => a.Fullname, null, new { @class = "badge", @style = "background-color:red"})
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass">Phone number<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.TextBoxFor(a => a.PhoneNumber, new { @class = "input-text required-entry validate-password", @title = "Password" })
+                                    @Html.ValidationMessageFor(a => a.PhoneNumber, null, new { @class = "badge badge-danger", @style = "background-color:red" })
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass">Address<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.TextBoxFor(a => a.Address, new { @class = "input-text required-entry validate-password", @title = "Password" })
+                                    @Html.ValidationMessageFor(a => a.Address, null, new { @class = "badge", @style = "background-color:red" })
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass">Password<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.PasswordFor(a => a.Password, new { @class = "input-text required-entry validate-password", @title = "Password" })
+                                    @Html.ValidationMessageFor(a => a.Password, null, new { @class = "badge", @style = "background-color:red" })
+                                </div>
+                            </li>
+                            <li>
+                                <label for="pass">Confirm password<em class="required">*</em></label>
+                                <div class="input-box">
+                                    @Html.PasswordFor(a => a.ConfirmPassword, new { @class = "input-text required-entry validate-password", @title = "Password" })
+                                    @Html.ValidationMessageFor(a => a.ConfirmPassword, null, new { @class = "badge", @style = "background-color:red" })
+                                </div>
+                            </li>
+                        </ul>
+                            <div class="remember-me-popup">
+                                <div class="remember-me-popup-head" style="display:none">
+                                    <h3 id="text2">What's this?</h3>
+                                    <a href="#" class="remember-me-popup-close" onClick="showDiv()" title="Close">Close</a>
+                                </div>
+                                <div class="remember-me-popup-body" style="display:none">
+                                    <p id="text1">Checking "Remember Me" will let you access your shopping cart on this computer when you are logged out</p>
+                                    <div class="remember-me-popup-close-button a-right">
+                                        <a href="#" class="remember-me-popup-close button" title="Close" onClick="
+            showDiv()"><span>Close</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p class="required">* Required Fields</p>
+
+
+
+                            <div class="buttons-set">
+
+                                <button type="submit" class="button login" title="Login" name="send" id="send2"><span>Register</span></button>
+
+                            </div> <!--buttons-set-->
+                        </div> <!--content-->
+                    </div> <!--col-2 registered-users-->
+                </fieldset> <!--col2-set-->
+            }
+            @*</form>*@
+
+        </div> <!--account-login-->
+
+    </div><!--main-container-->
+
+</div> <!--col1-layout-->

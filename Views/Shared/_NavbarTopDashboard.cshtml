@@ -112,7 +112,7 @@
                     <img src="~/Content/Dashboard/images/users/avatar-1.jpg" alt="user-image" class="rounded-circle">
                 </span>
                 <span>
-                    <span class="account-user-name">duongph</span>
+                    <span class="account-user-name">@Session["Admin"]</span>
                     <span class="account-position">Founder</span>
                 </span>
             </a>
@@ -147,7 +147,7 @@
                 </a>
 
                 <!-- item-->
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                <a href="@Url.Action("Logout","LoginAdmin")" class="dropdown-item notify-item">
                     <i class="mdi mdi-logout me-1"></i>
                     <span>Logout</span>
                 </a>

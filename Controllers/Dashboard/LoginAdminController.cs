@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using eProject3_Vehicle_Showroom_Management.Extensions;
+using eProject3_Vehicle_Showroom_Management.Models;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
@@ -12,6 +14,38 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(LoginViewModel emp)
+        {
+            if (ModelState.IsValid)
+            {
+                using(eProject3Entities db = new eProject3Entities())
+                {
+                    string password = Extension.GetMD5(Extension.GetSHA(emp.Password));
+                    var employee = db.Employees.Where(x => x.Email.Equals(emp.Email) && x.Password.Equals(password)).FirstOrDefault();
+                    if(employee != null)
+                    {
+                        Session["Admin"] = employee.Fullname;
+                        return RedirectToAction("Index","Dashboard");
+                    }
+                    else
+                    {
+                        TempData["message"] = "Incorrect username or password";
+                        return View(emp);
+                    }
+                }
+            }
+            return View(emp);
+        }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Session["Admin"] = null;
+            return RedirectToAction("Index", "LoginAdmin");
         }
 
         // GET: LoginAdmin/Details/5
