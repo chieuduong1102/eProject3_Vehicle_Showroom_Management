@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using eProject3_Vehicle_Showroom_Management.Models;
+using eProject3_Vehicle_Showroom_Management.Extensions;
+using System.Web.Security;
+using System.Text;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
 {
@@ -12,6 +16,59 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(LoginViewModel cus)
+        {
+            if (ModelState.IsValid)
+            {
+                using (eProject3Entities db = new eProject3Entities())
+                {
+                    string password = Extension.GetMD5(Extension.GetSHA(cus.Password));
+                    var customer = db.Customers.Where(x => x.Email.Equals(cus.Email) && x.Password.Equals(password)).FirstOrDefault();
+                    if (customer != null)
+                    {
+                        if (!cus.RememberMe)
+                        {
+                            Session["Customer"] = customer.Email;
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            Session["Customer"] = customer.Email;
+                            string email = customer.Email;
+                            //byte[] data = MachineKey.Protect(Encoding.UTF8.GetBytes("ok"), "a token");
+                            //String CookieVal = Extension.FromBytesToBase64(data);
+                            HttpCookie cookie = new HttpCookie("Email")
+                            {
+                                Value = email,
+                                Expires = DateTime.Now.AddMinutes(1)
+                            };
+                            HttpContext.Response.Cookies.Add(cookie);
+                            //string username = Encoding.UTF8.GetString(MachineKey.Unprotect(Request.Cookies(cookieName).Value.FromBase64ToBytes, "a token"));
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        TempData["message"] = "Incorrect username or password";
+                        return View(cus);
+                    }
+                }
+            }
+            return View(cus);
+        }
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Session["Customer"] = null;
+            if (Request.Cookies["Email"] != null)
+            {
+                Response.Cookies["Email"].Expires = DateTime.Now.AddDays(-1);
+            }
+            return RedirectToAction("Index", "LoginClient");
         }
 
         // GET: LoginClient/Details/5

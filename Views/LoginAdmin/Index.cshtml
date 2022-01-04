@@ -1,4 +1,4 @@
-﻿
+﻿@model eProject3_Vehicle_Showroom_Management.Models.LoginViewModel
 @{
     Layout = null;
 }
@@ -32,29 +32,42 @@
                             </a>
                         </div>
 
+                        @if (TempData["message"] != null && !string.IsNullOrWhiteSpace(TempData["message"].ToString()))
+                        {
+                            <div class="alert alert-danger text-center mb-0" role="alert" id="mes" name="mes">
+                                @TempData["message"].ToString()
+                                <script type="text/javascript">
+                                    setTimeout(function () { $('#mes').fadeOut("slow"); }, 3000)
+                                </script>
+                            </div>
+                        }
                         <div class="card-body p-4">
-
                             <div class="text-center w-75 m-auto">
                                 <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
                                 <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
                             </div>
 
-                            <form action="#">
-
+                            @using (Html.BeginForm("Index", "LoginAdmin", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
                                 <div class="mb-3">
                                     <label for="emailaddress" class="form-label">Email address</label>
-                                    <input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">
+                                    @*<input class="form-control" type="email" id="emailaddress" required="" placeholder="Enter your email">*@
+                                    @Html.TextBoxFor(a => a.Email, new { @type = "email", @class = "form-control", @placeholder = "Enter your email" })
+                                    @Html.ValidationMessageFor(a => a.Email, null, new { @class = "badge", @style = "background-color:red" })
                                 </div>
 
                                 <div class="mb-3">
                                     <a href="pages-recoverpw.html" class="text-muted float-end"><small>Forgot your password?</small></a>
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                                        @*<input type="password" id="password" class="form-control" placeholder="Enter your password">*@
+                                        @Html.PasswordFor(a => a.Password, new { @class = "form-control", @placeholder = "Enter your password" })
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>
                                     </div>
+                                    @Html.ValidationMessageFor(a => a.Password,null, new { @class = "badge", @style = "background-color:red" })
                                 </div>
 
                                 <div class="mb-3 mb-3">
@@ -67,8 +80,8 @@
                                 <div class="mb-3 mb-0 text-center">
                                     <button class="btn btn-primary" type="submit"> Log In </button>
                                 </div>
+                            }
 
-                            </form>
                         </div> <!-- end card-body -->
                     </div>
                     <!-- end card -->
