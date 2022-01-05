@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using eProject3_Vehicle_Showroom_Management.Extensions;
 using eProject3_Vehicle_Showroom_Management.Models;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
 {
+    [IsAdminAttribute]
     public class CustomersController : Controller
     {
         private eProject3Entities db = new eProject3Entities();

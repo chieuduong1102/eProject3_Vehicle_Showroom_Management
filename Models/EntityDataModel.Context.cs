@@ -36,7 +36,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Rating> Ratings { get; set; }
     }
 }

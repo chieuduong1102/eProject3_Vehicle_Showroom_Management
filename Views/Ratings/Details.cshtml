@@ -12,6 +12,9 @@
             @Html.DisplayNameFor(model => model.OrderId)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Customer.Fullname)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ProductId)
         </th>
         <th>
@@ -30,6 +33,9 @@
 <tr>
     <td>
         @Html.DisplayFor(modelItem => item.OrderId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Customer.Fullname)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.ProductId)
