@@ -280,7 +280,10 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         public int GenerateRaingOfProduct(int id)
         {
             var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
-            return (int)listRating.Sum() / listRating.Count();
+            if (listRating.Count > 0) { 
+                return (int)listRating.Sum() / listRating.Count();
+            }
+            return 0;
         }
 
         public List<string> GenerateImagesOfProduct(int id)

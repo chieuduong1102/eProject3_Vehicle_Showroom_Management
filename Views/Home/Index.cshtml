@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.DTO.ProductDTO>
-
+@using eProject3_Vehicle_Showroom_Management.Constants
 @{
     ViewBag.Title = "Home Page";
     var listBrands = ViewBag.listBrands;
     var listAdmins = ViewBag.ListCEO;
+    var listCarsTop5 = Model.Where(x => x.ProductType.Contains("Car")).OrderByDescending(x => x.YearOfManufacture).Take(5);
+    var minPriceCar = Model.Where(x => x.ProductType.Contains("Car")).OrderBy(c => c.Price).Select(p => p.Price).FirstOrDefault();
+    var maxPriceCar = Model.Where(x => x.ProductType.Contains("Car")).OrderBy(c => c.Price).Select(p => p.Price).LastOrDefault();
 }
 <div class="container-fluid content">
     <div class="container-fluid">
@@ -61,35 +64,39 @@
 <div class="section-filter">
     <div class="b-filter__inner bg-grey container">
         <h2>Find your right car</h2>
-        <form class="b-filter">
+        <form class="b-filter" action="/Home/ListProduct?">
             <div class="btn-group bootstrap-select">
-                <select class="selectpicker" data-width="100%" tabindex="-98">
-                    <option hidden>Select Branch</option>
-                    <option>Make 1</option>
-                    <option>Make 2</option>
-                    <option>Make 3</option>
+                <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
+                    <option hidden>-Select Branch-</option>
+                    @foreach (var item in listBrands)
+                    {
+                        <option>@item.BrandName</option>
+                    }
                 </select>
             </div>
             <div class="btn-group bootstrap-select">
-                <select class="selectpicker" data-width="100%" tabindex="-98">
-                    <option>Select Car Status</option>
-                    <option>Status 1</option>
-                    <option>Status 2</option>
-                    <option>Status 3</option>
+                <select class="selectpicker" name="transmissionType" data-width="100%" tabindex="-98">
+                    <option>-Select Tranmission Type-</option>
+                    @foreach (var item in Enum.GetValues(typeof(EnumTransmissionType)))
+                    {
+                        <option>@item</option>
+                    }
                 </select>
             </div>
             <div class="ui-filter-slider">
                 <div class="sidebar-widget-body m-t-10">
                     <div class="price-range-holder">
-                        <span class="min-max"> <span class="pull-left">$200.00</span> <span class="pull-right">$800.00</span> </span>
-                        <input type="text" class="price-slider" value="" style="display:block">
+                        <span class="min-max"> <span class="pull-left">@minPriceCar</span> <span class="pull-right">@maxPriceCar</span> </span>
+                        <input type="text" class="price-slider" name="priceCar" value="@minPriceCar, @maxPriceCar" style="display:block">
+                        <input type="hidden" id="minPriceCarHidden" value="@minPriceCar" />
+                        <input type="hidden" id="maxPriceCarHidden" value="@maxPriceCar" />
                     </div>
                     <!-- /.price-range-holder -->
                 </div>
             </div>
             <div>
-                <div class="b-filter__btns">
-                    <button class="btn btn-lg btn-primary">search vehicle</button>
+                <div class="b-filter__btns" style="z-index: 3;">
+                    <button class="btn btn-lg btn-primary" type="submit">search vehicle</button>
                 </div>
             </div>
         </form>
@@ -117,7 +124,7 @@
         </div>
         <div id="hot_deals" class="product-flexslider hidden-buttons">
             <div class="slider-items slider-width-col4 products-grid">
-                @foreach (var item in Model)
+                @foreach (var item in listCarsTop5)
                 {
                     <div class="item">
                         <div class="item-inner">
