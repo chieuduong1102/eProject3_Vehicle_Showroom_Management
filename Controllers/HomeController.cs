@@ -58,7 +58,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             productDTO.TransmissionType = (EnumTransmissionType)(int)product.TransmissionType;
             productDTO.Price = product.Price;
             productDTO.Status = (EnumProductStatus)product.Status;
-            productDTO.Rating = GenerateRaingOfProduct(product.Id);
+            productDTO.Rating = GenerateRatingOfProduct(product.Id);
             productDTO.Descriptions = product.Descriptions;
             productDTO.CreatedDate = product.CreatedDate;
             productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
@@ -75,7 +75,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             {
                 return RedirectToAction("Error");
             }
-
+            ViewBag.ProductId = product.Id;
             return View(productDTO);
         }
 
@@ -104,7 +104,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return View(listProduct);
         }
 
-        public int GenerateRaingOfProduct(int id)
+        public int GenerateRatingOfProduct(int id)
         {
             var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
             if (listRating.Count > 0)
@@ -130,7 +130,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
                 productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
                 productDTO.Price = x.Price;
                 productDTO.Status = (EnumProductStatus)x.Status;
-                productDTO.Rating = GenerateRaingOfProduct(x.Id);
+                productDTO.Rating = GenerateRatingOfProduct(x.Id);
                 productDTO.CreatedDate = x.CreatedDate;
                 productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
                 productDTO.Descriptions = x.Descriptions;

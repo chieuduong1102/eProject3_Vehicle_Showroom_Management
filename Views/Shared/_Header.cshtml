@@ -54,7 +54,7 @@
                                             }
                                             else if (Request.Cookies["Email"] != null)
                                             {
-                                                <li>Hello Cookie @Request.Cookies["Email"].Value</li>
+                                                <li>Hello @Request.Cookies["Email"].Value</li>
                                                 <li>@Html.ActionLink("Log out", "Logout", "LoginClient")</li>
                                             }
 
