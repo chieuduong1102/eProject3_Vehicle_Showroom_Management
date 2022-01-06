@@ -3,9 +3,12 @@ using eProject3_Vehicle_Showroom_Management.Models;
 using eProject3_Vehicle_Showroom_Management.Models.DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers
 {
@@ -86,17 +89,28 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return View();
         }
 
-        public ActionResult ListProduct()
+        public ActionResult ListProduct(string brand, string transmissionType, string priceCar)
         {
             var listProduct = getProductList();
+            if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(transmissionType) && !string.IsNullOrEmpty(priceCar))
+            {
+                var minPrice = Int32.Parse(priceCar.Split(',')[0]);
+                var maxPrice = Int32.Parse(priceCar.Split(',')[1]);
+                var listProductFiltered = listProduct.Where(x => x.Brand.Contains(brand) 
+                                            && x.TransmissionType.GetDisplayName().Contains(transmissionType) 
+                                                    && x.Price >= minPrice && x.Price <= maxPrice).ToList();
+                return View(listProductFiltered);
+            }
             return View(listProduct);
         }
 
         public int GenerateRatingOfProduct(int id)
         {
             var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
-            if(listRating.Count>0)
-                return (int)listRating.Sum()/listRating.Count();
+            if (listRating.Count > 0)
+            {
+                return (int)listRating.Sum() / listRating.Count();
+            }
             return 0;
         }
 
@@ -125,6 +139,17 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             }
 
             return list;
+        }
+    }
+    public static class EnumExtensions
+    {
+        public static string GetDisplayName(this Enum enumValue)
+        {
+            return enumValue.GetType()
+              .GetMember(enumValue.ToString())
+              .First()
+              .GetCustomAttribute<DisplayAttribute>()
+              ?.GetName();
         }
     }
 }

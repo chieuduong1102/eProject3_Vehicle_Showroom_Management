@@ -37,7 +37,7 @@
     <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Position" Type="int" />
     <Property Name="DepartmentId" Type="int" Nullable="false" />
     <Property Name="ShowroomId" Type="int" Nullable="false" />
   </EntityType>
@@ -87,6 +87,7 @@
     <Property Name="Status" Type="int" Nullable="false" />
     <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
     <Property Name="UpdatedDate" Type="varchar" MaxLength="50" />
+    <Property Name="Descriptions" Type="text" />
   </EntityType>
   <EntityType Name="ProductType">
     <Key>
@@ -103,6 +104,8 @@
     <Property Name="ProductId" Type="int" Nullable="false" />
     <Property Name="Rating" Type="int" />
     <Property Name="OrderId" Type="int" />
+    <Property Name="Comments" Type="text" />
+    <Property Name="CustomerId" Type="int" />
   </EntityType>
   <EntityType Name="Showroom">
     <Key>
@@ -230,6 +233,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Rating__Customer__5CD6CB2B">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rating">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Rating__OrderId__5AEE82B9">
     <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
     <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -323,6 +338,10 @@
     <AssociationSet Name="FK__Product__Product__286302EC" Association="Self.FK__Product__Product__286302EC">
       <End Role="ProductType" EntitySet="ProductType" />
       <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rating__Customer__5CD6CB2B" Association="Self.FK__Rating__Customer__5CD6CB2B">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Rating" EntitySet="Rating" />
     </AssociationSet>
     <AssociationSet Name="FK__Rating__OrderId__5AEE82B9" Association="Self.FK__Rating__OrderId__5AEE82B9">
       <End Role="Order" EntitySet="Order" />

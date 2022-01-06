@@ -19,17 +19,18 @@
         <AssociationConnector Association="eProject3Model.FK__Order__CustomerI__3F466844" />
         <AssociationConnector Association="eProject3Model.FK__OrderDeta__Order__4222D4EF" />
         <EntityTypeShape EntityType="eProject3Model.Product" Width="1.5" PointX="3" PointY="5.375" />
-        <EntityTypeShape EntityType="eProject3Model.Rating" Width="1.5" PointX="8.25" PointY="7.25" />
         <AssociationConnector Association="eProject3Model.FK__Product__BrandId__29572725" />
         <AssociationConnector Association="eProject3Model.FK__Image__ProductId__2C3393D0" />
-        <AssociationConnector Association="eProject3Model.FK__Rating__OrderId__5AEE82B9" />
         <AssociationConnector Association="eProject3Model.FK__OrderDeta__Produ__4316F928" />
         <AssociationConnector Association="eProject3Model.FK__Product__Product__286302EC" />
-        <AssociationConnector Association="eProject3Model.FK__Rating__ProductI__5441852A" />
         <AssociationConnector Association="eProject3Model.FK__Warehouse__Produ__30F848ED" />
         <EntityTypeShape EntityType="eProject3Model.Employee" Width="1.5" PointX="5.25" PointY="11.75" />
         <AssociationConnector Association="eProject3Model.FK__Employee__Depart__3B75D760" />
         <AssociationConnector Association="eProject3Model.FK__Employee__Showro__3C69FB99" />
+        <EntityTypeShape EntityType="eProject3Model.Rating" Width="1.5" PointX="11.25" PointY="4.125" />
+        <AssociationConnector Association="eProject3Model.FK__Rating__Customer__5CD6CB2B" />
+        <AssociationConnector Association="eProject3Model.FK__Rating__OrderId__5AEE82B9" />
+        <AssociationConnector Association="eProject3Model.FK__Rating__ProductI__5441852A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

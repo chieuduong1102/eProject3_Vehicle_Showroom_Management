@@ -135,12 +135,14 @@ jQuery(document).ready(function() {
 jQuery(function () {
 
 // Price Slider
-if (jQuery('.price-slider').length > 0) {
+    if (jQuery('.price-slider').length > 0) {
+        let minPrice = parseInt($("#minPriceCarHidden").val());
+        let maxPrice = parseInt($("#maxPriceCarHidden").val());
     jQuery('.price-slider').slider({
-        min: 100,
-        max: 800,
+        min: minPrice,
+        max: maxPrice,
         step: 10,
-        value: [200, 500],
+        value: [minPrice, maxPrice],
         handle: "square",
 		prefix: "£"
 
