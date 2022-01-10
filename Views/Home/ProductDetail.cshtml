@@ -11,6 +11,13 @@
     .content {
         display: none;
     }
+
+    #loadMore {
+        text-align: center;
+        font-weight: 700;
+        animation: blur .75s ease-out;
+        text-shadow: 0px 0px 5px #fff, 0px 0px 7px #fff;
+    }
 </style>
 <div class="page-heading">
     <div class="breadcrumbs">
@@ -178,19 +185,25 @@
                                                                 <span class="fa fa-star rating-checked" style="color: #f1c40f; font-size: 15px;"></span>
                                                             }
                                                         </div>
-                                                        <p class="meta" style="margin:0"> <strong >@comment.Customer.Fullname</strong> </p>
-                                                        @*<span>–</span> @comment.Order.CreatedDate </p>*@
-                                                    <div class="description">
-                                                        <p class="text-secondary" style="margin:0; font-size:12px">@comment.CreatedDate</p>
-                                                        <p >@comment.Comments</p>
-                                                    </div>
+                                                        <p class="meta" style="margin:0"> <strong>@comment.Customer.Fullname</strong> </p>
+                                                        <div class="description">
+                                                            <p class="text-secondary" style="margin:0; font-size:12px">@comment.CreatedDate</p>
+                                                            <p>@comment.Comments</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>
                                         </ol>
                                     }
                                 </div>
-                                <a href="#" id="loadMore"> Load More </a>
+                                @if (countRatings > 4)
+                                {
+                                    <a href="#" id="loadMore" style="display:block; text-decoration:none">Load more comments</a>
+                                }
+                                else
+                                {
+                                    <a href="#" id="loadMore" style="display:none; text-decoration:none">Load more comments</a>
+                                }
                                 <div>
                                     <div>
                                         <div class="comment-respond">
@@ -205,14 +218,6 @@
                                                     <label>Your review <span class="required">*</span></label>
                                                     <textarea id="comment" name="comment" cols="45" rows="8" required></textarea>
                                                 </p>
-                                                @*<p class="comment-form-author">
-                                                        <label for="author">Name <span class="required">*</span></label>
-                                                        <input id="author" name="author" type="text" value="" size="30" required>
-                                                    </p>
-                                                    <p class="comment-form-email">
-                                                        <label for="email">Email <span class="required">*</span></label>
-                                                        <input id="email" name="email" type="email" value="" size="30" required>
-                                                    </p>*@
                                                 <p class="form-submit">
                                                     <input name="submit" type="button" id="submit" class="submit" value="Submit">
                                                 </p>
@@ -296,7 +301,7 @@
                                             <div class="item-inner">
                                                 <div class="item-img">
                                                     <div class="item-img-info">
-                                                        <a href="Home/ProductDetail/@item.Id" title="@item.ProductName" class="product-image"><img src="@("data:image;base64,"+@item.Images[0].UrlImage)" alt="@item.ProductName"></a>
+                                                        <a href="/Home/ProductDetail/@item.Id" title="@item.ProductName" class="product-image"><img src="@("data:image;base64,"+@item.Images[0].UrlImage)" alt="@item.ProductName"></a>
                                                         <div class="new-label new-top-left">Used</div>
                                                         <div class="sale-label sale-top-left">-15%</div>
                                                         <div class="item-box-hover">
@@ -341,7 +346,6 @@
                         </div>
                     </div>
                     <!-- end related product -->
-
                 </div>
                 <!-- end related product -->
             </div>
@@ -355,9 +359,9 @@
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="text/javascript">
-
-        var rating;
+        var rating = 0;
         var productId = '@ViewBag.ProductId';
         $(document).ready(function () {
             $(".rating_star").click(function () {
@@ -368,6 +372,10 @@
             });
 
             $("#submit").click(function () {
+                if (rating == 0) {
+                    ShowAlert('Missing information !!!', 'You must choose rating from 1-5', 'warning')
+                    return;
+                }
                 var comment = $("#comment").val();
                 //alert(comment+ rating);
                 var obj = {
@@ -376,7 +384,6 @@
                     ProductId: productId
                 };
                 //console.log(obj);
-                
                 $.ajax({
                     url: '/Ratings/AddNewRating',
                     type: 'POST',
@@ -394,28 +401,31 @@
                         for (var i = 0; i < rating; i++) {
                             star += '<span class="fa fa-star rating-checked" style="color: #f1c40f; font-size: 15px;"></span>';
                         }
-                        var new_cmt = `<ol class="commentlist">
-                                            <li class="comment">
-                                                <div>
-                                                    <img alt="" src="/Content/images/member1.png" class="avatar avatar-60 photo">
-                                                    <div class="comment-text">
-                                                        <div class="ratings">`
-                            + star +
-                            `</div>
-                                                        <p class="meta"> <strong>You</strong> </p>
-                                                        <div class="description">
-                                                            <p>`+ comment + `</p>
-                                                        </div>
+                        var new_cmt = `<ol class="commentlist content" style = "display:block">
+                                        <li class="comment">
+                                            <div>
+                                                <img alt="" src="/Content/images/member1.png" class="avatar avatar-60 photo">
+                                                <div class="comment-text">
+                                                    <div class="ratings">`
+                                                    + star +
+                                                    `</div>
+                                                    <p class="meta" style="margin:0"> <strong>You</strong> </p>
+                                                    <div class="description">
+                                                        <p class="text-secondary" style="margin:0; font-size:12px">`+ moment().format('DD/MM/YYYY HH:mm:ss') + `</p>
+                                                        <p>`+ comment + `</p>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        </ol>`;
-                        if ($('.feedback_custom').children().length == 4) {
-                            $('.feedback_custom').prepend(new_cmt);
-                            $('.feedback_custom').children().last().remove();
-                        } else {
-                            $('.feedback_custom').prepend(new_cmt);
+                                            </div>
+                                        </li>
+                                    </ol>`;
+                        $('.feedback_custom').prepend(new_cmt);
+                        $("#comment").val("");
+                        $(".rating_star").css('color', '');
+                        var count = $(".feedback_custom").children(".commentlist").length;
+                        if (count > 4) {
+                            $('a#loadMore').css("display", 'block').text("Show less").addClass("noContent");;
                         }
+                        rating = 0;
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         //alert(msg.responseText);
@@ -442,14 +452,29 @@
             $(".content").slice(0, 4).show();
             $("#loadMore").on("click", function (e) {
                 e.preventDefault();
-                $(".content:hidden").slice(0, 4).slideDown();
-                if ($(".content:hidden").length == 0) {
-                    $("#loadMore").text("No Content").addClass("noContent");
+                //console.log($(this).text());
+                if ($(this).text() == "Load more comments") {
+                    $(".content:hidden").slice(0, 4).slideDown();
+                    if ($(".content:hidden").length == 0) {
+                        $("#loadMore").text("Show less").addClass("noContent");
+                    }
+                } else {
+
+                    var count = $(".feedback_custom").children(".commentlist").length;
+                    //console.log(count);
+                    //console.log($(".feedback_custom").children(".commentlist"));
+                    $(".content").slice(4, count).slideUp();
+                    $("#loadMore").text("Load more comments").removeClass("noContent");
                 }
             });
         });
-
+        function ShowAlert(title, text, icon) {
+            Swal.fire({
+                title: title
+                , text: text
+                , icon: icon
+            });
+        }
     </script>
-
 }
 
