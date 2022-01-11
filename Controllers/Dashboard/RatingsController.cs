@@ -50,7 +50,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
                 ProductId = r.ProductId,
                 Rating1 = r.Rating,
                 Comments = r.Comments,
-                CustomerId = customer_id
+                CustomerId = customer_id,
+                CreatedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
             };
             db.Ratings.Add(rating);
             db.SaveChanges();
