@@ -138,18 +138,27 @@ jQuery(function () {
     if (jQuery('.price-slider').length > 0) {
         let minPrice = parseInt($("#minPriceCarHidden").val());
         let maxPrice = parseInt($("#maxPriceCarHidden").val());
-    jQuery('.price-slider').slider({
-        min: minPrice,
-        max: maxPrice,
-        step: 10,
-        value: [minPrice, maxPrice],
-        handle: "square",
-		prefix: "£"
+        let minAPrice = parseInt($("#minPriceAccessoriesHidden").val());
+        let maxAPrice = parseInt($("#maxPriceAccessoriesHidden").val());
+        jQuery('.price-slider').slider({
+            min: minPrice,
+            max: maxPrice,
+            step: 10,
+            value: [minPrice, maxPrice],
+            handle: "square",
+            prefix: "£"
 
-    });
+        });
+        jQuery('.price-accessories-slider').slider({
+            min: minAPrice,
+            max: maxAPrice,
+            step: 10,
+            value: [minAPrice, maxAPrice],
+            handle: "square",
+            prefix: "£"
 
-}
-
+        });
+    }
 });
 
 

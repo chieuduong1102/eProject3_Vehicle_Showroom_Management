@@ -1,6 +1,5 @@
 ﻿@{
     var showRoomInfo = ViewBag.Showrooms;
-
 }
 
 <header>
@@ -127,10 +126,10 @@
                                     <ul id="nav" class="hidden-xs">
                                         <li class="active"> <a class="level-top" href="@Url.Action("Index", "Home")"><span>Home</span></a></li>
                                         <li class="level0 parent drop-menu">
-                                            <a class="level-top" href="@Url.Action("ListProduct", "Home")"><span>Shop</span></a>
+                                            <a class="level-top" href="@Url.Action("ListProduct/Car", "Home")"><span>Car</span></a>
                                         </li>
                                         <li class="level0 parent drop-menu">
-                                            <a class="level-top" href="@Url.Action("ListProduct", "Home")"><span>Accessories</span></a>
+                                            <a class="level-top" href="@Url.Action("ListProduct/Accessories", "Home")"><span>Accessories</span></a>
                                         </li>
                                         <li class="mega-menu hidden-sm">
                                             <a class="level-top" href="@Url.Action("Contact", "Home")"><span>Contact‎</span></a>

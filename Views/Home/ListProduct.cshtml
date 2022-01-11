@@ -1,6 +1,16 @@
 ﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.DTO.ProductDTO>
+    @using eProject3_Vehicle_Showroom_Management.Constants
 @{
     ViewBag.Title = "ListProduct";
+    ViewBag.Title = "Home Page";
+    var listBrands = ViewBag.listBrands;
+    var listCarsTop5 = Model.Where(x => x.ProductType.Contains("Car")).OrderByDescending(x => x.YearOfManufacture).Take(5);
+    var minPriceCar = ViewBag.minPriceCar;
+    var maxPriceCar = ViewBag.maxPriceCar;
+    var minPriceAccessories = ViewBag.minPriceAccessories;
+    var maxPriceAccessories = ViewBag.maxPriceAccessories;
+    var urlCurrent = Request.Url.ToString();
+    var notifyNoResult = ViewBag.NoResult;
 }
 
 <!--breadcrumbs-->
@@ -18,11 +28,11 @@
                                 <label class="left">Sort By: </label>
                                 <ul>
                                     <li>
-                                        <a href="#">Position<span class="right-arrow"></span></a>
+                                        <a href="#">Sort by<span class="right-arrow"></span></a>
                                         <ul>
-                                            <li><a href="#">Name</a></li>
-                                            <li><a href="#">Price</a></li>
-                                            <li><a href="#">New</a></li>
+                                            <li><a href="/Home/ListProduct/Car?o=Name">Name</a></li>
+                                            <li><a href="/Home/ListProduct/Car?o=Price">Price</a></li>
+                                            <li><a href="/Home/ListProduct/Car?o=New">New</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -31,6 +41,10 @@
                         </div>
                         <div class="category-products">
                             <ol class="products-list" id="products-list">
+                                @if (!string.IsNullOrEmpty(notifyNoResult))
+                                {
+                                    <h2>@notifyNoResult</h2>
+                                }
                                 @foreach (var item in Model)
                                 {
                                     <li class="item first">
@@ -40,11 +54,11 @@
                                         <div class="product-shop">
                                             @Html.ActionLink(item.ProductName, "ProductDetail", new { id = item.Id })
                                             @*<div class="ratings">
-                                                    <div class="rating-box">
-                                                        <div style="width:50%" class="rating"></div>
-                                                    </div>
-                                                    <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a> <span class="separator">|</span> <a href="#review-form">Add Your Review</a> </p>
-                                                </div>*@
+                        <div class="rating-box">
+                            <div style="width:50%" class="rating"></div>
+                        </div>
+                        <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a> <span class="separator">|</span> <a href="#review-form">Add Your Review</a> </p>
+                    </div>*@
                                             <div class="desc std">
                                                 <p>
                                                     @item.Descriptions
@@ -81,43 +95,93 @@
                 <!--	///*///======    End article  ========= //*/// -->
             </div>
             <aside class="col-left sidebar col-sm-3 col-xs-12 col-sm-pull-9 wow bounceInUp animated">
-                <div class="section-filter">
-                    <div class="b-filter__inner bg-grey">
-                        <h2>Find your right car</h2>
-                        <form class="b-filter">
-                            <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option hidden>Select Branch</option>
-                                    <option>Make 1</option>
-                                    <option>Make 2</option>
-                                    <option>Make 3</option>
-                                </select>
-                            </div>
-                            <div class="btn-group bootstrap-select" style="width: 100%;">
-                                <select class="selectpicker" data-width="100%" tabindex="-98">
-                                    <option hidden>Select Car Status</option>
-                                    <option>Status 1</option>
-                                    <option>Status 2</option>
-                                    <option>Status 3</option>
-                                </select>
-                            </div>
-                            <div class="ui-filter-slider">
-                                <div class="sidebar-widget-body m-t-10">
-                                    <div class="price-range-holder">
-                                        <span class="min-max"> <span class="pull-left">$200.00</span> <span class="pull-right">$800.00</span> </span>
-                                        <input type="text" class="price-slider" value="" style="display:block">
+                @if (urlCurrent.Contains("Car"))
+                {
+                    <div class="section-filter">
+                        <div class="b-filter__inner bg-grey">
+                            <h2>Find Car</h2>
+                            <form class="b-filter" action="/Home/ListProduct/Car?">
+                                <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
+                                        <option hidden>-Select Branch-</option>
+                                        @foreach (var item in listBrands)
+                                        {
+                                            <option>@item.BrandName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <select class="selectpicker" name="transmissionType" data-width="100%" tabindex="-98">
+                                        <option>-Select Tranmission Type-</option>
+                                        @foreach (var item in Enum.GetValues(typeof(EnumTransmissionType)))
+                                        {
+                                            <option>@item</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="ui-filter-slider">
+                                    <div class="sidebar-widget-body m-t-10">
+                                        <div class="price-range-holder">
+                                            <span class="min-max"> <span class="pull-left">@minPriceCar</span> <span class="pull-right">@maxPriceCar</span> </span>
+                                            <input type="text" class="price-slider" name="priceCar" value="@minPriceCar, @maxPriceCar" style="display:block">
+                                            <input type="hidden" id="minPriceCarHidden" value="@minPriceCar" />
+                                            <input type="hidden" id="maxPriceCarHidden" value="@maxPriceCar" />
+                                        </div>
                                     </div>
-                                    <!-- /.price-range-holder -->
                                 </div>
-                            </div>
-                            <div>
-                                <div class="b-filter__btns">
-                                    <button class="btn btn-lg btn-primary">search vehicle</button>
+                                <div>
+                                    <div class="b-filter__btns">
+                                        <button type="submit" class="btn btn-lg btn-primary">search vehicle</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                }
+                @if (urlCurrent.Contains("Accessories"))
+                {
+                    <div class="section-filter">
+                        <div class="b-filter__inner bg-grey">
+                            <h2>Find Accessories</h2>
+                            <form class="b-filter" action="/Home/ListProduct/Accessories?">
+                                <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
+                                        <option hidden>-Select Branch-</option>
+                                        @foreach (var item in listBrands)
+                                        {
+                                            <option>@item.BrandName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <select class="selectpicker" data-width="100%" tabindex="-98">
+                                        <option hidden>-Updated in feture-</option>
+                                        <option>Type 1</option>
+                                        <option>Type 2</option>
+                                        <option>Type 3</option>
+                                        <option>Type 3</option>
+                                    </select>
+                                </div>
+                                <div class="ui-filter-slider">
+                                    <div class="sidebar-widget-body m-t-10">
+                                        <div class="price-range-holder">
+                                            <span class="min-max"> <span class="pull-left">@minPriceAccessories</span> <span class="pull-right">@maxPriceAccessories</span> </span>
+                                            <input type="text" class="price-slider price-accessories-slider" name="priceAccessories" value="@minPriceAccessories, @maxPriceAccessories" style="display:block">
+                                            <input type="hidden" id="minPriceAccessoriesHidden" value="@minPriceAccessories" />
+                                            <input type="hidden" id="maxPriceAccessoriesHidden" value="@maxPriceAccessories" />
+                                        </div>
+                                        <!-- /.price-range-holder -->
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="b-filter__btns">
+                                        <button type="submit" class="btn btn-lg btn-primary">search vehicle</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
                 <!-- BEGIN SIDE-NAV-CATEGORY -->
                 <div class="side-nav-categories">
                     <div class="block-title"> Categories </div>
