@@ -1,6 +1,12 @@
-﻿@{
+﻿
+@{
     var showRoomInfo = ViewBag.Showrooms;
+    List<eProject3_Vehicle_Showroom_Management.Models.CartItem> objlt = new List<eProject3_Vehicle_Showroom_Management.Models.CartItem>();
+    if (HttpContext.Current.Session["cart"] != null)
+    {
+        objlt = (List<eProject3_Vehicle_Showroom_Management.Models.CartItem>)HttpContext.Current.Session["cart"];
 
+    }
 }
 
 <header>
@@ -64,44 +70,8 @@
                             </div>
                             <div class="fl-cart-contain">
                                 <div class="mini-cart">
-                                    <div class="basket"> <a href="@Url.Action("Cart", "Home")"><span> 2 </span></a> </div>
-                                    <div class="fl-mini-cart-content" style="display: none;">
-                                        <div class="block-subtitle">
-                                            <div class="top-subtotal">2 items, <span class="price">$259.99</span> </div>
-                                            <!--top-subtotal-->
-                                            <!--pull-right-->
-                                        </div>
-                                        <!--block-subtitle-->
-                                        <ul class="mini-products-list" id="cart-sidebar">
-                                            <li class="item first">
-                                                <div class="item-inner">
-                                                    <a class="product-image" title="timi &amp; leslie Sophia Diaper Bag, Lemon Yellow/Shadow White" href="#l"><img alt="timi &amp; leslie Sophia Diaper Bag, Lemon Yellow/Shadow White" src="~/Content/products-images/p4.jpg"></a>
-                                                    <div class="product-details">
-                                                        <div class="access"><a class="btn-remove1" title="Remove This Item" href="#">Remove</a> <a class="btn-edit" title="Edit item" href="#"><i class="icon-pencil"></i><span class="hidden">Edit item</span></a> </div>
-                                                        <!--access-->
-                                                        <strong>1</strong> x <span class="price">$179.99</span>
-                                                        <p class="product-name"><a href="accessories-detail.html">timi &amp; leslie Sophia Diaper Bag...</a></p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="item last">
-                                                <div class="item-inner">
-                                                    <a class="product-image" title="JP Lizzy Satchel Designer Diaper Bag - Slate Citron" href="#"><img alt="JP Lizzy Satchel Designer Diaper Bag - Slate Citron" src="~/Content/products-images/p3.jpg"></a>
-                                                    <div class="product-details">
-                                                        <div class="access"><a class="btn-remove1" title="Remove This Item" href="#">Remove</a> <a class="btn-edit" title="Edit item" href="#"><i class="icon-pencil"></i><span class="hidden">Edit item</span></a> </div>
-                                                        <!--access-->
-                                                        <strong>1</strong> x <span class="price">$80.00</span>
-                                                        <p class="product-name"><a href="accessories-detail.html">JP Lizzy Satchel Designer Diaper Ba...</a></p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                        <div class="actions">
-                                            <button class="btn-checkout" title="Checkout" type="button" onClick="window.location=checkout.html"><span>Checkout</span></button>
-                                        </div>
-                                        <!--actions-->
-                                    </div>
-                                    <!--fl-mini-cart-content-->
+                                    <div class="basket"> <a href="@Url.Action("Cart", "Home")"><span> @objlt.Count</span></a> </div>
+                                    @*<span>@Session["cart"] ?? 0 </span>*@
                                 </div>
                             </div>
                             <!--mini-cart-->
@@ -161,7 +131,7 @@
     }
     function getTimeNow() {
         var dt = new Date();
-        return `${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')} 
+        return `${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}-${dt.getFullYear().toString().padStart(4, '0')}
                 ${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}:${dt.getSeconds().toString().padStart(2, '0')}`;
     }
 </script>

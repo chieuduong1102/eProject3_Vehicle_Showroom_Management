@@ -117,11 +117,10 @@
                                     </div>
                                     <div class="email-addto-box">
                                         <ul class="add-to-links">
-                                            <li> <a class="link-wishlist" href="wishlist.html"><span>Add to Wishlist</span></a></li>
-                                            <li><a class="link-compare" href="compare.html"><span>Add to Compare</span></a></li>
+                                            <li> <a class="link-wishlist" href="@Url.Action("addToCart", "Home", new { id = Model.Id })"><span>Add to Cart</span></a></li>
                                         </ul>
-                                        <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
                                     </div>
+                                    <br />
                                     <div class="social">
                                         <ul class="link">
                                             <li class="fb"><a href="#"></a></li>
@@ -297,8 +296,6 @@
                                                                     <div class="add_cart">
                                                                         <button class="button btn-cart" type="button"></button>
                                                                     </div>
-                                                                    <div class="product-detail-bnt"><a class="button detail-bnt"><span>Quick View</span></a></div>
-                                                                    <div class="actions"><span class="add-to-links"><a href="#" class="link-wishlist" title="Add to Wishlist"><span>Add to Wishlist</span></a> </span> </div>
                                                                 </div>
                                                             </div>
                                                         </div>

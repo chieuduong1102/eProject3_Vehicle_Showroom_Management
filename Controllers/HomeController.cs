@@ -23,6 +23,11 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             ViewBag.listBrands = db.Brands.ToList();
             ViewBag.ListCEO = db.Employees.Where(e => e.Position == (int)EnumLevelEmployee.CEO || e.Position == (int)EnumLevelEmployee.CoFounder).ToList();
             ViewBag.Showrooms = db.Showrooms.ToList();
+            if (TempData["statusOrder"] != null)
+            {
+                ViewBag.statusOrder = TempData["statusOrder"].ToString();
+            }
+
             return View(listProduct);
         }
 
@@ -81,6 +86,10 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult Cart()
         {
+            if(Session["Customer"] == null && Request.Cookies["Email"] == null)
+            {
+                return RedirectToAction("Index", "LoginClient");
+            }
             return View();
         }
 
@@ -140,6 +149,104 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
             return list;
         }
+
+        public ActionResult addToCart(int id)
+        {
+            if (Session["cart"] == null)
+            {
+                List<CartItem> cart = new List<CartItem>();
+                cart.Add(new CartItem { Product = db.Products.Find(id), Quantity = 1 });
+                Session["cart"] = cart;
+            }
+            else
+            {
+                List<CartItem> cart = (List<CartItem>)Session["cart"];
+                int index = isExist(id);
+                if (index != -1)
+                {
+                    cart[index].Quantity++;
+                }
+                else
+                {
+                    cart.Add(new CartItem { Product = db.Products.Find(id), Quantity = 1 });
+                }
+                Session["cart"] = cart;
+            }
+            return RedirectToAction("Cart");
+        }
+
+        public ActionResult RemoveCarInCart(int id)
+        {
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            int index = isExist(id);
+            cart.RemoveAt(index);
+            Session["cart"] = cart;
+            return RedirectToAction("Cart");
+        }
+
+        public ActionResult RemoveAllCart()
+        {
+            Session.Remove("cart");
+            return RedirectToAction("Cart");
+        }
+
+        private int isExist(int id)
+        {
+            List<CartItem> cart = (List<CartItem>)Session["cart"];
+            for (int i = 0; i < cart.Count; i++)
+                if (cart[i].Product.Id.Equals(id))
+                    return i;
+            return -1;
+        }
+
+        public ActionResult SubmitCart(string txtAddress, string emailUser, decimal totalPrice, string note)
+        {
+            try
+            {
+                string address = txtAddress;
+                string email = emailUser;
+                decimal total = totalPrice;
+                string noteUser = note;
+                Order order = new Order();
+                order.CustomerId = db.Customers.Where(x => x.Email.Contains(email)).FirstOrDefault().Id;
+                order.TotalPrice = total;
+                order.DeliveryAddress = address;
+                order.Status = (int)EnumOrderStatus.Pending;
+                order.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                order.UpdatedDate = string.Empty;
+
+                db.Orders.Add(order);
+                db.SaveChanges();
+
+
+                OrderDetail orderDetail = new OrderDetail();
+                if (Session["cart"] != null)
+                {
+                    foreach (CartItem item in (List<CartItem>)Session["cart"])
+                    {
+                        orderDetail.OrderId = db.Orders.ToList().LastOrDefault().Id;
+                        orderDetail.ProductId = item.Product.Id;
+                        orderDetail.Quantily = item.Quantity;
+                        orderDetail.TotalPrice = item.Quantity * item.Product.Price;
+                        orderDetail.Note = noteUser;
+                        db.OrderDetails.Add(orderDetail);
+                        db.SaveChanges();
+                    }
+                }
+
+                TempData["statusOrder"] = 0;
+
+                Session.Remove("cart");
+            } catch (Exception ex)
+            {
+                TempData["statusOrder"] = 1;
+            }
+
+
+            return RedirectToAction("Index");
+        }
+
+
     }
     public static class EnumExtensions
     {
