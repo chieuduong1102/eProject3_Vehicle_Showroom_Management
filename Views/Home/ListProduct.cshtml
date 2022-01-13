@@ -1,5 +1,6 @@
-﻿@model IEnumerable<eProject3_Vehicle_Showroom_Management.Models.DTO.ProductDTO>
-    @using eProject3_Vehicle_Showroom_Management.Constants
+﻿@model PagedList.IPagedList<eProject3_Vehicle_Showroom_Management.Models.DTO.ProductDTO>
+@using eProject3_Vehicle_Showroom_Management.Constants
+@using PagedList.Mvc
 @{
     ViewBag.Title = "ListProduct";
     ViewBag.Title = "Home Page";
@@ -28,12 +29,30 @@
                                 <label class="left">Sort By: </label>
                                 <ul>
                                     <li>
-                                        <a href="#">Sort by<span class="right-arrow"></span></a>
-                                        <ul>
-                                            <li><a href="/Home/ListProduct/Car?o=Name">Name</a></li>
-                                            <li><a href="/Home/ListProduct/Car?o=Price">Price</a></li>
-                                            <li><a href="/Home/ListProduct/Car?o=New">New</a></li>
-                                        </ul>
+                                        @if (urlCurrent.Contains("Car"))
+                                        {
+                                            <a href="#">@(Request["o"]==null?"Default":Request["o"])<span class="right-arrow"></span></a>
+                                            <ul>
+                                                @*<li><a href="/Home/ListProduct/Car?o=Name">Name</a></li>
+                                                    <li><a href="/Home/ListProduct/Car?o=Price">Price</a></li>
+                                                    <li><a href="/Home/ListProduct/Car?o=New">New</a></li>*@
+                                                <li><a href="@Url.Action("ListProduct/Car", "Home", new { o = "Name", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceCar = Request["priceCar"] == null ? "" : Request["priceCar"] })">Name</a></li>
+                                                <li><a href="@Url.Action("ListProduct/Car", "Home", new { o = "Price", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceCar = Request["priceCar"] == null ? "" : Request["priceCar"] })">Price</a></li>
+                                                <li><a href="@Url.Action("ListProduct/Car", "Home", new { o = "New", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceCar = Request["priceCar"] == null ? "" : Request["priceCar"] })">New</a></li>
+                                            </ul>
+                                        }
+                                        else if (urlCurrent.Contains("Accessories"))
+                                        {
+                                            <a href="#">@(Request["o"]==null?"Default":Request["o"])<span class="right-arrow"></span></a>
+                                            <ul>
+                                                @*<li><a href="/Home/ListProduct/Accessories?o=Name">Name</a></li>
+                                                    <li><a href="/Home/ListProduct/Accessories?o=Price">Price</a></li>
+                                                    <li><a href="/Home/ListProduct/Accessories?o=New">New</a></li>*@
+                                                <li><a href="@Url.Action("ListProduct/Accessories", "Home", new { o = "Name", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceAccessories = Request["priceAccessories"] == null ? "" : Request["priceAccessories"] })">Name</a></li>
+                                                <li><a href="@Url.Action("ListProduct/Accessories", "Home", new { o = "Price", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceAccessories = Request["priceAccessories"] == null ? "" : Request["priceAccessories"] })">Price</a></li>
+                                                <li><a href="@Url.Action("ListProduct/Accessories", "Home", new { o = "New", brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceAccessories = Request["priceAccessories"] == null ? "" : Request["priceAccessories"] })">New</a></li>
+                                            </ul>
+                                        }
                                     </li>
                                 </ul>
                                 <a class="button-asc left" href="#" title="Set Descending Direction"><span class="top_arrow"></span></a>
@@ -47,18 +66,18 @@
                                 }
                                 @foreach (var item in Model)
                                 {
-                                    <li class="item first">
+                                    <li class="item first" style="padding:10px">
                                         <div class="product-image">
-                                            <a href="@Url.Action("ProductDetail", "Home", new { id = item.Id })"> <img class="small-image" src="@("data:image;base64," + @item.UrlImages.First())" alt="@item.ProductName"> </a>
+                                            <a href="@Url.Action("ProductDetail", "Home", new { id = item.Id })"> <img style="margin-top:10px" class="small-image" src="@("data:image;base64," + @item.UrlImages.First())" alt="@item.ProductName"> </a>
                                         </div>
                                         <div class="product-shop">
-                                            @Html.ActionLink(item.ProductName, "ProductDetail", new { id = item.Id })
+                                            @Html.ActionLink(item.ProductName, "ProductDetail", new { id = item.Id }, new { @style = "font-weight:bold" })
                                             @*<div class="ratings">
-                        <div class="rating-box">
-                            <div style="width:50%" class="rating"></div>
-                        </div>
-                        <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a> <span class="separator">|</span> <a href="#review-form">Add Your Review</a> </p>
-                    </div>*@
+                                                    <div class="rating-box">
+                                                        <div style="width:50%" class="rating"></div>
+                                                    </div>
+                                                    <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a> <span class="separator">|</span> <a href="#review-form">Add Your Review</a> </p>
+                                                </div>*@
                                             <div class="desc std">
                                                 <p>
                                                     @item.Descriptions
@@ -78,15 +97,16 @@
                         <div class="toolbar bottom">
                             <div class="pages">
                                 <label>Page:</label>
-                                <ul class="pagination">
-                                    <li><a href="#">&laquo;</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">&raquo;</a></li>
-                                </ul>
+                                <div class="pagination">
+                                    @if (urlCurrent.Contains("Car"))
+                                    {
+                                        @Html.PagedListPager(Model, page => Url.Action("ListProduct/Car", "Home", new { o = Request["o"] == null ? "" : Request["o"], brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceCar = Request["priceCar"] == null ? "" : Request["priceCar"], page }))
+                                    }
+                                    else if (urlCurrent.Contains("Accessories"))
+                                    {
+                                        @Html.PagedListPager(Model, page => Url.Action("ListProduct/Accessories", "Home", new { o = Request["o"] == null ? "" : Request["o"], brand = Request["brand"] == null ? "" : Request["brand"], transmissionType = Request["transmissionType"] == null ? "" : Request["transmissionType"], priceCar = Request["priceCar"] == null ? "" : Request["priceCar"], page }))
+                                    }
+                                </div>
                             </div>
                         </div>
 
@@ -102,20 +122,20 @@
                             <h2>Find Car</h2>
                             <form class="b-filter" action="/Home/ListProduct/Car?">
                                 <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <label style="color:white !important">Brand Name</label>
                                     <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
-                                        <option hidden>-Select Branch-</option>
                                         @foreach (var item in listBrands)
                                         {
-                                            <option>@item.BrandName</option>
+                                            <option @(Request["brand"] == item.BrandName ? "selected" : "")>@item.BrandName</option>
                                         }
                                     </select>
                                 </div>
                                 <div class="btn-group bootstrap-select" style="width: 100%;">
+                                    <label style="color:white !important">Tranmission Type</label>
                                     <select class="selectpicker" name="transmissionType" data-width="100%" tabindex="-98">
-                                        <option>-Select Tranmission Type-</option>
                                         @foreach (var item in Enum.GetValues(typeof(EnumTransmissionType)))
                                         {
-                                            <option>@item</option>
+                                            <option @(Request["transmissionType"] == item.ToString() ? "selected" : "")>@item</option>
                                         }
                                     </select>
                                 </div>
@@ -146,16 +166,15 @@
                             <form class="b-filter" action="/Home/ListProduct/Accessories?">
                                 <div class="btn-group bootstrap-select" style="width: 100%;">
                                     <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
-                                        <option hidden>-Select Branch-</option>
                                         @foreach (var item in listBrands)
                                         {
-                                            <option>@item.BrandName</option>
+                                            <option @(Request["brand"] == item.BrandName ? "selected" : "")>@item.BrandName</option>
                                         }
                                     </select>
                                 </div>
                                 <div class="btn-group bootstrap-select" style="width: 100%;">
                                     <select class="selectpicker" data-width="100%" tabindex="-98">
-                                        <option hidden>-Updated in feture-</option>
+                                        <option hidden>-Update in future-</option>
                                         <option>Type 1</option>
                                         <option>Type 2</option>
                                         <option>Type 3</option>
@@ -189,7 +208,7 @@
                     <!-- BEGIN BOX-CATEGORY -->
                     <div class="box-content box-category">
                         <ul>
-                            <li>
+                            <li style="list-style-type:none">
                                 <a class="active" href="grid.html">AUDIO</a> <span class="subDropdown minus"></span>
                                 <ul class="level0_415" style="display:block">
                                     <li>
@@ -212,128 +231,118 @@
                                     <!--level1-->
                                     <li> <a href="grid.html">Stereos </a> <span class=""></span>
                                     <li> <a href="grid.html">Subwoofers </a> <span class=""></span></li>
-
-                                    <!--level1-->
+                                </ul>
+                                <!--level1-->
                             </li>
                         </ul>
                         <!--level0-->
-                        </li>
                         <!--level 0-->
-                        <li>
-                            <a href="grid.html">BODY PARTS</a> <span class="subDropdown plus"></span>
-                            <ul class="level0_455" style="display:none">
-                                <li>
-                                    <a href="grid.html"> Bumpers </a> <span class=""></span>
-
+                        <ul>
+                            <li>
+                                <a href="grid.html">BODY PARTS</a> <span class="subDropdown plus"></span>
+                                <ul class="level0_455" style="display:none">
+                                    <li>
+                                        <a href="grid.html"> Bumpers </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html"> Doors  </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html"> Doors  </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html"> Fenders </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html"> Fenders </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html"> Griles </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html"> Griles </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html">Hoods </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html">Hoods </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <!--level1-->
-                        </li>
-
+                                    <!--level1-->
+                                </ul>
+                            </li>
                         </ul>
-                        <!--level0-->
-                        </li>
                         <!--level 0-->
-                        <li>
-                            <a href="#.html">EXTERIOR</a> <span class="subDropdown plus"></span>
-                            <ul class="level0_482" style="display:none">
-                                <li>
-                                    <a href="grid.html"> Bed Accessories </a> <span class=""></span>
-
+                        <ul>
+                            <li>
+                                <a href="#.html">EXTERIOR</a> <span class="subDropdown plus"></span>
+                                <ul class="level0_482" style="display:none">
+                                    <li>
+                                        <a href="grid.html"> Bed Accessories </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html">Body Kits </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html">Body Kits </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html">Custom Griles </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html">Custom Griles </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html"> Car Covers </a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html"> Car Covers </a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-                                <li>
-                                    <a href="grid.html"> Off-Road Bumpers</a> <span class=""></span>
-
+                                    <li>
+                                        <a href="grid.html"> Off-Road Bumpers</a> <span class=""></span>
+                                        <!--level1-->
+                                    </li>
                                     <!--level1-->
-                                </li>
-                                <!--level1-->
-
-                        </li>
+                                </ul>
+                            </li>
+                        </ul>
                         <!--level1-->
-                        </ul>
-                        <!--level0-->
-                        </li>
-                        <!--level 0-->
-                        <li>
-                            <a href="grid.html">INTERIOR</a> <span class="subDropdown plus"></span>
-                            <ul class="level0_482" style="display:none">
-                                <li> <a href="grid.html"> Custom Gauges </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Dash Kits </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Seat Covers </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Steering Wheels </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Sun Shades</a> <span class=""></span></li>
-                        </li>
-                        <!--level 0-->
+                        <ul>
+                            <li>
+                                <a href="grid.html">INTERIOR</a> <span class="subDropdown plus"></span>
+                                <ul class="level0_482" style="display:none">
+                                    <li> <a href="grid.html"> Custom Gauges </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Dash Kits </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Seat Covers </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Steering Wheels </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Sun Shades</a> <span class=""></span></li>
+                                </ul>
+                            </li>
                         </ul>
                         <!--level 0-->
-                        <li>
-                            <a href="grid.html">LIGHTING</a> <span class="subDropdown plus"></span>
-                            <ul class="level0_482" style="display:none">
-                                <li> <a href="grid.html"> Fog Lights </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Headlights </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> LED Lights </a> <span class=""></span></li>
-                                <li> <a href="grid.html">Off-Road Lights </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Signal Lights</a> <span class=""></span></li>
-                        </li>
-                        <!--level 0-->
+                        <ul>
+                            <li>
+                                <a href="grid.html">LIGHTING</a> <span class="subDropdown plus"></span>
+                                <ul class="level0_482" style="display:none">
+                                    <li> <a href="grid.html"> Fog Lights </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Headlights </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> LED Lights </a> <span class=""></span></li>
+                                    <li> <a href="grid.html">Off-Road Lights </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Signal Lights</a> <span class=""></span></li>
+                                </ul>
+                            </li>
                         </ul>
                         <!--level 0-->
-                        <li>
-                            <a href="grid.html">PERFORMANCE</a> <span class="subDropdown plus"></span>
-                            <ul class="level0_482" style="display:none">
-                                <li> <a href="grid.html"> Air Intake Systems </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Brakes </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Exhaust Systems </a> <span class=""></span></li>
-                                <li> <a href="grid.html">Power Adders </a> <span class=""></span></li>
-                                <li> <a href="grid.html"> Racing Gear</a> <span class=""></span></li>
-                        </li>
-                        <!--level 0-->
+                        <ul>
+                            <li>
+                                <a href="grid.html">PERFORMANCE</a> <span class="subDropdown plus"></span>
+                                <ul class="level0_482" style="display:none">
+                                    <li> <a href="grid.html"> Air Intake Systems </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Brakes </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Exhaust Systems </a> <span class=""></span></li>
+                                    <li> <a href="grid.html">Power Adders </a> <span class=""></span></li>
+                                    <li> <a href="grid.html"> Racing Gear</a> <span class=""></span></li>
+                                </ul>
+                            </li>
                         </ul>
+                        <!--level 0-->
                     </div>
                     <!--box-content box-category-->
                 </div>
