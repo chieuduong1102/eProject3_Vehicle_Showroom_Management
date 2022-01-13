@@ -20,19 +20,45 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
         {
             List<RatingDTO> ratingDTOs = new List<RatingDTO>();
             var ratings = db.Ratings.ToList();
-            List<int> listProductId = ratings.Select( x => x.ProductId).Distinct().ToList();
+            List<int> listProductId = ratings.Select(x => x.ProductId).Distinct().ToList();
 
-            foreach(var item in listProductId)
+            foreach (var item in listProductId)
             {
                 RatingDTO ratingDTO = new RatingDTO();
                 ratingDTO.Id = item;
                 ratingDTO.ProductId = item;
                 ratingDTO.ProductName = db.Products.Find(item).ProductName;
                 ratingDTO.Image = db.Images.Where(i => i.ProductId == item).First().UrlImage.ToString();
-                ratingDTO.Rating = (int)(db.Ratings.Where(x => x.ProductId == item).Sum(x => x.Rating1))/(db.Ratings.Where(x => x.ProductId == item).Count());
+                ratingDTO.Rating = (int)(db.Ratings.Where(x => x.ProductId == item).Sum(x => x.Rating1)) / (db.Ratings.Where(x => x.ProductId == item).Count());
                 ratingDTOs.Add(ratingDTO);
             }
             return View(ratingDTOs.ToList());
+        }
+
+        [HttpPost]
+        public JsonResult AddNewRating(RatingDTO r)
+        {
+            if (Session["Customer"] == null && Request.Cookies["Email"] == null)
+            {
+                Response.StatusCode = 403;
+                return Json("You must login first");
+            }
+            string email = Session["Customer"]!=null? Session["Customer"].ToString(): Request.Cookies["Email"].Value;
+            int customer_id = Convert.ToInt32(db.Customers.Where(a => a.Email.Equals(email)).Select(a => a.Id).Single());
+            Rating rating = new Rating()
+            {
+                ProductId = r.ProductId,
+                Rating1 = r.Rating,
+                Comments = r.Comments,
+                CustomerId = customer_id,
+                CreatedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            };
+            db.Ratings.Add(rating);
+            db.SaveChanges();
+
+            var count = db.Ratings.Where(x => x.ProductId == r.ProductId).Count();
+            Response.StatusCode = 200;
+            return Json(new{ message = "Add new rating successfully", number = count});
         }
 
         // GET: Ratings/Details/5

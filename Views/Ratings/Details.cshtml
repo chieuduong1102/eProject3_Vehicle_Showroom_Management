@@ -26,6 +26,9 @@
         <th>
             Rating
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -48,6 +51,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Rating1) <span class="fa fa-star rating-checked" style="color: #ff6a00;font-size: 15px;"></span>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedDate)
     </td>
 </tr>
     }

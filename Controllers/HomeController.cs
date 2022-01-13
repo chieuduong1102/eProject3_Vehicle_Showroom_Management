@@ -63,15 +63,16 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             productDTO.TransmissionType = (EnumTransmissionType)(int)product.TransmissionType;
             productDTO.Price = product.Price;
             productDTO.Status = (EnumProductStatus)product.Status;
-            productDTO.Rating = GenerateRaingOfProduct(product.Id);
+            productDTO.Rating = GenerateRatingOfProduct(product.Id);
             productDTO.Descriptions = product.Descriptions;
             productDTO.CreatedDate = product.CreatedDate;
             productDTO.UpdatedDate = string.IsNullOrEmpty(product.UpdatedDate) ? product.UpdatedDate : string.Empty;
             productDTO.UrlImages = db.Images.Where(x => x.ProductId == product.Id).Select(i => i.UrlImage).ToList();
 
             ViewBag.ListRating = db.Ratings.Where(x => x.ProductId == id).ToList();
-            var listProductRelated = db.Products.Where(x => x.Brand.BrandName.Contains(productDTO.Brand)).ToList();
-            foreach(var item in listProductRelated)
+            var listProductRelated = db.Products.Where(x => x.Brand.BrandName.Contains(productDTO.Brand) && x.ProductType.ProductType1.Contains("Car")).ToList();
+
+            foreach (var item in listProductRelated)
             {
                 item.Images = db.Images.Where(i => i.ProductId == item.Id).ToList();
             }
@@ -80,7 +81,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             {
                 return RedirectToAction("Error");
             }
-
+            ViewBag.ProductId = product.Id;
             return View(productDTO);
         }
 
@@ -98,22 +99,62 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return View();
         }
 
-        public ActionResult ListProduct(string brand, string transmissionType, string priceCar)
+        public ActionResult ListProduct(string accessories, string brand, string transmissionType, string priceCar, string priceAccessories)
         {
+            var listProducts = db.Products.ToList();
+            ViewBag.listBrands = db.Brands.ToList();
+            ViewBag.minPriceCar = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Car)).OrderBy(x => x.Price).FirstOrDefault().Price;
+            ViewBag.maxPriceCar = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Car)).OrderBy(x => x.Price).LastOrDefault().Price;
+            ViewBag.minPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).FirstOrDefault().Price;
+            ViewBag.maxPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).LastOrDefault().Price;
             var listProduct = getProductList();
-            if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(transmissionType) && !string.IsNullOrEmpty(priceCar))
+            var urlHasOrderBy = Request.Url.ToString();
+            var orderBy = urlHasOrderBy.Split('o').Last().Split('=').Last();
+            if (Request.Url.ToString().Contains(EnumProductType.Accessories.GetDisplayName()))
             {
-                var minPrice = Int32.Parse(priceCar.Split(',')[0]);
-                var maxPrice = Int32.Parse(priceCar.Split(',')[1]);
-                var listProductFiltered = listProduct.Where(x => x.Brand.Contains(brand) 
-                                            && x.TransmissionType.GetDisplayName().Contains(transmissionType) 
-                                                    && x.Price >= minPrice && x.Price <= maxPrice).ToList();
-                return View(listProductFiltered);
+                ViewBag.NoResult = string.Empty;
+                if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(priceAccessories))
+                {
+                    var minPrice = Int32.Parse(priceAccessories.Split(',')[0]);
+                    var maxPrice = Int32.Parse(priceAccessories.Split(',')[1]);
+                    var listProductFiltered = listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())
+                                                           && x.Brand.Contains(brand)
+                                                        && x.Price >= minPrice && x.Price <= maxPrice).ToList();
+                    if (listProductFiltered.Count() == 0)
+                    {
+                        ViewBag.NoResult = "No matching results were found";
+                        return View(listProductFiltered);
+                    }
+                    ViewBag.NoResult = string.Empty;
+                    return View(listProductFiltered);
+                }
+                return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())));
             }
-            return View(listProduct);
+            if (Request.Url.ToString().Contains(EnumProductType.Car.GetDisplayName()))
+            {
+                if (!string.IsNullOrEmpty(brand) && !string.IsNullOrEmpty(transmissionType) && !string.IsNullOrEmpty(priceCar))
+                {
+                    var minPrice = Int32.Parse(priceCar.Split(',')[0]);
+                    var maxPrice = Int32.Parse(priceCar.Split(',')[1]);
+                    var listProductFiltered = listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())
+                                                && x.Brand.Contains(brand)
+                                                && x.TransmissionType.GetDisplayName().Contains(transmissionType)
+                                                        && x.Price >= minPrice && x.Price <= maxPrice).ToList();
+                    if (listProductFiltered.Count() == 0)
+                    {
+                        ViewBag.NoResult = "No matching results were found";
+                        return View(listProductFiltered);
+                    }
+                    ViewBag.NoResult = string.Empty;
+                    return View(listProductFiltered);
+                }
+                return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())));
+            }
+
+            return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())));
         }
 
-        public int GenerateRaingOfProduct(int id)
+        public int GenerateRatingOfProduct(int id)
         {
             var listRating = db.Ratings.Where(x => x.ProductId == id).Select(x => x.Rating1).ToList();
             if (listRating.Count > 0)
@@ -139,7 +180,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
                 productDTO.TransmissionType = (EnumTransmissionType)(int)x.TransmissionType;
                 productDTO.Price = x.Price;
                 productDTO.Status = (EnumProductStatus)x.Status;
-                productDTO.Rating = GenerateRaingOfProduct(x.Id);
+                productDTO.Rating = GenerateRatingOfProduct(x.Id);
                 productDTO.CreatedDate = x.CreatedDate;
                 productDTO.UpdatedDate = string.IsNullOrEmpty(x.UpdatedDate) ? x.UpdatedDate : string.Empty;
                 productDTO.Descriptions = x.Descriptions;

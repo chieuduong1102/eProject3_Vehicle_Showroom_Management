@@ -22,38 +22,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Employees">
-      <EntityTypeMapping TypeName="eProject3Model.Employee">
-        <MappingFragment StoreEntitySet="Employee">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Position" ColumnName="Position" />
-          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-          <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="eProject3Model.Product">
-        <MappingFragment StoreEntitySet="Product">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-          <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
-          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
-          <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
-          <ScalarProperty Name="Seats" ColumnName="Seats" />
-          <ScalarProperty Name="TransmissionType" ColumnName="TransmissionType" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Status" ColumnName="Status" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="ProductTypes">
       <EntityTypeMapping TypeName="eProject3Model.ProductType">
         <MappingFragment StoreEntitySet="ProductType">
@@ -113,16 +81,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Ratings">
-      <EntityTypeMapping TypeName="eProject3Model.Rating">
-        <MappingFragment StoreEntitySet="Rating">
-          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-          <ScalarProperty Name="Rating1" ColumnName="Rating" />
-          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="eProject3Model.Order">
         <MappingFragment StoreEntitySet="Order">
@@ -144,6 +102,52 @@
           <ScalarProperty Name="Quantily" ColumnName="Quantily" />
           <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="eProject3Model.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+          <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="TransmissionType" ColumnName="TransmissionType" />
+          <ScalarProperty Name="Seats" ColumnName="Seats" />
+          <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
+          <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+          <ScalarProperty Name="ProductTypeId" ColumnName="ProductTypeId" />
+          <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="eProject3Model.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="ShowroomId" ColumnName="ShowroomId" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ratings">
+      <EntityTypeMapping TypeName="eProject3Model.Rating">
+        <MappingFragment StoreEntitySet="Rating">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="Rating1" ColumnName="Rating" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

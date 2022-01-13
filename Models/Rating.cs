@@ -20,6 +20,7 @@ namespace eProject3_Vehicle_Showroom_Management.Models
         public Nullable<int> OrderId { get; set; }
         public string Comments { get; set; }
         public Nullable<int> CustomerId { get; set; }
+        public string CreatedDate { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Order Order { get; set; }

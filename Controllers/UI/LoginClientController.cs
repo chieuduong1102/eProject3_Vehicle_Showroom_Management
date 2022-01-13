@@ -44,7 +44,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
                             HttpCookie cookie = new HttpCookie("Email")
                             {
                                 Value = email,
-                                Expires = DateTime.Now.AddMinutes(1)
+                                Expires = DateTime.Now.AddDays(1)
                             };
                             HttpContext.Response.Cookies.Add(cookie);
                             //string username = Encoding.UTF8.GetString(MachineKey.Unprotect(Request.Cookies(cookieName).Value.FromBase64ToBytes, "a token"));

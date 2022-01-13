@@ -346,6 +346,7 @@
     <Property Name="OrderId" Type="Int32" />
     <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="CustomerId" Type="Int32" />
+    <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Customer" Relationship="eProject3Model.FK__Rating__Customer__5CD6CB2B" FromRole="Rating" ToRole="Customer" />
     <NavigationProperty Name="Order" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Rating" ToRole="Order" />
     <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />

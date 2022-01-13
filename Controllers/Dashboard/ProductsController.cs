@@ -57,7 +57,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             {
                 list = list.Where(s => s.ProductName.Contains(searchString)).ToList();
             }
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(list.ToPagedList(pageNumber, pageSize));
         }

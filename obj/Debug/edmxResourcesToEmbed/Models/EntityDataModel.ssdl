@@ -106,6 +106,7 @@
     <Property Name="OrderId" Type="int" />
     <Property Name="Comments" Type="text" />
     <Property Name="CustomerId" Type="int" />
+    <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Showroom">
     <Key>

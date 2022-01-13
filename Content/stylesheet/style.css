@@ -9520,6 +9520,22 @@ button.button.btn-add:before {
 }
 
 .comment-respond .form-submit input[type=submit] {
+	display: inline-block;
+	height: 44px;
+	line-height: 44px;
+	font-size: 18px;
+	font-weight: 500;
+	color: #121212;
+	padding: 0 35px;
+	border-radius: 0px;
+	background: #d9eb3d;
+	border: none;
+	width: auto;
+	font-family: 'Saira Condensed', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 0.5px
+}
+.comment-respond .form-submit input[type=button] {
     display: inline-block;
     height: 44px;
     line-height: 44px;

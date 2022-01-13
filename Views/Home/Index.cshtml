@@ -67,7 +67,7 @@
 <div class="section-filter">
     <div class="b-filter__inner bg-grey container">
         <h2>Find your right car</h2>
-        <form class="b-filter" action="/Home/ListProduct?">
+        <form class="b-filter" action="/Home/ListProduct/Car?">
             <div class="btn-group bootstrap-select">
                 <select class="selectpicker" name="brand" data-width="100%" tabindex="-98">
                     <option hidden>-Select Branch-</option>
@@ -127,7 +127,7 @@
         </div>
         <div id="hot_deals" class="product-flexslider hidden-buttons">
             <div class="slider-items slider-width-col4 products-grid">
-                @foreach (var item in Model)
+                @foreach (var item in listCarsTop5)
                 {
                     <div class="item">
                         <div class="item-inner">
@@ -191,17 +191,17 @@
                             <li>
                                 <div class="avatar"><img src="~/Content/images/default-user.png" alt="Image"></div>
                                 <div class="testimonials">Perfect Themes and the best of all that you have many options to choose! Very fast responding! I highly recommend this theme and these people!</div>
-                                @*<div class="clients_author">@listAdmins[0].Fullname <span>CEO</span> </div>*@
+                                <div class="clients_author">@*@listAdmins[0].Fullname*@ <span>CEO</span> </div>
                             </li>
                             <li>
                                 <div class="avatar"><img src="~/Content/images/default-user.png" alt="Image"></div>
                                 <div class="testimonials">Code, template and others are very good. The support has served me immediately and solved my problems when I need help. Are to be congratulated.</div>
-                                @*<div class="clients_author">@listAdmins[1].Fullname <span>Co-Founder</span> </div>*@
+                                <div class="clients_author">@*@listAdmins[1].Fullname*@ <span>Co-Founder</span> </div>
                             </li>
                             <li>
                                 <div class="avatar"><img src="~/Content/images/default-user.png" alt="Image"></div>
                                 <div class="testimonials">Our support and response has been amazing, helping me with several issues I came across and got them solved almost the same day. A pleasure to work with them! </div>
-                                @*<div class="clients_author">@listAdmins[2].Fullname <span>Co-Founder</span> </div>*@
+                                <div class="clients_author">@*@listAdmins[2].Fullname*@ <span>Co-Founder</span> </div>
                             </li>
                         </ul>
                     </div>

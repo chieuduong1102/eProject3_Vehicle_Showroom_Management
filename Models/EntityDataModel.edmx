@@ -111,6 +111,7 @@
           <Property Name="OrderId" Type="int" />
           <Property Name="Comments" Type="text" />
           <Property Name="CustomerId" Type="int" />
+          <Property Name="CreatedDate" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Showroom">
           <Key>
@@ -511,7 +512,7 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Brand">
           <Key>
             <PropertyRef Name="Id" />
@@ -715,6 +716,7 @@
           <Property Name="OrderId" Type="Int32" />
           <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CustomerId" Type="Int32" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Customer" Relationship="eProject3Model.FK__Rating__Customer__5CD6CB2B" FromRole="Rating" ToRole="Customer" />
           <NavigationProperty Name="Order" Relationship="eProject3Model.FK__Rating__OrderId__5AEE82B9" FromRole="Rating" ToRole="Order" />
           <NavigationProperty Name="Product" Relationship="eProject3Model.FK__Rating__ProductI__5441852A" FromRole="Rating" ToRole="Product" />
@@ -755,7 +757,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -902,6 +904,7 @@
           <EntitySetMapping Name="Ratings">
             <EntityTypeMapping TypeName="eProject3Model.Rating">
               <MappingFragment StoreEntitySet="Rating">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Comments" ColumnName="Comments" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
