@@ -25,7 +25,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             ViewBag.Showrooms = db.Showrooms.ToList();
             if (TempData["statusOrder"] != null)
             {
-                ViewBag.statusOrder = TempData["statusOrder"].ToString();
+                ViewBag.statusOrder = TempData["statusOrder"];
             }
 
             return View(listProduct);
