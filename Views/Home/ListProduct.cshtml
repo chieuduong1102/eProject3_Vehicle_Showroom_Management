@@ -68,7 +68,7 @@
                                                 <p class="special-price"> <span class="price-label"></span> <span id="product-price-212" class="price">$@Html.DisplayFor(modelItem => item.Price)</span> </p>
                                             </div>
                                             <div class="actions">
-                                                <button class="button btn-cart ajx-cart" title="Add to Cart" type="button"><span>Add to Cart</span></button>
+                                                <a href="@Url.Action("addToCart", "Home", new { id = item.Id })"><button class="button btn-cart ajx-cart" title="Add to Cart" type="button"><span>Add to Cart</span></button></a>
                                             </div>
                                         </div>
                                     </li>

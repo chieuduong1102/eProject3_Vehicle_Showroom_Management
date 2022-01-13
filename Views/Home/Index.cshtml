@@ -3,12 +3,15 @@
 @{
     ViewBag.Title = "Home Page";
     var listBrands = ViewBag.listBrands;
+    var aa = ViewBag.StatusOrder;
+
     var listAdmins = ViewBag.ListCEO;
-    var listCarsTop5 = Model.Where(x => x.ProductType.Contains("Car")).OrderByDescending(x => x.YearOfManufacture).Take(5);
+    var listCarsTop5 = Model.Where(x => x.ProductType.Contains("Car")).OrderByDescending(x => x.YearOfManufacture).Take(3);
     var minPriceCar = Model.Where(x => x.ProductType.Contains("Car")).OrderBy(c => c.Price).Select(p => p.Price).FirstOrDefault();
     var maxPriceCar = Model.Where(x => x.ProductType.Contains("Car")).OrderBy(c => c.Price).Select(p => p.Price).LastOrDefault();
 }
 <div class="container-fluid content">
+    <h1>@aa</h1>
     <div class="container-fluid">
         <div class="row">
             <!-- Slider -->
@@ -137,7 +140,7 @@
                                     <div class="item-box-hover">
                                         <div class="box-inner">
                                             <div class="add_cart">
-                                                <button class="button btn-cart" type="button"></button>
+                                                <a href="@Url.Action("addToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -149,7 +152,8 @@
                                     <div class="item-content">
                                         <div class="rating">
                                             <div class="ratings">
-                                                @for(var i=0; i < item.Rating; i++) {
+                                                @for (var i = 0; i < item.Rating; i++)
+                                                {
                                                     <span class="fa fa-star rating-checked" style="color: #f1c40f; font-size: 15px;"></span>
                                                 }
                                                 <p class="rating-links"><a href="#">1 Review(s)</a> <span class="separator">|</span> <a href="#">Add Review</a> </p>
@@ -227,7 +231,7 @@
                                     <div class="item-box-hover">
                                         <div class="box-inner">
                                             <div class="add_cart">
-                                                <button class="button btn-cart" type="button"></button>
+                                                <a href="@Url.Action("addToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -281,3 +285,22 @@
         </div>
     </div>
 </div>
+
+
+@section scripts{
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+        var statusOrder = "@ViewBag.statusOrder";
+
+        console.log(statusOrder);
+
+        if (statusOrder === 0) {
+            alert("Order Success!!!");
+        } else if (statusOrder === 1) {
+            alert("Order Fail!!!");
+        }
+
+</script>
+}
+
