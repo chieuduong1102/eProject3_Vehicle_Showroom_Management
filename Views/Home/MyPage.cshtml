@@ -1,0 +1,168 @@
+﻿@using eProject3_Vehicle_Showroom_Management.Constants
+
+@{
+    ViewBag.Title = "MyPage";
+    var customer = ViewBag.Customer;
+    var orders = ViewBag.Orders;
+}
+
+<style>
+    td > .status-pending {
+        background-color: #f39c12 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-cancel {
+        background-color: #e74c3c !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-accept {
+        background-color: #3498db !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+
+    td > .status-received {
+        background-color: #2ecc71 !important;
+        padding: 3px !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+</style>
+
+@functions{
+    String GenerateStringOrderStatus(int status)
+    {
+        switch (status)
+        {
+            case (int)EnumOrderStatus.Pending:
+                return "pending";
+                break;
+            case (int)EnumOrderStatus.Cancel:
+                return "cancel";
+                break;
+            case (int)EnumOrderStatus.Accept:
+                return "accept";
+                break;
+            case (int)EnumOrderStatus.Received:
+                return "received";
+                break;
+            default:
+                return "pending";
+                break;
+        }
+    }
+}
+
+<div class="page-heading">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title">
+                    <h2>My Page</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN Main Container col2-right -->
+<section class="main-container col2-right-layout">
+    <div class="main container">
+        <div class="row">
+            <section class="col-main col-sm-9 col-xs-12 wow bounceInUp animated animated" style="visibility: visible;">
+                <div class="my-account">
+
+                    <!--page-title-->
+                    <!-- BEGIN DASHBOARD-->
+                    <div class="dashboard">
+                        <div class="welcome-msg">
+                            <p class="hello"><strong>Hello, @customer.Fullname!</strong></p>
+                            <p>From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and update your account information</p>
+                        </div>
+                        <div class="recent-orders">
+                            <div class="title-buttons"> <strong>Recent Orders</strong></div>
+                            <div class="table-responsive">
+                                <table class="data-table table-striped" id="my-orders-table">
+                                    <colgroup>
+                                        <col width="">
+                                        <col width="">
+                                        <col>
+                                        <col width="1">
+                                        <col width="1">
+                                    </colgroup>
+                                    <thead>
+                                        <tr class="first last">
+                                            <th>Order # </th>
+                                            <th>Date</th>
+                                            <th>Ship To</th>
+                                            <th><span class="nobr">Order Total</span></th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var order in orders)
+                                        {
+                                        <tr>
+                                            <td>@order.Id</td>
+                                            <td><span class="nobr">@order.CreatedDate</span></td>
+                                            <td>@customer.Fullname</td>
+                                            <td><span class="price">$@order.TotalPrice</span></td>
+                                            <td><span class="status-@GenerateStringOrderStatus(order.Status)">@GenerateStringOrderStatus(order.Status).ToUpper()</span></td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--table-responsive-->
+                        </div>
+                        <!--recent-orders-->
+                        <div class="box-account">
+                            <div class="page-title">
+                                <h2>Account Information</h2>
+                            </div>
+                            <div class="col2-set">
+                                <div class="col-1">
+                                    <div class="box">
+                                        <!--box-title-->
+                                        <div class="box-content">
+                                            <h5>Contact Information</h5>
+                                            <p>
+                                                Full Name: @customer.Fullname<br>
+                                                Email: @customer.Email<br>
+                                            </p>
+                                        </div>
+                                        <!--box-content-->
+                                    </div>
+                                    <!--box-->
+                                </div>
+                                <div class="col2-set">
+                                    <div class="box">
+                                        <div class="box-title">
+                                            <h5>Address shippiing</h5>
+                                        </div>
+                                        <!--box-title-->
+                                        <div class="box-content">
+                                            <p>Your address: @customer.Address</p>
+                                        </div>
+                                        <!--box-content-->
+                                    </div>
+                                    <!--box-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!--row-->
+    </div>
+    <!--main container-->
+</section>
+
