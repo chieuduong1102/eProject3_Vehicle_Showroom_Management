@@ -15,20 +15,20 @@
         window.onload = function () {
             Swal.fire(
                 'Order Success!',
-                'You clicked the button!',
+                '',
                 'success'
             )
         };
     </script>
 }
 
-@if (ViewBag.statusOrder != null && ViewBag.statusOrder == "1")
+@if (ViewBag.statusOrder != null && ViewBag.statusOrder == 1)
 {
     <script type="text/javascript">
         window.onload = function () {
             Swal.fire(
                 'Order Fail!',
-                'You clicked the button!',
+                '',
                 'error'
             )
         };

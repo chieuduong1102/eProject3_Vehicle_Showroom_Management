@@ -55,12 +55,12 @@
                                             }
                                             else if (HttpContext.Current.Session["Customer"] != null)
                                             {
-                                                <li>Hello @Session["Customer"].ToString()</li>
+                                                <li>My page @Session["Customer"].ToString()</li>
                                                 <li>@Html.ActionLink("Log out", "Logout", "LoginClient")</li>
                                             }
                                             else if (Request.Cookies["Email"] != null)
                                             {
-                                                <li>Hello @Request.Cookies["Email"].Value</li>
+                                                <li>My page @Request.Cookies["Email"].Value</li>
                                                 <li>@Html.ActionLink("Log out", "Logout", "LoginClient")</li>
                                             }
 
