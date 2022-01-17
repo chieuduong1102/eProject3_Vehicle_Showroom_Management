@@ -287,6 +287,30 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult MyPage()
+        {
+            if (Session["Customer"] == null && Request.Cookies["Email"] == null)
+            {
+                return RedirectToAction("Index", "LoginClient");
+            }
+
+            string email = "";
+            if (Session["Customer"] != null)
+            {
+                email = Session["Customer"].ToString();
+            }
+            else if (Request.Cookies["Email"] != null)
+            {
+                email = Request.Cookies["Email"].Value;
+            }
+
+            var customer = db.Customers.Where(x => x.Email.Contains(email)).FirstOrDefault();
+            ViewBag.Customer = customer;
+            ViewBag.Orders = db.Orders.Where(x => x.CustomerId.Equals(customer.Id)).ToList();
+
+            return View();
+        }
+
 
     }
     public static class EnumExtensions
