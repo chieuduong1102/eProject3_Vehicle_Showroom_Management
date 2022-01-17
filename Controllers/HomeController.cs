@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using PagedList;
 
 namespace eProject3_Vehicle_Showroom_Management.Controllers
 {
@@ -99,8 +100,9 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return View();
         }
 
-        public ActionResult ListProduct(string accessories, string brand, string transmissionType, string priceCar, string priceAccessories)
+        public ActionResult ListProduct(string o, string brand, string transmissionType, string priceCar, string priceAccessories,int? page)
         {
+            int pageSize = 5;
             var listProducts = db.Products.ToList();
             ViewBag.listBrands = db.Brands.ToList();
             ViewBag.minPriceCar = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Car)).OrderBy(x => x.Price).FirstOrDefault().Price;
@@ -108,8 +110,9 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             ViewBag.minPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).FirstOrDefault().Price;
             ViewBag.maxPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).LastOrDefault().Price;
             var listProduct = getProductList();
-            var urlHasOrderBy = Request.Url.ToString();
-            var orderBy = urlHasOrderBy.Split('o').Last().Split('=').Last();
+            //var urlHasOrderBy = Request.Url.ToString();
+            //var orderBy = urlHasOrderBy.Split('o').Last().Split('=').Last();
+            string orderBy = o;
             if (Request.Url.ToString().Contains(EnumProductType.Accessories.GetDisplayName()))
             {
                 ViewBag.NoResult = string.Empty;
@@ -123,12 +126,31 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
                     if (listProductFiltered.Count() == 0)
                     {
                         ViewBag.NoResult = "No matching results were found";
-                        return View(listProductFiltered);
+                        return View(listProductFiltered.ToPagedList(page ?? 1, pageSize));
                     }
                     ViewBag.NoResult = string.Empty;
-                    return View(listProductFiltered);
+                    switch (orderBy)
+                    {
+                        case "Name":
+                            return View(listProductFiltered.OrderBy(x => x.ProductName).ToPagedList(page ?? 1, pageSize));
+                        case "Price":
+                            return View(listProductFiltered.OrderBy(x => x.Price).ToPagedList(page ?? 1, pageSize));
+                        case "New":
+                            return View(listProductFiltered.OrderBy(x => x.YearOfManufacture).ToPagedList(page ?? 1, pageSize));
+                    }
+                    return View(listProductFiltered.ToPagedList(page ?? 1, pageSize));
                 }
-                return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())));
+                switch (orderBy)
+                {
+                    case "Name":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())).OrderBy(x=>x.ProductName).ToPagedList(page ?? 1, pageSize));
+                    case "Price":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())).OrderBy(x => x.Price).ToPagedList(page ?? 1, pageSize));
+                    case "New":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())).OrderBy(x => x.YearOfManufacture).ToPagedList(page ?? 1, pageSize));
+                    default:
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Accessories.GetDisplayName())).ToPagedList(page ?? 1, pageSize));
+                }
             }
             if (Request.Url.ToString().Contains(EnumProductType.Car.GetDisplayName()))
             {
@@ -143,15 +165,33 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
                     if (listProductFiltered.Count() == 0)
                     {
                         ViewBag.NoResult = "No matching results were found";
-                        return View(listProductFiltered);
+                        return View(listProductFiltered.ToPagedList(page??1, pageSize));
                     }
                     ViewBag.NoResult = string.Empty;
-                    return View(listProductFiltered);
+                    switch (orderBy)
+                    {
+                        case "Name":
+                            return View(listProductFiltered.OrderBy(x => x.ProductName).ToPagedList(page ?? 1, pageSize));
+                        case "Price":
+                            return View(listProductFiltered.OrderBy(x => x.Price).ToPagedList(page ?? 1, pageSize));
+                        case "New":
+                            return View(listProductFiltered.OrderBy(x => x.YearOfManufacture).ToPagedList(page ?? 1, pageSize));
+                    }
+                    return View(listProductFiltered.ToPagedList(page ?? 1, pageSize));
                 }
-                return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())));
+                switch (orderBy)
+                {
+                    case "Name":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())).OrderBy(x => x.ProductName).ToPagedList(page ?? 1, pageSize));
+                    case "Price":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())).OrderBy(x => x.Price).ToPagedList(page ?? 1, pageSize));
+                    case "New":
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())).OrderBy(x => x.YearOfManufacture).ToPagedList(page ?? 1, pageSize));
+                    default:
+                        return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())).ToPagedList(page ?? 1, pageSize));
+                }
             }
-
-            return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())));
+            return View(listProduct.Where(x => x.ProductType.Contains(EnumProductType.Car.GetDisplayName())).ToPagedList(page ?? 1, pageSize));
         }
 
         public int GenerateRatingOfProduct(int id)
