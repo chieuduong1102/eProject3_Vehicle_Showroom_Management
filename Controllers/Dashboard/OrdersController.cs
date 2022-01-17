@@ -91,6 +91,17 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.Dashboard
             return View(order);
         }
 
+        // GET: Orders/Accept/5
+        public ActionResult Confirm(int? id)
+        {
+            Order order = db.Orders.Find(id);
+            order.Status = (int)EnumOrderStatus.Accept;
+            order.UpdatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            db.Entry(order).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         // GET: Orders/Cancel/5
         public ActionResult Cancel(int? id)
         {

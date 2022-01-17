@@ -12,9 +12,11 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
 {
     public class LoginClientController : Controller
     {
+        private eProject3Entities db = new eProject3Entities();
         // GET: LoginClient
         public ActionResult Index()
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View();
         }
 
@@ -22,6 +24,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginViewModel cus)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             if (ModelState.IsValid)
             {
                 using (eProject3Entities db = new eProject3Entities())

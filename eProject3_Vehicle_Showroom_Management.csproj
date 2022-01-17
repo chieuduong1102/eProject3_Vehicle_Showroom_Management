@@ -223,6 +223,7 @@
     <Compile Include="Models\Brand.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\Customer.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>

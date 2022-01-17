@@ -10,9 +10,11 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers.UI
 {
     public class RegisterClientController : Controller
     {
+        private eProject3Entities db = new eProject3Entities();
         // GET: RegisterClient
         public ActionResult Index()
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View();
         }
         [HttpPost]

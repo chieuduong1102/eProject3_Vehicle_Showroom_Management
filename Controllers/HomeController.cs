@@ -20,7 +20,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult Index()
         {
-            var listProduct = getProductList();
+            var listProduct = GetProductList();
             ViewBag.listBrands = db.Brands.ToList();
             ViewBag.ListCEO = db.Employees.Where(e => e.Position == (int)EnumLevelEmployee.CEO || e.Position == (int)EnumLevelEmployee.CoFounder).ToList();
             ViewBag.Showrooms = db.Showrooms.ToList();
@@ -35,19 +35,20 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View();
         }
 
         public ActionResult ProductDetail(int? id)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             if (id == null)
             {
                 return RedirectToAction("Error");
@@ -88,7 +89,8 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult Cart()
         {
-            if(Session["Customer"] == null && Request.Cookies["Email"] == null)
+            ViewBag.Showrooms = db.Showrooms.ToList();
+            if (Session["Customer"] == null && Request.Cookies["Email"] == null)
             {
                 return RedirectToAction("Index", "LoginClient");
             }
@@ -97,19 +99,22 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult Error()
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             return View();
         }
 
         public ActionResult ListProduct(string o, string brand, string transmissionType, string priceCar, string priceAccessories,int? page)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             int pageSize = 5;
+            ViewBag.Showrooms = db.Showrooms.ToList();
             var listProducts = db.Products.ToList();
             ViewBag.listBrands = db.Brands.ToList();
             ViewBag.minPriceCar = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Car)).OrderBy(x => x.Price).FirstOrDefault().Price;
             ViewBag.maxPriceCar = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Car)).OrderBy(x => x.Price).LastOrDefault().Price;
             ViewBag.minPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).FirstOrDefault().Price;
             ViewBag.maxPriceAccessories = listProducts.Where(x => x.ProductTypeId.Equals((int)EnumProductType.Accessories)).OrderBy(x => x.Price).LastOrDefault().Price;
-            var listProduct = getProductList();
+            var listProduct = GetProductList();
             //var urlHasOrderBy = Request.Url.ToString();
             //var orderBy = urlHasOrderBy.Split('o').Last().Split('=').Last();
             string orderBy = o;
@@ -204,7 +209,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return 0;
         }
 
-        public List<ProductDTO> getProductList()
+        public List<ProductDTO> GetProductList()
         {
             var products = db.Products.ToList();
             List<ProductDTO> list = new List<ProductDTO>();
@@ -231,8 +236,9 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
             return list;
         }
 
-        public ActionResult addToCart(int id)
+        public ActionResult AddToCart(int id)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             if (Session["cart"] == null)
             {
                 List<CartItem> cart = new List<CartItem>();
@@ -258,6 +264,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult RemoveCarInCart(int id)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             int index = isExist(id);
             cart.RemoveAt(index);
@@ -267,12 +274,14 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult RemoveAllCart()
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             Session.Remove("cart");
             return RedirectToAction("Cart");
         }
 
         private int isExist(int id)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             List<CartItem> cart = (List<CartItem>)Session["cart"];
             for (int i = 0; i < cart.Count; i++)
                 if (cart[i].Product.Id.Equals(id))
@@ -282,6 +291,7 @@ namespace eProject3_Vehicle_Showroom_Management.Controllers
 
         public ActionResult SubmitCart(string txtAddress, string emailUser, decimal totalPrice, string note)
         {
+            ViewBag.Showrooms = db.Showrooms.ToList();
             try
             {
                 string address = txtAddress;

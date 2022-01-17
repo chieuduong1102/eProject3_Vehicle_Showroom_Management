@@ -9,7 +9,7 @@
     var maxPriceCar = Model.Where(x => x.ProductType.Contains("Car")).OrderBy(c => c.Price).Select(p => p.Price).LastOrDefault();
 }
 
-@if (ViewBag.statusOrder != null && ViewBag.statusOrder == "0")
+@if (ViewBag.statusOrder != null && ViewBag.statusOrder == 0)
 {
     <script type="text/javascript">
         window.onload = function () {
@@ -163,7 +163,7 @@
                                     <div class="item-box-hover">
                                         <div class="box-inner">
                                             <div class="add_cart">
-                                                <a href="@Url.Action("addToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
+                                                <a href="@Url.Action("AddToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
                                             </div>
                                         </div>
                                     </div>
@@ -254,7 +254,7 @@
                                     <div class="item-box-hover">
                                         <div class="box-inner">
                                             <div class="add_cart">
-                                                <a href="@Url.Action("addToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
+                                                <a href="@Url.Action("AddToCart", "Home", new { id = item.Id })"><button class="button btn-cart" type="button"></button></a>
                                             </div>
                                         </div>
                                     </div>
